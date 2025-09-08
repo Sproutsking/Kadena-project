@@ -1,0 +1,4299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAN - Future of Blockchain</title>
+
+  <link rel="stylesheet" href="kan-wallet.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
+     :root {
+            --primary: #ff0080;
+            --secondary: #7928ca;
+            --accent: #00ff88;
+            --bg: #000000;
+            --surface: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --text-dim: #888888;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --error: #ff4444;
+        }
+    :root {
+      --primary-gradient: linear-gradient(135deg, #ff0080, #7928ca, #ff0080);
+      --secondary-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f0f23);
+      --accent-color: #ff0080;
+      --accent-secondary: #7928ca;
+      --bg-primary: #0a0a0a;
+      --bg-secondary: rgba(255, 255, 255, 0.03);
+      --bg-card: rgba(255, 255, 255, 0.05);
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --success-color: #00ff88;
+      --warning-color: #ffaa00;
+      --error-color: #ff4444;
+      --button-gradient: linear-gradient(135deg, #050208 10%, #df02af 70%, purple 20%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+     /* Custom Scrollbar */
+    *::-webkit-scrollbar {
+      width: 4px;
+      height: 10px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: var(--primary-gradient);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-secondary);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      transition: background 0.3s ease;
+      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+    }
+
+    /* Particle Background */
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background: var(--bg-card);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: var(--neumorphic-shadow);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes holographic {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px var(--accent-color); }
+      50% { box-shadow: 0 0 20px var(--accent-color); }
+      100% { box-shadow: 0 0 5px var(--accent-color); }
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--text-primary);
+      background: var(--primary-gradient);
+      transform: translateX(5px);
+      box-shadow: var(--neumorphic-shadow);
+      animation: holographic 2s infinite;
+    }
+
+    /* Glassmorphism effect */
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      gap: 10px;
+      width: 280px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-primary);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--border-color);
+      padding: 10px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      overflow-y:auto;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .logo h1 {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .logo p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1px 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      margin: 0;
+    }
+
+    .nav-link:hover::before,
+    .nav-link.active::before {
+      width: 100%;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--text-primary);
+      transform: translateX(5px);
+    }
+
+    .nav-icon {
+      font-size: 1.25rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    /* Sidebar Mini Market */
+.sidebar-mini-market {
+  padding: 8px;
+  background: var(--bg-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.sidebar-mini-market h4 {
+  color: var(--secondary-gradient);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mini-market-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mini-market-item:last-child {
+  border-bottom: none;
+}
+
+.mini-market-item span:first-child {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.mini-market-item span:nth-child(2) {
+  color: var(--text-primary);
+}
+
+.positive {
+  color: var(--success-color);
+  font-weight: 500;
+}
+
+.negative {
+  color: var(--error-color);
+  font-weight: 500;
+}
+
+    /* Main Content */
+    .main-content {
+      margin-left: 280px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, #1a0033 50%, var(--bg-primary) 100%);
+      transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+    }
+
+    .main-content.expanded {
+      margin-left: 0;
+    }
+
+    .section {
+      display: none;
+      padding: 0;
+      padding-top: 0;
+      animation: fadeInUp 0.6s ease;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+    }
+
+    .section.active {
+      display: block;
+      background: var(--bg-primary);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      right: 1rem;
+      z-index: 10;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: white;
+      width: 100%;
+      height: 70px;
+      padding-left: 20px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      display: none;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1001;
+      background: black;
+      border: 1px solid var(--accent-color);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Dashboard */
+    .dashboard-grid {
+      display: flex;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 14px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 14px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--primary-gradient);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(255, 0, 128, 0.2);
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .market-chart {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .chart-placeholder {
+      height: 300px;
+      background: linear-gradient(135deg, rgba(255, 0, 128, 0.1), rgba(121, 40, 202, 0.1));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .trading-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .btn {
+      background: var(--primary-gradient);
+      border: 1px solid purple;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(255, 0, 128, 0.4);
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 2px solid var(--accent-color);
+      color: var(--accent-color);
+    }
+
+
+    .container {
+            padding: 12px;
+            max-width: 1400px;
+            background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+        }
+ /* Mobile-first grid - ultra compact */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            min-height: 65px;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-1px);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+            margin-bottom: 2px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .stat-change {
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            font-size: 8px;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            background: rgba(255, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        /* Chart section - tight design */
+        .chart-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .chart-header {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .chart-container {
+            height: 180px;
+            margin: 8px 0;
+        }
+
+        /* Compact button row */
+        .action-buttons {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            flex: 1;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 8px 4px;
+            border-radius: 6px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 0, 128, 0.3);
+        }
+
+        .btn:nth-child(even) {
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+        }
+
+        /* Features section */
+        .features {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+            z-index: -1;
+            filter: blur(1px);
+            opacity: 0.3;
+        }
+
+        .features h3 {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .feature-item h4 {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .feature-item p {
+            font-size: 9px;
+            color: var(--text-dim);
+            line-height: 1.2;
+        }
+
+        /* Network stats - compact grid */
+        .network-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+
+        .network-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .network-card h4 {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: var(--text-dim);
+            font-size: 10px;
+        }
+
+        .metric-value {
+            color: var(--text);
+            font-weight: 600;
+            font-size: 10px;
+        }
+
+        .mini-chart {
+            height: 40px;
+            margin: 6px 0 0 0;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Tablet adjustments */
+        @media (min-width: 480px) {
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .stat-card { padding: 12px; min-height: 75px; }
+            .stat-value { font-size: 18px; }
+            .stat-label { font-size: 11px; }
+            .chart-container { height: 220px; }
+            .btn { padding: 10px 8px; font-size: 11px; }
+            .feature-grid { grid-template-columns: repeat(4, 1fr); }
+            .network-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        }
+
+        /* Desktop adjustments */
+        @media (min-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+            .stat-card { padding: 16px; min-height: 90px; }
+            .stat-value { font-size: 24px; }
+            .stat-label { font-size: 12px; }
+            .chart-container { height: 300px; }
+            .chart-section { padding: 16px; }
+            .btn { padding: 12px 16px; font-size: 12px; }
+            .network-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        }
+
+        @media (min-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+            .chart-container { height: 350px; }
+        }
+
+        /* Ultra compact for very small screens */
+        @media (max-width: 360px) {
+            .stat-value { font-size: 14px; }
+            .stat-label { font-size: 9px; }
+            .chart-container { height: 160px; }
+            .btn { font-size: 9px; padding: 6px 4px; }
+        }
+
+        /* Loading animation */
+        .loading {
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--border);
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+    /* Social Feed */
+    .social-layout {
+      height: calc(100vh - 70px);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      overflow: auto;
+      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+    }
+
+    .feed {
+      background: var(--bg-card);
+      padding: 2rem;
+      border: 1px solid var(--border-color);
+      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+    }
+
+    .post-composer {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .composer-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      resize: none;
+      min-height: 60px;
+      outline: none;
+    }
+
+    .composer-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .media-icons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .media-icon {
+      background: none;
+      border: none;
+      color: var(--accent-color);
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .media-icon:hover {
+      background: var(--bg-secondary);
+    }
+
+    .post {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .post:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .action-btn:hover {
+      color: var(--accent-color);
+    }
+
+    .trending {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid var(--border-color);
+      height: fit-content;
+      position: sticky;
+      top: 2rem;
+      margin-right: 10px;
+    }
+
+    .trending-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .trending-item:last-child {
+      border-bottom: none;
+    }
+
+    .trending-topic {
+      color: var(--accent-color);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .trending-count {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Wallet */
+    #wallet {
+      height: 100vh;
+      overflow: hidden;
+    }
+    .wallet-layout {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 15px;
+      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+    }
+    .wallet-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 15px;
+      border: 1px solid var(--border-color);
+    }
+
+    .wallet-tabs {
+      display: flex;
+      background: var(--bg-secondary);
+      padding: 0.25rem;
+    }
+
+    .wallet-tab {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .wallet-tab.active {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .transaction-item {
+        height: fit-content;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .transaction-item:last-child {
+      border-bottom: none;
+    }
+
+    .transaction-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+    }
+
+    .transaction-icon.send {
+      background: rgba(255, 68, 68, 0.2);
+      color: var(--error-color);
+    }
+
+    .transaction-icon.receive {
+      background: rgba(0, 255, 136, 0.2);
+      color: var(--success-color);
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 1rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.1);
+    }
+
+    .p2p-marketplace {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .p2p-offers {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .p2p-offer {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .offer-details h4 {
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .offer-rate {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .offer-limit {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Messages */
+    .messages-layout {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      height: calc(100vh - 70px);
+      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+    }
+
+    .chat-list {
+      height: 100%;
+      background: var(--bg-card);
+      padding: 1.5rem;
+      border: 1px solid var(--border-color);
+      overflow-y: auto;
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 0.5rem;
+    }
+
+    .chat-item:hover,
+    .chat-item.active {
+        border: 1px solid var(--accent-color);
+        background: var(--bg-secondary);
+    }
+
+    .chat-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 12px;
+    }
+
+    .message.sent {
+      justify-content: flex-end;
+    }
+
+    .message.sent .message-bubble {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .message-bubble {
+      background: var(--bg-secondary);
+      padding: 1rem 1.5rem;
+      border-radius: 18px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+
+    .chat-input-container {
+      padding: 8px 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 12px 15px;
+      border-radius: 25px;
+      outline: none;
+    }
+
+    .send-btn {
+      background: var(--accent-color);
+      border: none;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* Notifications */
+    #notifications {
+      height: 100vh;
+      overflow: hidden;
+    }
+    .notificationFeeds {
+        height: 100vh;
+        overflow-y: auto;
+        padding: 12px;
+        margin-bottom: 60px;
+        background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+    }
+    .notification-filters {
+      display: flex;
+      gap: 1rem;
+      padding: 6px;
+    }
+
+    
+
+    .filter-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+
+    .notification {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border-color);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: all 0.3s ease;
+    }
+
+    .notification:hover {
+      transform: translateX(5px);
+      background: var(--bg-secondary);
+    }
+
+    .notification-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .notification-icon.success {
+      background: rgba(0, 255, 136, 0.2);
+      color: var(--success-color);
+    }
+
+    .notification-icon.warning {
+      background: rgba(255, 170, 0, 0.2);
+      color: var(--warning-color);
+    }
+
+    .notification-icon.info {
+      background: rgba(255, 0, 128, 0.2);
+      color: var(--accent-color);
+    }
+
+    .notification-content {
+      flex: 1;
+    }
+
+    .notification-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .notification-text {
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .notification-time {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Community */
+
+    /* Community Chat Modal */
+    .community-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+    }
+
+    .modal-content {
+      background: var(--bg-primary);
+      border-radius: 20px;
+      width: 90%;
+      max-width: 800px;
+      height: 80vh;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .close-btn:hover {
+      color: var(--accent-color);
+    }
+
+
+
+
+    /* Animated background particles */
+        .background-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
+            padding: 12px;
+            max-width: 1400px;
+            margin: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+        }
+
+        .community-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .community-flag {
+            font-size: 4rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .community-card:hover .community-flag {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+        .community-header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .community-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .community-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #050208 0%, #df02c2 70%, purple 5%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            border: 1px solid purple;
+            width: fit-content;
+            padding: 6px 8px;
+            border-radius: 12px;
+            opacity: 100%;
+        }
+
+        .community-members {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .online-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--success-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .community-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+            background: rgba(139, 92, 246, 0.05);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-color), var(--glow-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .community-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .community-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #050208 10%, #df02af 70%, black 20%);
+            border: 1px solid purple;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .community-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .community-btn:hover::before {
+            left: 100%;
+        }
+
+        .community-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .community-btn.joined {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .preview-btn {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--accent-color);
+            padding: 1rem;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+        }
+
+        .preview-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Activity indicators */
+        .activity-pulse {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 12px;
+            height: 12px;
+            background: var(--success-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .community-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .community-card {
+                padding: 1.5rem;
+            }
+            
+            .community-flag {
+                font-size: 3rem;
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* Loading animations */
+        .community-card {
+            opacity: 0;
+            animation: slideInUp 0.8s ease forwards;
+        }
+
+        .community-card:nth-child(1) { animation-delay: 0.1s; }
+        .community-card:nth-child(2) { animation-delay: 0.2s; }
+        .community-card:nth-child(3) { animation-delay: 0.3s; }
+        .community-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating action button */
+        .floating-stats {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1rem;
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .global-stat {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .global-number {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            display: block;
+        }
+
+    /* Account */
+    .account-tabs {
+      display: flex;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 0.25rem;
+      /* margin-bottom: 2rem; */
+    }
+
+    .account-tab {
+      flex: 1;
+      padding: 1rem 2rem;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .account-tab.active {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .profile-section {
+      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+      padding: 15px 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      font-weight: 700;
+    }
+
+    .profile-info h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .profile-stat {
+      text-align: center;
+      padding: 12px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+   .subsection-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .nav-tab {
+            background: var(--bg-card);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-tab.active,
+        .nav-tab:hover {
+            color: var(--text-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px var(--glow-color);
+        }
+
+        .nav-tab.active::before,
+        .nav-tab:hover::before {
+            left: 0;
+        }
+
+        .subsection {
+            display: none;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        .subsection.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Pay Bills Section */
+        .bills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: 100%;
+        }
+
+        .bills-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .quick-pay-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-pay-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--accent-color), transparent);
+            animation: rotate 4s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bill-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.2);
+        }
+
+        .amount-input {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            background: linear-gradient(45deg, var(--bg-secondary), var(--bg-card));
+        }
+
+        .btn {
+            background: var(--button-gradient);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 0, 128, 0.3);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            font-size: 1.1rem;
+            padding: 1.2rem 2.5rem;
+        }
+
+        .recent-bills {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .bill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .bill-item:hover {
+            transform: translateX(10px);
+            background: var(--bg-primary);
+        }
+
+        .bill-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bill-name {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .bill-date {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .bill-amount {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        /* Staking Section */
+        .staking-dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            height: 100%;
+        }
+
+        .staking-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .staking-pool {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .pool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .pool-apy {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pool-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .staking-form {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .staking-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .rewards-card {
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-color));
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .rewards-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .leaderboard {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+        }
+
+        .rank {
+            background: var(--primary-gradient);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Savings Section */
+        .savings-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: 100%;
+        }
+
+        .savings-plans {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .savings-plan {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .savings-plan:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 0, 128, 0.2);
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--primary-gradient);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .plan-title {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .plan-features li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .savings-tracker {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .goal-progress {
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            background: var(--bg-secondary);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 5px;
+            animation: progressAnimation 2s ease-in-out;
+        }
+
+        @keyframes progressAnimation {
+            from { width: 0%; }
+            to { width: var(--progress, 0%); }
+        }
+
+        .goal-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @media (max-width: 768px) {
+            .bills-grid, 
+            .staking-dashboard, 
+            .savings-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .subsection-nav {
+                top: 60px;
+                width: 100%;
+                position: fixed;
+                padding: 8px 12px;
+                flex-direction: row;
+                background-color: black;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .subsection-nav > .nav-tab {
+                display: flex;
+                flex-direction: row;
+                font-size: 12px;
+                padding: 6px 0;
+                flex: 1;
+                align-items: center;
+                justify-content: center;
+            }
+            .subsection  {
+                padding-top: 60px;
+            }
+        }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .social-layout {
+        grid-template-columns: 1fr;
+      }
+      
+      .trending {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .stat-card {
+        padding: 12px;
+      }
+      .stat-item {
+        font-size: 12px;
+      }
+      .stat-label {
+        font-size: 10px;
+      }
+      .stat-value {
+        font-size: 14px;
+      }
+      .section-header {
+        position: sticky;
+        height: 60px;
+        padding-left: 14px;
+        padding-right: 14px;
+        margin: 0;
+      }
+      #finance {
+        height: 100vh;
+        overflow: hidden;
+      }
+      #finance .subsection {
+        height: 100%;
+        overflow-y: auto;
+        padding: 12px;
+        padding-top: 56px;
+      }
+      #finance > .section-header {
+        top: 0;
+        position: sticky;
+      }
+      .section-title {
+        font-size: 17px;
+      }
+
+      .dashboard-grid,
+      .wallet-layout,
+      .finance-grid,
+      .community-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .wallet-layout {
+        padding-bottom: 60px;
+      }
+
+      .messages-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-list {
+        display: none;
+      }
+
+      .profile-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .modal-content {
+        width: 95%;
+        height: 90vh;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .wallet-card,
+      .stat-card,
+      .community-card {
+        padding: 10px;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+      }
+      .stat-card {
+        padding: 12px;
+      }
+      .stat-item {
+        font-size: 10px;
+      }
+      .stat-value {
+        font-size: 14px;
+      }
+      .wallet-layout {
+        padding-bottom: 60px;
+      }
+    }
+
+     .user-profile {
+      margin-top: auto;
+      padding: 1rem;
+      background: var(--bg-card);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .user-profile .wallet-address {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+    }
+
+    .SectionContent {
+        height: calc(100vh - 70px);
+        padding: 12px;
+        overflow: auto;
+    }
+    .wallet-content {
+        padding-bottom: 70px;
+    }
+
+    /* Animated background particles */
+        .background-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+  </style>
+</head>
+<body>
+    <div class="background-particles" id="particles"></div>
+   <!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="user-profile">
+    <div class="avatar">E</div>
+    <div>
+      <h4 id="profile-name">Emmanuel</h4>
+      <p class="wallet-address">k:abc...xyz</p>
+    </div>
+  </div>
+  <ul class="nav-menu">
+    <li class="nav-item">
+      <a href="#" class="nav-link active" onclick="showSection('dashboard')">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('social')">
+        <span class="nav-icon">🌐</span>
+        <span>Social</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('wallet')">
+        <span class="nav-icon">💳</span>
+        <span>Wallet</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('messages')">
+        <span class="nav-icon">💬</span>
+        <span>Messages</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('notifications')">
+        <span class="nav-icon">🔔</span>
+        <span>Notifications</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('community')">
+        <span class="nav-icon">👥</span>
+        <span>Community</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('finance')">
+        <span class="nav-icon">💰</span>
+        <span>Finance</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('account')">
+        <span class="nav-icon">👤</span>
+        <span>My Account</span>
+      </a>
+    </li>
+  </ul>
+  <div class="sidebar-mini-market">
+    <h4>Market Snapshot</h4>
+    <!-- JavaScript will populate items here -->
+  </div>
+</nav>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+    
+    <!-- Dashboard Section -->
+    <section class="section active" id="dashboard">
+        <div class="background-particles" id="particles"></div>
+      <div class="section-header">
+        <h1 class="section-title">KAN Dashboard</h1>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      </div>
+
+      <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-change positive">+12.4%</div>
+                <div class="stat-value" id="balance">12,450.73 KDA</div>
+                <div class="stat-label">💰 Balance</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-change positive" id="priceChange">+24.7%</div>
+                <div class="stat-value" id="price">$0.4285</div>
+                <div class="stat-label">📈 KDA Price</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-change positive">+156.3%</div>
+                <div class="stat-value" id="volume">$14.2M</div>
+                <div class="stat-label">🔥 Volume</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-change positive">+8.1%</div>
+                <div class="stat-value" id="members">127,891</div>
+                <div class="stat-label">👥 Members</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-change positive">+0.2%</div>
+                <div class="stat-value">847.3 PH/s</div>
+                <div class="stat-label">⚡ Hashrate</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-change positive">+45.8%</div>
+                <div class="stat-value" id="marketCap">$1.08B</div>
+                <div class="stat-label">💎 Market Cap</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-change positive">Live</div>
+                <div class="stat-value pulse">20 Chains</div>
+                <div class="stat-label">🔗 Active</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-change positive">∞</div>
+                <div class="stat-value">480K TPS</div>
+                <div class="stat-label">🚀 Max TPS</div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <div class="chart-header">📊 KDA/USD Live Chart</div>
+            <div class="chart-container">
+                <canvas id="mainChart"></canvas>
+            </div>
+            <div class="action-buttons">
+                <button class="btn" onclick="trade('buy')">Buy</button>
+                <button class="btn" onclick="trade('sell')">Sell</button>
+                <button class="btn" onclick="stake()">Stake</button>
+                <button class="btn" onclick="swap()">Swap</button>
+            </div>
+        </div>
+
+        <div class="features">
+            <h3>🌟 Why Kadena Dominates</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <h4>Infinite Scale</h4>
+                    <p>Braided chains solve scalability</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🛡️</div>
+                    <h4>PoW Security</h4>
+                    <p>Bitcoin-level protection</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💡</div>
+                    <h4>Pact Contracts</h4>
+                    <p>Human-readable & safe</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌍</div>
+                    <h4>Global Impact</h4>
+                    <p>Financial inclusion</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="network-grid">
+            <div class="network-card">
+                <h4>🔗 Network Performance</h4>
+                <div class="metric-row">
+                    <span class="metric-label">Block Time</span>
+                    <span class="metric-value">30s</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Finality</span>
+                    <span class="metric-value">Instant</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">TX Cost</span>
+                    <span class="metric-value">~$0.0001</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Current TPS</span>
+                    <span class="metric-value pulse">1,247</span>
+                </div>
+                <canvas id="networkChart" class="mini-chart"></canvas>
+            </div>
+
+            <div class="network-card">
+                <h4>🏦 DeFi Stats</h4>
+                <div class="metric-row">
+                    <span class="metric-label">TVL</span>
+                    <span class="metric-value">$45.7M</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">DEXs</span>
+                    <span class="metric-value">8</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Pools</span>
+                    <span class="metric-value">124</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Daily TXs</span>
+                    <span class="metric-value pulse">89,421</span>
+                </div>
+                <canvas id="defiChart" class="mini-chart"></canvas>
+            </div>
+
+            <div class="network-card">
+                <h4>🌐 Adoption</h4>
+                <div class="metric-row">
+                    <span class="metric-label">Countries</span>
+                    <span class="metric-value">47</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Partners</span>
+                    <span class="metric-value">12</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Dev Activity</span>
+                    <span class="metric-value">High</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Commits/mo</span>
+                    <span class="metric-value pulse">2,847</span>
+                </div>
+                <canvas id="adoptionChart" class="mini-chart"></canvas>
+            </div>
+        </div>
+     </div>
+    </section>
+
+    <!-- Social Section -->
+    <section class="section" id="social">
+        <div class="background-particles" id="particles"></div>
+      <div class="section-header">
+        <h1 class="section-title">Social Feed</h1>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      </div>
+
+      <div class="social-layout">
+        <div class="feed">
+          <div class="post-composer">
+            <textarea class="composer-input" placeholder="What's happening in the blockchain world?"></textarea>
+            <div class="composer-actions">
+              <div class="media-icons">
+                <button class="media-icon">📷</button>
+                <button class="media-icon">🎥</button>
+                <button class="media-icon">📊</button>
+                <button class="media-icon">💭</button>
+              </div>
+              <button class="btn">Post</button>
+            </div>
+          </div>
+
+          <div class="post">
+            <div class="post-header">
+              <div class="avatar">A</div>
+              <div>
+                <h4>@Alice_Blockchain</h4>
+                <p style="color: var(--text-secondary); font-size: 0.875rem;">2 hours ago</p>
+              </div>
+            </div>
+            <p>Just bridged 1000 KDA to the new DeFi protocol! The future of finance is here 🚀 #KDA #DeFi #Blockchain</p>
+            <div class="post-actions">
+              <button class="action-btn">❤️ 234</button>
+              <button class="action-btn">💬 45</button>
+              <button class="action-btn">🔄 78</button>
+              <button class="action-btn">📤 Share</button>
+            </div>
+          </div>
+
+          <div class="post">
+            <div class="post-header">
+              <div class="avatar">B</div>
+              <div>
+                <h4>@BlockchainBob</h4>
+                <p style="color: var(--text-secondary); font-size: 0.875rem;">4 hours ago</p>
+              </div>
+            </div>
+            <p>Building the next generation dApp on Kadena! The scalability and security is unmatched. Who's ready for the beta? 🔥</p>
+            <div class="post-actions">
+              <button class="action-btn">❤️ 156</button>
+              <button class="action-btn">💬 23</button>
+              <button class="action-btn">🔄 34</button>
+              <button class="action-btn">📤 Share</button>
+            </div>
+          </div>
+
+          <div class="post">
+            <div class="post-header">
+              <div class="avatar">C</div>
+              <div>
+                <h4>@CryptoQueen</h4>
+                <p style="color: var(--text-secondary); font-size: 0.875rem;">6 hours ago</p>
+              </div>
+            </div>
+            <p>African blockchain adoption is accelerating! KAN platform is leading the charge 🌍⚡ #AfricanTech #Innovation</p>
+            <div class="post-actions">
+              <button class="action-btn">❤️ 423</button>
+              <button class="action-btn">💬 89</button>
+              <button class="action-btn">🔄 156</button>
+              <button class="action-btn">📤 Share</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="trending" style="display: none;" id="trendingDesktop">
+          <h3>Trending</h3>
+          <div class="trending-item">
+            <div class="trending-topic">#KDAToTheMoon</div>
+            <div class="trending-count">12.4K posts</div>
+          </div>
+          <div class="trending-item">
+            <div class="trending-topic">#DeFiRevolution</div>
+            <div class="trending-count">8.9K posts</div>
+          </div>
+          <div class="trending-item">
+            <div class="trending-topic">#BlockchainAfrica</div>
+            <div class="trending-count">6.2K posts</div>
+          </div>
+          <div class="trending-item">
+            <div class="trending-topic">#Web3Future</div>
+            <div class="trending-count">4.8K posts</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wallet Section -->
+    <section class="section" id="wallet">
+        <div class="section-header">
+            <h1 class="section-title">Digital Wallet</h1>
+            <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+        </div>
+
+        <div class="wallet-tabs">
+            <button class="wallet-tab active" onclick="switchWalletTab('send')">Send</button>
+            <button class="wallet-tab" onclick="switchWalletTab('receive')">Receive</button>
+            <button class="wallet-tab" onclick="switchWalletTab('convert')">Convert</button>
+            <button class="wallet-tab" onclick="switchWalletTab('p2p')">P2P</button>
+            <button class="wallet-tab" onclick="switchWalletTab('history')">History</button>
+        </div>
+
+        <div id="wallet-send" class="wallet-content SectionContent active">
+            <div class="wallet-card" style="max-width: 500px; margin: 0 auto;">
+                <h3>Send KDA</h3>
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">Recipient Address</label>
+                        <input type="text" class="form-input" placeholder="k:recipient-address">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Amount</label>
+                        <input type="number" class="form-input" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gas Fee</label>
+                        <select class="form-input">
+                            <option>Standard (0.001 KDA)</option>
+                            <option>Fast (0.002 KDA)</option>
+                            <option>Instant (0.005 KDA)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Send Transaction</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="wallet-receive" class="wallet-content SectionContent">
+            <div class="wallet-card" style="max-width: 500px; margin: 0 auto; text-align: center;">
+                <h3>Receive KDA</h3>
+                <div style="background: white; padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+                    <p style="color: black; font-size: 0.875rem;">QR Code will be generated here</p>
+                    <div style="width: 200px; height: 200px; background: #f0f0f0; margin: 1rem auto; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                        <span style="color: #666;">QR Code</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Your Wallet Address</label>
+                    <input type="text" class="form-input" value="k:your-wallet-address-here" readonly>
+                </div>
+                <button class="btn">Copy Address</button>
+            </div>
+        </div>
+
+        <div id="wallet-convert" class="wallet-content SectionContent">
+            <div class="wallet-card" style="max-width: 500px; margin: 0 auto;">
+                <h3>Convert Assets</h3>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;">
+                        <input type="number" class="form-input" placeholder="0.00" style="margin-bottom: 1rem;">
+                        <select class="form-input">
+                            <option>KDA</option>
+                            <option>USDC</option>
+                            <option>ETH</option>
+                        </select>
+                    </div>
+                    <div style="font-size: 1.5rem; color: var(--accent-color);">⇅</div>
+                    <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; margin-top: 1rem;">
+                        <input type="number" class="form-input" placeholder="0.00" readonly style="margin-bottom: 1rem;">
+                        <select class="form-input">
+                            <option>USDC</option>
+                            <option>KDA</option>
+                            <option>ETH</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn" style="width: 100%;">Convert</button>
+            </div>
+        </div>
+
+        <!-- P2P Market Tab Content -->
+        <div id="wallet-p2p" class="wallet-content SectionContent">
+            <div class="p2p-container">
+                <!-- Main P2P Trading Area -->
+                <div class="p2p-main">
+                    <div class="p2p-tabs">
+                        <button class="p2p-tab active" data-p2p-tab="buy">Buy Orders</button>
+                        <button class="p2p-tab" data-p2p-tab="sell">Sell Orders</button>
+                        <button class="p2p-tab" data-p2p-tab="my-orders">My Orders</button>
+                        <button class="p2p-tab" data-p2p-tab="create">Create Order</button>
+                    </div>
+
+                    <div class="p2p-filters">
+                        <div class="filter-group">
+                            <select id="p2p-currency-filter">
+                                <option value="all">All Currencies</option>
+                                <option value="KDA">Kadena (KDA)</option>
+                                <option value="BTC">Bitcoin (BTC)</option>
+                                <option value="ETH">Ethereum (ETH)</option>
+                                <option value="USDT">Tether (USDT)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <select id="p2p-payment-filter">
+                                <option value="all">All Methods</option>
+                                <option value="bank">Bank Transfer</option>
+                                <option value="mobile">Mobile Money</option>
+                                <option value="cash">Cash</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <input type="number" id="p2p-min-amount" placeholder="Min Amount (NGN)">
+                        </div>
+                    </div>
+
+                    <div id="p2p-offers-container" class="p2p-offers-grid">
+                        <!-- Offers will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- P2P Sidebar -->
+                <div class="p2p-sidebar">
+                    <div class="wallet-card">
+                        <h3>P2P Balance</h3>
+                        <div class="balance-item">
+                            <span class="balance-label">KDA Balance:</span>
+                            <span class="balance-value" id="p2p-kda-balance">125.48 KDA</span>
+                        </div>
+                        <div class="balance-item">
+                            <span class="balance-label">NGN Balance:</span>
+                            <span class="balance-value" id="p2p-ngn-balance">₦45,230.00</span>
+                        </div>
+                        <div class="balance-item">
+                            <span class="balance-label">In Escrow:</span>
+                            <span class="balance-value" id="p2p-escrow-balance">₦15,000.00</span>
+                        </div>
+                        <div class="balance-item">
+                            <span class="balance-label">Available:</span>
+                            <span class="balance-value" id="p2p-available-balance">₦30,230.00</span>
+                        </div>
+                    </div>
+
+                    <div class="wallet-card">
+                        <h3>Recent P2P Activity</h3>
+                        <div id="p2p-recent-orders">
+                            <!-- Recent orders will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Tab Content (Previously Overview) -->
+        <div id="wallet-history" class="wallet-content SectionContent">
+            <div class="wallet-layout">
+                <div class="wallet-card" style="grid-column: 1 / -1;">
+                    <h3>Transaction History</h3>
+                    
+                    <!-- Filter Buttons -->
+                    <div class="history-filters">
+                        <button class="history-filter-btn active" onclick="filterHistory('all')">All</button>
+                        <button class="history-filter-btn" onclick="filterHistory('sent')">Sent</button>
+                        <button class="history-filter-btn" onclick="filterHistory('received')">Received</button>
+                        <button class="history-filter-btn" onclick="filterHistory('staking')">Staking</button>
+                        <button class="history-filter-btn" onclick="filterHistory('convert')">Convert</button>
+                        <button class="history-filter-btn" onclick="filterHistory('p2p')">P2P</button>
+                    </div>
+
+                    <!-- All Transactions -->
+                    <div class="history-section" id="history-all">
+                        <div class="transaction-item" data-type="received">
+                            <div style="display: flex; align-items: center;">
+                                <div class="transaction-icon receive">↓</div>
+                                <div>
+                                    <h4>Received KDA</h4>
+                                    <p style="color: var(--text-secondary); font-size: 0.875rem;">From: k:abc...def</p>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="color: var(--success-color); font-weight: 600;">+250 KDA</div>
+                                <div style="color: var(--text-secondary); font-size: 0.875rem;">2 hours ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="transaction-item" data-type="sent">
+                            <div style="display: flex; align-items: center;">
+                                <div class="transaction-icon send">↑</div>
+                                <div>
+                                    <h4>Sent KDA</h4>
+                                    <p style="color: var(--text-secondary); font-size: 0.875rem;">To: k:ghi...jkl</p>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="color: var(--error-color); font-weight: 600;">-50 KDA</div>
+                                <div style="color: var(--text-secondary); font-size: 0.875rem;">5 hours ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="transaction-item" data-type="staking">
+                            <div style="display: flex; align-items: center;">
+                                <div class="transaction-icon receive">↓</div>
+                                <div>
+                                    <h4>Staking Reward</h4>
+                                    <p style="color: var(--text-secondary); font-size: 0.875rem;">Pool: KDA-USDC</p>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="color: var(--success-color); font-weight: 600;">+12.5 KDA</div>
+                                <div style="color: var(--text-secondary); font-size: 0.875rem;">1 day ago</div>
+                            </div>
+                        </div>
+
+                        <div class="transaction-item" data-type="convert">
+                            <div style="display: flex; align-items: center;">
+                                <div class="transaction-icon" style="background: rgba(245, 158, 11, 0.2); color: var(--warning-color);">⇅</div>
+                                <div>
+                                    <h4>Asset Conversion</h4>
+                                    <p style="color: var(--text-secondary); font-size: 0.875rem;">KDA → USDC</p>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="color: var(--warning-color); font-weight: 600;">100 KDA → 156 USDC</div>
+                                <div style="color: var(--text-secondary); font-size: 0.875rem;">2 days ago</div>
+                            </div>
+                        </div>
+
+                        <div class="transaction-item" data-type="p2p">
+                            <div style="display: flex; align-items: center;">
+                                <div class="transaction-icon" style="background: rgba(139, 92, 246, 0.2); color: #8b5cf6;">P</div>
+                                <div>
+                                    <h4>P2P Trade</h4>
+                                    <p style="color: var(--text-secondary); font-size: 0.875rem;">Sold KDA for NGN</p>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="color: var(--success-color); font-weight: 600;">+₦85,000</div>
+                                <div style="color: var(--text-secondary); font-size: 0.875rem;">3 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Balance Card -->
+                <div class="wallet-card" style="grid-column: 1 / -1; margin-top: 20px;">
+                    <h3>Portfolio Balance</h3>
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <div style="font-size: 3rem; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">12,450 KDA</div>
+                        <div style="color: var(--text-secondary); margin: 0.5rem 0;">≈ ₦2,445,000</div>
+                        <div style="color: var(--success-color); font-weight: 600;">+15.8% (24h)</div>
+                    </div>
+                    <div class="trading-buttons">
+                        <button class="btn">Buy KDA</button>
+                        <button class="btn secondary">Sell KDA</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notifications Section -->
+    <section class="section" id="notifications">
+      <div class="section-header">
+        <h1 class="section-title">Notifications</h1>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      </div>
+
+      <!-- <div class="notification-filters">
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Transactions</button>
+        <button class="filter-btn">Social</button>
+        <button class="filter-btn">System</button>
+        <button class="filter-btn">Security</button>
+      </div> -->
+
+      <div class="notificationFeeds">
+      <div class="notification">
+        <div class="notification-icon success">✓</div>
+        <div class="notification-content">
+          <div class="notification-title">Transaction Confirmed</div>
+          <div class="notification-text">Your transfer of 250 KDA has been successfully confirmed on the blockchain.</div>
+          <div class="notification-time">2 hours ago</div>
+        </div>
+      </div>
+
+      <div class="notification">
+        <div class="notification-icon info">🚀</div>
+        <div class="notification-content">
+          <div class="notification-title">New Feature Available</div>
+          <div class="notification-text">P2P marketplace is now live! Start trading KDA with users in your region.</div>
+          <div class="notification-time">4 hours ago</div>
+        </div>
+      </div>
+
+      <div class="notification">
+        <div class="notification-icon warning">⚠️</div>
+        <div class="notification-content">
+          <div class="notification-title">Security Alert</div>
+          <div class="notification-text">New login detected from Lagos, Nigeria. If this wasn't you, please secure your account.</div>
+          <div class="notification-time">6 hours ago</div>
+        </div>
+      </div>
+
+      <div class="notification">
+        <div class="notification-icon info">👥</div>
+        <div class="notification-content">
+          <div class="notification-title">Community Update</div>
+          <div class="notification-text">Alice liked your post about DeFi innovations in Africa.</div>
+          <div class="notification-time">8 hours ago</div>
+        </div>
+      </div>
+
+      <div class="notification">
+        <div class="notification-icon success">💰</div>
+        <div class="notification-content">
+          <div class="notification-title">Staking Reward</div>
+          <div class="notification-text">You earned 12.5 KDA in staking rewards from the KDA-USDC pool.</div>
+          <div class="notification-time">1 day ago</div>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="section" id="community">
+            <div class="background-particles" id="particles"></div>
+      <div class="section-header">
+        <h1 class="section-title">Global Communities</h1>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      </div>
+
+        <div class="community-grid">
+            <div class="community-card" data-community="africa">
+                <div class="activity-pulse"></div>
+                <div class="community-header">
+                    <div class="community-flag">🌍</div>
+                    <div class="community-info">
+                        <div class="community-name">Africa</div>
+                        <div class="community-members">
+                            <span class="online-indicator"></span>
+                            15,234 members • 1,847 online
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="community-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">1.2K</span>
+                        <div class="stat-label">Active Now</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">427</span>
+                        <div class="stat-label">Posts Today</div>
+                    </div>
+                </div>
+                
+                <div class="community-actions">
+                    <button class="community-btn" onclick="joinCommunity(this, 'africa')">
+                        Join Community
+                    </button>
+                    <button class="preview-btn" onclick="previewCommunity('africa')">
+                        👁️
+                    </button>
+                </div>
+            </div>
+
+            <div class="community-card" data-community="asia">
+                <div class="activity-pulse"></div>
+                <div class="community-header">
+                    <div class="community-flag">🌏</div>
+                    <div class="community-info">
+                        <div class="community-name">Asia</div>
+                        <div class="community-members">
+                            <span class="online-indicator"></span>
+                            22,891 members • 2,156 online
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="community-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">2.1K</span>
+                        <div class="stat-label">Active Now</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">589</span>
+                        <div class="stat-label">Posts Today</div>
+                    </div>
+                </div>
+                
+                <div class="community-actions">
+                    <button class="community-btn" onclick="joinCommunity(this, 'asia')">
+                        Join Community
+                    </button>
+                    <button class="preview-btn" onclick="previewCommunity('asia')">
+                        👁️
+                    </button>
+                </div>
+            </div>
+
+            <div class="community-card" data-community="europe">
+                <div class="activity-pulse"></div>
+                <div class="community-header">
+                    <div class="community-flag">🇪🇺</div>
+                    <div class="community-info">
+                        <div class="community-name">Europe</div>
+                        <div class="community-members">
+                            <span class="online-indicator"></span>
+                            18,543 members • 1,234 online
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="community-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">1.2K</span>
+                        <div class="stat-label">Active Now</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">356</span>
+                        <div class="stat-label">Posts Today</div>
+                    </div>
+                </div>
+                
+                <div class="community-actions">
+                    <button class="community-btn" onclick="joinCommunity(this, 'europe')">
+                        Join Community
+                    </button>
+                    <button class="preview-btn" onclick="previewCommunity('europe')">
+                        👁️
+                    </button>
+                </div>
+            </div>
+
+            <div class="community-card" data-community="usa">
+                <div class="activity-pulse"></div>
+                <div class="community-header">
+                    <div class="community-flag">🇺🇸</div>
+                    <div class="community-info">
+                        <div class="community-name">North America</div>
+                        <div class="community-members">
+                            <span class="online-indicator"></span>
+                            19,756 members • 1,892 online
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="community-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">1.9K</span>
+                        <div class="stat-label">Active Now</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">445</span>
+                        <div class="stat-label">Posts Today</div>
+                    </div>
+                </div>
+                
+                <div class="community-actions">
+                    <button class="community-btn" onclick="joinCommunity(this, 'usa')">
+                        Join Community
+                    </button>
+                    <button class="preview-btn" onclick="previewCommunity('usa')">
+                        👁️
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Finance Section -->
+    <section class="section" id="finance">
+        <div class="floating-particles">
+            <div class="particle" style="width: 4px; height: 4px; top: 20%; left: 10%; animation-delay: 0s;"></div>
+            <div class="particle" style="width: 6px; height: 6px; top: 60%; left: 80%; animation-delay: 2s;"></div>
+            <div class="particle" style="width: 3px; height: 3px; top: 80%; left: 30%; animation-delay: 4s;"></div>
+            <div class="particle" style="width: 5px; height: 5px; top: 40%; left: 70%; animation-delay: 1s;"></div>
+            <div class="particle" style="width: 4px; height: 4px; top: 10%; left: 50%; animation-delay: 3s;"></div>
+        </div>
+        <div class="section-header">
+            <h1 class="section-title">My finance</h1>
+            <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+        </div>
+
+        <div class="subsection-nav">
+            <div class="nav-tab active" data-section="bills">Pay Bills</div>
+            <div class="nav-tab" data-section="staking">Staking</div>
+            <div class="nav-tab" data-section="savings">Savings</div>
+        </div>
+
+        <!-- Pay Bills Subsection -->
+        <div class="subsection active" id="bills">
+            <div class="bills-grid">
+                <div class="bills-left">
+                    <div class="quick-pay-card">
+                        <h3 class="card-title">⚡ Quick Pay</h3>
+                        <div class="bill-form">
+                            <div class="form-group">
+                                <select class="form-select" id="billType">
+                                    <option>Select Bill Type</option>
+                                    <option>⚡ Electricity (PHCN, Ikeja Electric)</option>
+                                    <option>📺 Cable TV (DSTV, GOtv, Startimes)</option>
+                                    <option>🌐 Internet (Spectranet, Swift, Airtel)</option>
+                                    <option>📱 Mobile Airtime</option>
+                                    <option>💧 Water Bills</option>
+                                    <option>🏠 Property Tax</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-input" placeholder="Account Number / Phone Number" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-input amount-input" placeholder="₦ 0.00" />
+                            </div>
+                            <button class="btn btn-primary" onclick="processPayment()">Pay Now with KDA</button>
+                        </div>
+                    </div>
+
+                    <div class="quick-pay-card">
+                        <h3 class="card-title">📊 Smart Analytics</h3>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                            <div class="info-item">
+                                <div class="info-value">₦52K</div>
+                                <div class="info-label">This Month</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-value">₦620K</div>
+                                <div class="info-label">This Year</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-value">12%</div>
+                                <div class="info-label">KDA Cashback</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-bills">
+                    <h3 class="card-title">📋 Recent Transactions</h3>
+                    <div class="bill-item">
+                        <div class="bill-info">
+                            <div class="bill-name">⚡ Ikeja Electric</div>
+                            <div class="bill-date">Today, 2:30 PM</div>
+                        </div>
+                        <div class="bill-amount">₦15,000</div>
+                    </div>
+                    <div class="bill-item">
+                        <div class="bill-info">
+                            <div class="bill-name">📺 DSTV Premium</div>
+                            <div class="bill-date">Yesterday, 10:15 AM</div>
+                        </div>
+                        <div class="bill-amount">₦21,000</div>
+                    </div>
+                    <div class="bill-item">
+                        <div class="bill-info">
+                            <div class="bill-name">📱 MTN Airtime</div>
+                            <div class="bill-date">2 days ago</div>
+                        </div>
+                        <div class="bill-amount">₦2,000</div>
+                    </div>
+                    <div class="bill-item">
+                        <div class="bill-info">
+                            <div class="bill-name">🌐 Spectranet</div>
+                            <div class="bill-date">3 days ago</div>
+                        </div>
+                        <div class="bill-amount">₦8,500</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Staking Subsection -->
+        <div class="subsection" id="staking">
+            <div class="staking-dashboard">
+                <div class="staking-main">
+                    <div class="staking-pool">
+                        <div class="pool-header">
+                            <div>
+                                <h3 class="card-title">🚀 KDA Mega Pool</h3>
+                                <p>Stake your KDA and earn passive income</p>
+                            </div>
+                            <div class="pool-apy">24.5%</div>
+                        </div>
+                        
+                        <div class="pool-info">
+                            <div class="info-item">
+                                <div class="info-value">1.2M KDA</div>
+                                <div class="info-label">Total Staked</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-value">8,432</div>
+                                <div class="info-label">Active Stakers</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-value">30 Days</div>
+                                <div class="info-label">Lock Period</div>
+                            </div>
+                        </div>
+
+                        <div class="staking-form">
+                            <div class="form-group" style="flex: 1;">
+                                <input type="text" class="form-input" placeholder="Enter KDA amount to stake" />
+                            </div>
+                            <button class="btn btn-primary">Stake KDA</button>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+                        <div class="staking-pool">
+                            <h3 class="card-title">⚡ Flash Pool</h3>
+                            <div class="pool-apy" style="font-size: 2rem;">45.8%</div>
+                            <p>High-risk, high-reward. 7-day lock.</p>
+                            <button class="btn">Join Flash Pool</button>
+                        </div>
+                        <div class="staking-pool">
+                            <h3 class="card-title">🛡️ Safe Pool</h3>
+                            <div class="pool-apy" style="font-size: 2rem;">12.3%</div>
+                            <p>Low-risk, stable returns. No lock period.</p>
+                            <button class="btn">Join Safe Pool</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="staking-sidebar">
+                    <div class="rewards-card">
+                        <h3>🎁 Your Rewards</h3>
+                        <div class="rewards-amount">847.2 KDA</div>
+                        <p>Earned this month</p>
+                        <button class="btn">Claim Rewards</button>
+                    </div>
+
+                    <div class="leaderboard">
+                        <h3 class="card-title">🏆 Top Stakers</h3>
+                        <div class="leaderboard-item">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div class="rank">1</div>
+                                <span>CryptoKing</span>
+                            </div>
+                            <span>50K KDA</span>
+                        </div>
+                        <div class="leaderboard-item">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div class="rank">2</div>
+                                <span>AfricaHodler</span>
+                            </div>
+                            <span>42K KDA</span>
+                        </div>
+                        <div class="leaderboard-item">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div class="rank">3</div>
+                                <span>LagosTrader</span>
+                            </div>
+                            <span>38K KDA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Savings Subsection -->
+        <div class="subsection" id="savings">
+            <div class="savings-layout">
+                <div class="savings-plans">
+                    <div class="savings-plan">
+                        <div class="plan-badge">POPULAR</div>
+                        <h3 class="plan-title">💎 Diamond Saver</h3>
+                        <div style="font-size: 2rem; font-weight: bold; color: var(--accent-color);">18.5% APY</div>
+                        <ul class="plan-features">
+                            <li>Compound interest daily</li>
+                            <li>Flexible withdrawals</li>
+                            <li>Insurance protected</li>
+                            <li>Mobile money integration</li>
+                        </ul>
+                        <button class="btn btn-primary">Start Saving</button>
+                    </div>
+
+                    <div class="savings-plan">
+                        <div class="plan-badge">NEW</div>
+                        <h3 class="plan-title">🎯 Goal Saver</h3>
+                        <div style="font-size: 2rem; font-weight: bold; color: var(--success-color);">22.3% APY</div>
+                        <ul class="plan-features">
+                            <li>Set custom savings goals</li>
+                            <li>Auto-save from bills cashback</li>
+                            <li>Milestone rewards</li>
+                            <li>Social savings challenges</li>
+                        </ul>
+                        <button class="btn btn-primary">Set Goal</button>
+                    </div>
+
+                    <div class="savings-plan">
+                        <h3 class="plan-title">🚀 Turbo Saver</h3>
+                        <div style="font-size: 2rem; font-weight: bold; color: var(--warning-color);">35.8% APY</div>
+                        <ul class="plan-features">
+                            <li>High-yield DeFi integration</li>
+                            <li>Smart contract secured</li>
+                            <li>Weekly compounding</li>
+                            <li>Advanced analytics</li>
+                        </ul>
+                        <button class="btn btn-primary">Turbo Save</button>
+                    </div>
+                </div>
+
+                <div class="savings-tracker">
+                    <h3 class="card-title">📈 Savings Dashboard</h3>
+                    
+                    <div class="goal-progress">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>House Fund Goal</span>
+                            <span>₦2.4M / ₦5M</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 48%; --progress: 48%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="goal-stats">
+                        <div class="stat-card">
+                            <div style="font-size: 1.5rem; color: var(--accent-color); font-weight: bold;">₦2.4M</div>
+                            <div style="color: var(--text-secondary);">Total Saved</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="font-size: 1.5rem; color: var(--success-color); font-weight: bold;">₦285K</div>
+                            <div style="color: var(--text-secondary);">Interest Earned</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="font-size: 1.5rem; color: var(--warning-color); font-weight: bold;">14</div>
+                            <div style="color: var(--text-secondary);">Months Active</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="font-size: 1.5rem; color: var(--accent-secondary); font-weight: bold;">18.5%</div>
+                            <div style="color: var(--text-secondary);">Avg. APY</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--accent-color); margin-bottom: 1rem;">🎯 Quick Actions</h4>
+                        <div style="display: grid; gap: 0.5rem;">
+                            <button class="btn">Add ₦50K to Goal</button>
+                            <button class="btn">Create New Savings Goal</button>
+                            <button class="btn">View Detailed Analytics</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Account Section -->
+    <section class="section" id="account">
+      <div class="section-header">
+        <h1 class="section-title">My Account</h1>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      </div>
+
+      <div class="account-tabs">
+        <button class="account-tab active" onclick="switchAccountTab('profile')">Profile</button>
+        <button class="account-tab" onclick="switchAccountTab('settings')">Settings</button>
+        <button class="account-tab" onclick="switchAccountTab('security')">Security</button>
+      </div>
+
+      <div id="account-profile" class="account-content">
+        <div class="profile-section">
+          <div class="profile-header">
+            <div class="profile-avatar">E</div>
+            <div class="profile-info">
+              <h2>Emmanuel Okonkwo</h2>
+              <p style="color: var(--text-secondary);">KAN Pioneer Member</p>
+              <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn">Edit Profile</button>
+                <button class="btn secondary">Share Profile</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-stats">
+            <div class="profile-stat">
+              <div class="stat-value">12,450</div>
+              <div class="stat-label">KDA Balance</div>
+            </div>
+            <div class="profile-stat">
+              <div class="stat-value">156</div>
+              <div class="stat-label">Transactions</div>
+            </div>
+            <div class="profile-stat">
+              <div class="stat-value">89</div>
+              <div class="stat-label">Social Posts</div>
+            </div>
+            <div class="profile-stat">
+              <div class="stat-value">45</div>
+              <div class="stat-label">Communities</div>
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem;">
+            <h3 style="margin-bottom: 1rem;">Account Information</h3>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" value="emmanuel@example.com" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-input" value="+234 801 234 5678" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Location</label>
+              <input type="text" class="form-input" value="Lagos, Nigeria" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="account-settings" class="account-content" style="display: none;">
+        <div class="profile-section">
+          <h3 style="margin-bottom: 2rem;">General Settings</h3>
+          
+          <div class="form-group">
+            <label class="form-label">Theme</label>
+            <select class="form-input">
+              <option>Dark Mode</option>
+              <option>Light Mode</option>
+              <option>Auto</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Language</label>
+            <select class="form-input">
+              <option>English</option>
+              <option>Yoruba</option>
+              <option>Igbo</option>
+              <option>Hausa</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Currency Display</label>
+            <select class="form-input">
+              <option>Nigerian Naira (₦)</option>
+              <option>US Dollar ($)</option>
+              <option>KDA</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <label class="form-label" style="margin-bottom: 0;">Email Notifications</label>
+                <p style="color: var(--text-secondary); font-size: 0.875rem;">Receive email updates about transactions and activity</p>
+              </div>
+              <input type="checkbox" checked style="transform: scale(1.5);">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <label class="form-label" style="margin-bottom: 0;">Push Notifications</label>
+                <p style="color: var(--text-secondary); font-size: 0.875rem;">Get notified about important account activity</p>
+              </div>
+              <input type="checkbox" checked style="transform: scale(1.5);">
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem;">
+            <button class="btn">Save Settings</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="account-security" class="account-content" style="display: none;">
+        <div class="profile-section">
+          <h3 style="margin-bottom: 2rem;">Security Settings</h3>
+          
+          <div class="form-group">
+            <label class="form-label">Current Password</label>
+            <input type="password" class="form-input" placeholder="Enter current password">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <input type="password" class="form-input" placeholder="Enter new password">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" class="form-input" placeholder="Confirm new password">
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <label class="form-label" style="margin-bottom: 0;">Two-Factor Authentication</label>
+                <p style="color: var(--text-secondary); font-size: 0.875rem;">Add an extra layer of security to your account</p>
+              </div>
+              <button class="btn secondary">Enable 2FA</button>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; margin: 2rem 0;">
+            <h4 style="color: var(--accent-color); margin-bottom: 1rem;">Active Sessions</h4>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <div>
+                <div>Lagos, Nigeria</div>
+                <div style="color: var(--text-secondary); font-size: 0.875rem;">Current session • Chrome</div>
+              </div>
+              <div style="color: var(--success-color); font-size: 0.875rem;">Active</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div>Abuja, Nigeria</div>
+                <div style="color: var(--text-secondary); font-size: 0.875rem;">2 days ago • Mobile</div>
+              </div>
+              <button style="background: var(--error-color); border: none; color: white; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer;">Revoke</button>
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem;">
+            <button class="btn">Update Security</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Community Chat Modal -->
+  <div class="community-modal" id="communityModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="communityName">Africa Community</h3>
+        <button class="close-btn" onclick="closeCommunityChat()">&times;</button>
+      </div>
+      <div class="chat-messages" id="communityMessages" style="flex: 1; padding: 1.5rem; overflow-y: auto;">
+        <div class="message">
+          <div class="avatar">A</div>
+          <div class="message-bubble">
+            Welcome to the Africa community! 🌍
+          </div>
+        </div>
+        <div class="message">
+          <div class="avatar">B</div>
+          <div class="message-bubble">
+            Excited to be part of the blockchain revolution in Africa!
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-container">
+        <input type="text" class="chat-input" placeholder="Message the community..." id="communityInput">
+        <button class="send-btn" onclick="sendCommunityMessage()">
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global variables
+    let currentSection = 'dashboard';
+    let currentWalletTab = 'overview';
+    let currentAccountTab = 'profile';
+    let joinedCommunities = new Set();
+
+    // Navigation
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Show selected section
+      document.getElementById(sectionId).classList.add('active');
+      
+      // Update navigation
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      currentSection = sectionId;
+      
+      // Handle responsive design for social section
+      if (sectionId === 'social') {
+        const trending = document.getElementById('trendingDesktop');
+        if (window.innerWidth > 1200) {
+          trending.style.display = 'block';
+          document.querySelector('.social-layout').style.gridTemplateColumns = '2fr 1fr';
+        }
+      }
+      
+      // Close sidebar on mobile
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('active');
+      }
+    }
+
+    // Sidebar toggle
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const mainContent = document.getElementById('mainContent');
+      
+      sidebar.classList.toggle('active');
+      
+      if (window.innerWidth > 768) {
+        sidebar.classList.toggle('hidden');
+        mainContent.classList.toggle('expanded');
+      }
+    }
+
+    // Wallet tabs
+    function switchWalletTab(tabId) {
+      // Hide all wallet content
+      document.querySelectorAll('.wallet-content').forEach(content => {
+        content.style.display = 'none';
+      });
+      
+      // Show selected content
+      document.getElementById(`wallet-${tabId}`).style.display = 'block';
+      
+      // Update tab buttons
+      document.querySelectorAll('.wallet-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      currentWalletTab = tabId;
+    }
+
+    // Account tabs
+    function switchAccountTab(tabId) {
+      // Hide all account content
+      document.querySelectorAll('.account-content').forEach(content => {
+        content.style.display = 'none';
+      });
+      
+      // Show selected content
+      document.getElementById(`account-${tabId}`).style.display = 'block';
+      
+      // Update tab buttons
+      document.querySelectorAll('.account-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      currentAccountTab = tabId;
+    }
+
+    // Community functions
+    function joinCommunity(button, communityId) {
+      if (joinedCommunities.has(communityId)) {
+        // Open community chat
+        openCommunityChat(communityId);
+      } else {
+        // Join community
+        joinedCommunities.add(communityId);
+        button.textContent = 'Go to Community';
+        button.classList.add('joined');
+        
+        // Simulate joining animation
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          button.style.transform = 'scale(1)';
+        }, 150);
+      }
+    }
+
+    function openCommunityChat(communityId) {
+      const modal = document.getElementById('communityModal');
+      const communityNames = {
+        'africa': 'Africa Community',
+        'usa': 'USA Community', 
+        'asia': 'Asia Community',
+        'europe': 'Europe Community'
+      };
+      
+      document.getElementById('communityName').textContent = communityNames[communityId] || 'Community';
+      modal.style.display = 'flex';
+    }
+
+    function closeCommunityChat() {
+      document.getElementById('communityModal').style.display = 'none';
+    }
+
+    function sendCommunityMessage() {
+      const input = document.getElementById('communityInput');
+      const message = input.value.trim();
+      
+      if (message) {
+        const messagesContainer = document.getElementById('communityMessages');
+        
+        // Create message element
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message sent';
+        messageDiv.innerHTML = `
+          <div class="message-bubble">${message}</div>
+        `;
+        
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        
+        input.value = '';
+        
+        // Simulate response after 2 seconds
+        setTimeout(() => {
+          const responseDiv = document.createElement('div');
+          responseDiv.className = 'message';
+          responseDiv.innerHTML = `
+            <div class="avatar">👥</div>
+            <div class="message-bubble">Thanks for sharing! Great to have you in the community.</div>
+          `;
+          messagesContainer.appendChild(responseDiv);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }, 2000);
+      }
+    }
+
+    // Messages functions
+    function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const message = input.value.trim();
+      
+      if (message) {
+        const messagesContainer = document.getElementById('chatMessages');
+        
+        // Create message element
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message sent';
+        messageDiv.innerHTML = `
+          <div class="message-bubble">${message}</div>
+        `;
+        
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        
+        input.value = '';
+        
+        // Simulate response after 1 second
+        setTimeout(() => {
+          const responseDiv = document.createElement('div');
+          responseDiv.className = 'message';
+          responseDiv.innerHTML = `
+            <div class="avatar">T</div>
+            <div class="message-bubble">I understand. Let me help you with that right away.</div>
+          `;
+          messagesContainer.appendChild(responseDiv);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }, 1000);
+      }
+    }
+
+
+    // Sample market data (replace with real data or API call)
+const marketData = [
+  { symbol: 'BTC', price: 50000, change: 2.5 },
+  { symbol: 'ETH', price: 3000, change: -1.2 },
+  { symbol: 'ADA', price: 1.5, change: 0.8 },
+];
+
+// Get the sidebar-mini-market container
+const marketContainer = document.querySelector('.sidebar-mini-market');
+
+// Clear any existing content (except the h4)
+marketContainer.innerHTML = '<h4>Market Snapshot</h4>';
+
+// Loop through the first 3 items of marketData and create elements
+marketData.slice(0, 3).forEach(coin => {
+  const item = document.createElement('div');
+  item.className = 'mini-market-item';
+  item.innerHTML = `
+    <span>${coin.symbol}</span>
+    <span>$${coin.price.toLocaleString()}</span>
+    <span class="${coin.change > 0 ? 'positive' : 'negative'}">${coin.change}%</span>
+  `;
+  marketContainer.appendChild(item);
+});
+
+
+
+    // Responsive handling
+    function handleResize() {
+      const socialLayout = document.querySelector('.social-layout');
+      const trending = document.getElementById('trendingDesktop');
+      
+      if (window.innerWidth <= 1200) {
+        if (socialLayout) {
+          socialLayout.style.gridTemplateColumns = '1fr';
+        }
+        if (trending) {
+          trending.style.display = 'none';
+        }
+      } else if (currentSection === 'social') {
+        if (socialLayout) {
+          socialLayout.style.gridTemplateColumns = '2fr 1fr';
+        }
+        if (trending) {
+          trending.style.display = 'block';
+        }
+      }
+    }
+
+    // Event listeners
+    window.addEventListener('resize', handleResize);
+    
+    // Handle Enter key in inputs
+    document.getElementById('messageInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+    
+    document.getElementById('communityInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendCommunityMessage();
+      }
+    });
+
+    // Initialize
+    handleResize();
+    
+    // Add some dynamic effects
+    setInterval(() => {
+      const stats = document.querySelectorAll('.stat-card');
+      stats.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.animation = 'pulse 0.6s ease';
+          setTimeout(() => {
+            card.style.animation = '';
+          }, 600);
+        }, index * 200);
+      });
+    }, 10000);
+
+    // Simulate real-time updates
+    setInterval(() => {
+      // Update member counts
+      const memberCounts = document.querySelectorAll('.community-members');
+      memberCounts.forEach(count => {
+        const current = parseInt(count.textContent.replace(/[^\d]/g, ''));
+        count.textContent = `${(current + Math.floor(Math.random() * 5)).toLocaleString()} members`;
+      });
+    }, 30000);
+
+
+
+    let mainChart = null;
+let networkChart = null;
+let defiChart = null;
+let adoptionChart = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        initCharts();
+        fetchData();
+        startUpdates();
+    }, 100);
+});
+
+function initCharts() {
+    Chart.defaults.color = '#888888';
+    Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
+
+    // Generate realistic price data for last 24 hours
+    const priceData = [];
+    const labels = [];
+    const basePrice = 0.4285;
+    const now = Date.now();
+    
+    for (let i = 48; i >= 0; i--) {
+        const time = new Date(now - (i * 30 * 60 * 1000));
+        const variation = (Math.random() - 0.5) * 0.06;
+        const trend = Math.sin(i / 8) * 0.02;
+        const volatility = Math.sin(i / 3) * 0.01;
+        const price = Math.max(0.001, basePrice + variation + trend + volatility);
+        
+        priceData.push(price);
+        labels.push(time.toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        }));
+    }
+
+    // Main chart
+    const canvas = document.getElementById('mainChart');
+    if (!canvas) {
+        console.error('Canvas not found!');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('Could not get canvas context!');
+        return;
+    }
+
+    mainChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'KDA/USD',
+                data: priceData,
+                borderColor: '#ff0080',
+                backgroundColor: 'rgba(255, 0, 128, 0.15)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointBackgroundColor: '#ff0080',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 0
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderColor: '#ff0080',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    titleFont: { size: 12, weight: 'bold' },
+                    bodyFont: { size: 14, weight: 'bold' },
+                    padding: 10,
+                    callbacks: {
+                        title: () => 'KDA Price',
+                        label: (context) => '$' + context.parsed.y.toFixed(4)
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    grid: { 
+                        color: 'rgba(255, 255, 255, 0.05)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: '#666',
+                        font: { size: 9 },
+                        maxTicksLimit: window.innerWidth < 768 ? 4 : 8,
+                        callback: function(value, index) {
+                            return index % (window.innerWidth < 768 ? 12 : 6) === 0 ? this.getLabelForValue(value) : '';
+                        }
+                    }
+                },
+                y: {
+                    display: true,
+                    position: 'right',
+                    grid: { 
+                        color: 'rgba(255, 255, 255, 0.05)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: '#666',
+                        font: { size: 9 },
+                        maxTicksLimit: 5,
+                        callback: function(value) {
+                            return '$' + value.toFixed(4);
+                        }
+                    }
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            }
+        }
+    });
+
+    // Network mini chart
+    const netCtx = document.getElementById('networkChart').getContext('2d');
+    const networkData = [];
+    for (let i = 0; i < 12; i++) {
+        networkData.push(Math.floor(Math.random() * 1200) + 800);
+    }
+    
+    networkChart = new Chart(netCtx, {
+        type: 'line',
+        data: {
+            labels: Array.from({length: 12}, (_, i) => i + 'h'),
+            datasets: [{
+                data: networkData,
+                borderColor: '#00ff88',
+                backgroundColor: 'rgba(0, 255, 136, 0.2)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { 
+                x: { display: false }, 
+                y: { display: false } 
+            }
+        }
+    });
+
+    // DeFi mini chart  
+    const defiCtx = document.getElementById('defiChart').getContext('2d');
+    const defiData = [45.7, 47.2, 46.8, 48.1, 49.3, 47.9, 45.7];
+    
+    defiChart = new Chart(defiCtx, {
+        type: 'bar',
+        data: {
+            labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+            datasets: [{
+                data: defiData,
+                backgroundColor: 'rgba(121, 40, 202, 0.4)',
+                borderColor: '#7928ca',
+                borderWidth: 1,
+                borderRadius: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { 
+                x: { display: false }, 
+                y: { display: false } 
+            }
+        }
+    });
+
+    // Adoption mini chart
+    const adoptCtx = document.getElementById('adoptionChart').getContext('2d');
+    adoptionChart = new Chart(adoptCtx, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [60, 25, 15],
+                backgroundColor: ['#ff0080', '#7928ca', '#00ff88'],
+                borderWidth: 0,
+                cutout: '60%'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { display: false },
+                tooltip: { enabled: false }
+            }
+        }
+    });
+
+    startLiveUpdates();
+}
+
+function startLiveUpdates() {
+    // Simulate real-time price updates
+    setInterval(() => {
+        if (mainChart) {
+            const data = mainChart.data.datasets[0].data;
+            const lastPrice = data[data.length - 1];
+            const variation = (Math.random() - 0.5) * 0.02;
+            const newPrice = Math.max(0.001, lastPrice + variation);
+            
+            // Remove first point and add new one
+            data.shift();
+            data.push(newPrice);
+            
+            // Update labels
+            const labels = mainChart.data.labels;
+            labels.shift();
+            labels.push(new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            }));
+            
+            // Update price display
+            document.getElementById('price').textContent = `$${newPrice.toFixed(4)}`;
+            
+            mainChart.update('none');
+        }
+    }, 3000);
+
+    // Update network stats
+    setInterval(() => {
+        if (networkChart) {
+            const data = networkChart.data.datasets[0].data;
+            data.shift();
+            data.push(Math.floor(Math.random() * 1200) + 800);
+            networkChart.update('none');
+        }
+    }, 5000);
+
+    // Animate numbers
+    setInterval(() => {
+        const elements = document.querySelectorAll('.pulse');
+        elements.forEach(el => {
+            if (el.textContent.includes('TPS')) {
+                const current = parseInt(el.textContent.replace(/[^0-9]/g, ''));
+                const change = Math.floor((Math.random() - 0.5) * 200);
+                el.textContent = `${Math.max(800, current + change)} TPS`;
+            }
+            if (el.textContent.includes(',')) {
+                const current = parseInt(el.textContent.replace(/[^0-9]/g, ''));
+                const change = Math.floor((Math.random() - 0.5) * 100);
+                el.textContent = (current + change).toLocaleString();
+            }
+        });
+    }, 4000);
+}
+
+function fetchData() {
+    simulateDataUpdates();
+}
+
+function simulateDataUpdates() {
+    // Simulate price fluctuations
+    setInterval(() => {
+        const priceEl = document.getElementById('price');
+        const currentPrice = parseFloat(priceEl.textContent.replace('$', ''));
+        const variation = (Math.random() - 0.5) * 0.01;
+        const newPrice = Math.max(0.001, currentPrice + variation);
+        priceEl.textContent = `$${newPrice.toFixed(4)}`;
+
+        // Update change percentage
+        const changeEl = document.getElementById('priceChange');
+        const change = ((newPrice - 0.4285) / 0.4285) * 100;
+        changeEl.textContent = `${change > 0 ? '+' : ''}${change.toFixed(1)}%`;
+        changeEl.className = `stat-change ${change > 0 ? 'positive' : 'negative'}`;
+    }, 2000);
+
+    // Simulate volume changes
+    setInterval(() => {
+        const volumeEl = document.getElementById('volume');
+        const base = 14.2;
+        const variation = (Math.random() - 0.5) * 4;
+        const newVolume = Math.max(1, base + variation);
+        volumeEl.textContent = `$${newVolume.toFixed(1)}M`;
+    }, 7000);
+
+    // Simulate market cap changes
+    setInterval(() => {
+        const capEl = document.getElementById('marketCap');
+        const base = 1.08;
+        const variation = (Math.random() - 0.5) * 0.2;
+        const newCap = Math.max(0.1, base + variation);
+        capEl.textContent = `$${newCap.toFixed(2)}B`;
+    }, 9000);
+}
+
+function startUpdates() {
+    const pulseElements = document.querySelectorAll('.pulse');
+    pulseElements.forEach(el => {
+        if (el.textContent.includes('TPS')) {
+            const current = parseInt(el.textContent.replace(/[^0-9]/g, ''));
+            const change = Math.floor((Math.random() - 0.5) * 200);
+            el.textContent = `${Math.max(800, current + change)} TPS`;
+        }
+    });
+
+    setInterval(fetchData, 60000);
+}
+
+function trade(type) {
+    const btn = event.target;
+    const original = btn.textContent;
+    btn.textContent = '...';
+    btn.disabled = true;
+    
+    setTimeout(() => {
+        btn.textContent = '✓';
+        setTimeout(() => {
+            btn.textContent = original;
+            btn.disabled = false;
+        }, 1500);
+    }, 1000);
+}
+
+function stake() {
+    alert('Staking: 15.8% APY | 30 day lock');
+}
+
+function swap() {
+    alert('Swap: KDA ↔ USDC, ETH, BTC');
+}
+  </script>
+  <script src="kan-community.js"></script>
+  <script src="kan-wallet.css"></script>
+  <script src="kan-finance.js"></script>
+</body>
+</html>
