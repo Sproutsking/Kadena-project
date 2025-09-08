@@ -132,23 +132,28 @@
 
     /* Sidebar */
     .sidebar {
-      position: fixed;
-      left: 0;
-      top: 0;
-      gap: 10px;
-      width: 280px;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: var(--bg-primary);
-      backdrop-filter: blur(20px);
-      border-right: 1px solid var(--border-color);
-      padding: 10px;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 1000;
-      overflow-y:auto;
-      box-sizing: border-box;
-    }
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+
+  /* Fallback for older browsers */
+  height: 100vh;
+
+  /* Mobile-safe fix */
+  height: 100dvh; 
+
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--border-color);
+  padding: 10px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
 
     .sidebar.hidden {
       transform: translateX(-100%);
@@ -4410,6 +4415,7 @@ function swap() {
 </body>
 
 </html>
+
 
 
 
