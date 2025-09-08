@@ -4375,6 +4375,12 @@ function startUpdates() {
     setInterval(fetchData, 60000);
 }
 
+function setSidebarHeight() {
+  document.querySelector('.sidebar').style.height = window.innerHeight + 'px';
+}
+setSidebarHeight();
+window.addEventListener('resize', setSidebarHeight);
+
 function trade(type) {
     const btn = event.target;
     const original = btn.textContent;
@@ -4404,6 +4410,7 @@ function swap() {
 </body>
 
 </html>
+
 
 
 
