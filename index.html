@@ -66,6 +66,7 @@
     }
 
     body {
+      box-sizing: border-box;
       font-family: 'Inter', sans-serif;
       color: var(--text-primary);
       line-height: 1.6;
@@ -146,6 +147,7 @@
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 1000;
       overflow-y:auto;
+      box-sizing: border-box;
     }
 
     .sidebar.hidden {
@@ -2962,6 +2964,81 @@
         </div>
     </section>
 
+    <!-- Messages Section -->
+    <section class="section" id="messages">
+      <div class="section-header">
+        <h1 class="section-title">Messages</h1>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      </div>
+
+      <div class="messages-layout ">
+        <div class="chat-list">
+          <h3 style="margin-bottom: 1rem;">Conversations</h3>
+          <div class="chat-item active">
+            <div class="avatar">T</div>
+            <div style="flex: 1;">
+              <h4>Tech Support</h4>
+              <p style="color: var(--text-secondary); font-size: 0.875rem;">How can we help you today?</p>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 0.75rem;">2m</div>
+          </div>
+          <div class="chat-item">
+            <div class="avatar">A</div>
+            <div style="flex: 1;">
+              <h4>Alice</h4>
+              <p style="color: var(--text-secondary); font-size: 0.875rem;">Great job on the DeFi project!</p>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 0.75rem;">1h</div>
+          </div>
+          <div class="chat-item">
+            <div class="avatar">B</div>
+            <div style="flex: 1;">
+              <h4>Bob Wilson</h4>
+              <p style="color: var(--text-secondary); font-size: 0.875rem;">Let's discuss the hackathon</p>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 0.75rem;">3h</div>
+          </div>
+        </div>
+
+        <div class="chat-container">
+          <div class="chat-header">
+            <div class="avatar">T</div>
+            <div>
+              <h3>Tech Support</h3>
+              <p style="color: var(--success-color); font-size: 0.875rem;">● Online</p>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <div class="message">
+              <div class="avatar">T</div>
+              <div class="message-bubble">
+                Welcome to KAN Platform! How can we assist you today?
+              </div>
+            </div>
+            <div class="message sent">
+              <div class="message-bubble">
+                Hi! I need help with wallet setup.
+              </div>
+            </div>
+            <div class="message">
+              <div class="avatar">T</div>
+              <div class="message-bubble">
+                I'd be happy to help you set up your wallet. Let me guide you through the process step by step.
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-input-container">
+            <input type="text" class="chat-input" placeholder="Type your message..." id="messageInput">
+            <button class="send-btn" onclick="sendMessage()">
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Notifications Section -->
     <section class="section" id="notifications">
       <div class="section-header">
@@ -4296,4 +4373,5 @@ function swap() {
   <script src="kan-wallet.css"></script>
   <script src="kan-finance.js"></script>
 </body>
+
 </html>
