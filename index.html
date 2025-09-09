@@ -7,239 +7,233 @@
 
   <link rel="stylesheet" href="kan-wallet.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-    
-     :root {
-            --primary: #ff0080;
-            --secondary: #7928ca;
-            --accent: #00ff88;
-            --bg: #000000;
-            --surface: rgba(255, 255, 255, 0.04);
-            --border: rgba(255, 255, 255, 0.08);
-            --text: #ffffff;
-            --text-dim: #888888;
-            --success: #00ff88;
-            --warning: #ffaa00;
-            --error: #ff4444;
-        }
-    :root {
-      --primary-gradient: linear-gradient(135deg, #ff0080, #7928ca, #ff0080);
-      --secondary-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f0f23);
-      --accent-color: #ff0080;
-      --accent-secondary: #7928ca;
-      --bg-primary: #0a0a0a;
-      --bg-secondary: rgba(255, 255, 255, 0.03);
-      --bg-card: rgba(255, 255, 255, 0.05);
-      --text-primary: #ffffff;
-      --text-secondary: #a0a0a0;
-      --border-color: rgba(255, 255, 255, 0.1);
-      --success-color: #00ff88;
-      --warning-color: #ffaa00;
-      --error-color: #ff4444;
-      --button-gradient: linear-gradient(135deg, #050208 10%, #df02af 70%, purple 20%);
-    }
+    /* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-     /* Custom Scrollbar */
-    *::-webkit-scrollbar {
-      width: 4px;
-      height: 10px;
-    }
+/* CSS Variables */
+:root {
+  --primary: #ff0080;
+  --secondary: #7928ca;
+  --accent: #00ff88;
+  --bg: #000000;
+  --surface: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #ffffff;
+  --text-dim: #888888;
+  --success: #00ff88;
+  --warning: #ffaa00;
+  --error: #ff4444;
+  --primary-gradient: linear-gradient(135deg, #ff0080, #7928ca, #ff0080);
+  --secondary-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f0f23);
+  --bg-primary: #0a0a0a;
+  --bg-secondary: rgba(255, 255, 255, 0.03);
+  --bg-card: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --button-gradient: linear-gradient(135deg, #050208 10%, #df02af 70%, purple 20%);
+  --glow-pink: #ff0080;
+}
 
-    *::-webkit-scrollbar-track {
-      background: var(--bg-secondary);
-      border-radius: 12px;
-    }
-
-    *::-webkit-scrollbar-thumb {
-      background: var(--primary-gradient);
-      border-radius: 12px;
-      transition: all 0.3s ease;
-    }
-
-    *::-webkit-scrollbar-thumb:hover {
-      background: var(--accent-secondary);
-    }
-
-    body {
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-      position: relative;
-      transition: background 0.3s ease;
-      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-    }
-
-    /* Particle Background */
-    #particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    /* Glassmorphism */
-    .glass {
-      background: var(--bg-card);
-      backdrop-filter: blur(15px);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      box-shadow: var(--neumorphic-shadow);
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes holographic {
-      0% { filter: hue-rotate(0deg); }
-      100% { filter: hue-rotate(360deg); }
-    }
-
-    @keyframes glow {
-      0% { box-shadow: 0 0 5px var(--accent-color); }
-      50% { box-shadow: 0 0 20px var(--accent-color); }
-      100% { box-shadow: 0 0 5px var(--accent-color); }
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      color: var(--text-primary);
-      background: var(--primary-gradient);
-      transform: translateX(5px);
-      box-shadow: var(--neumorphic-shadow);
-      animation: holographic 2s infinite;
-    }
-
-    /* Glassmorphism effect */
-    .glass {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-    }
-
-    /* Sidebar */
-    .sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 280px;
-
-  /* Fallback for older browsers */
-  height: 100vh;
-
-  /* Mobile-safe fix */
-  height: 100dvh; 
-
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-primary);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid var(--border-color);
-  padding: 10px;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1000;
-  overflow-y: auto;
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-    .sidebar.hidden {
-      transform: translateX(-100%);
-    }
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  background: var(--bg);
+  background: radial-gradient(circle at 20% 80%, rgba(131, 56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
 
-    .logo {
-      text-align: center;
-      margin-bottom: 10px;
-    }
+/* Custom Scrollbar */
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
 
-    .logo h1 {
-      background: var(--primary-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-    }
+*::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+}
 
-    .logo p {
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-    }
+*::-webkit-scrollbar-thumb {
+  background: var(--primary-gradient);
+  border-radius: 12px;
+}
 
-    .nav-menu {
-        display: flex;
-        flex-direction: column;
-        margin: 0;
-        list-style: none;
-    }
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
 
-    .nav-item {
-      margin-bottom: 0.5rem;
-    }
+/* Particle Background */
+.background-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
 
-    .nav-link {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1px 8px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      position: relative;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      margin: 0;
-    }
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float 6s ease-in-out infinite;
+}
 
-    .nav-link:hover::before,
-    .nav-link.active::before {
-      width: 100%;
-    }
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+  50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+}
 
-    .nav-link:hover,
-    .nav-link.active {
-      color: var(--text-primary);
-      transform: translateX(5px);
-    }
+/* Glassmorphism Effect */
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
 
-    .nav-icon {
-      font-size: 1.25rem;
-      width: 24px;
-      text-align: center;
-    }
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    /* Sidebar Mini Market */
+@keyframes holographic {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--bg-primary);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--border-color);
+  padding: 12px;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: hidden;
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+.user-profile {
+  padding: 12px;
+  background: var(--bg-card);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.user-profile .avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.user-profile .wallet-address {
+  font-size: 10px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 5px;
+}
+
+/* .nav-item {
+  margin-bottom: 4px;
+} */
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text);
+  background: var(--primary-gradient);
+  transform: translateX(3px);
+}
+
+.nav-icon {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
+
 .sidebar-mini-market {
-  padding: 8px;
+  padding: 10px;
   background: var(--bg-card);
   border-radius: 8px;
   border: 1px solid var(--border-color);
+  margin-top: auto;
 }
 
 .sidebar-mini-market h4 {
-  color: var(--secondary-gradient);
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .mini-market-item {
@@ -247,8 +241,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 6px 0;
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-size: 10px;
+  color: var(--text-dim);
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -258,2150 +252,1999 @@
 
 .mini-market-item span:first-child {
   font-weight: 600;
-  color: var(--text-primary);
-}
-
-.mini-market-item span:nth-child(2) {
-  color: var(--text-primary);
+  color: var(--text);
 }
 
 .positive {
-  color: var(--success-color);
-  font-weight: 500;
+  color: var(--success);
 }
 
 .negative {
-  color: var(--error-color);
+  color: var(--error);
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 0;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 12px;
+}
+
+/* Section Header */
+.section-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mobile-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* General Section Styling */
+.section {
+  display: none;
+  padding: 0;
+  animation: fadeInUp 0.5s ease;
+  background: var(--bg-primary);
+}
+
+.section.active {
+  display: block;
+}
+
+.container {
+  padding: 12px;
+  max-width: 100%;
+  background: transparent;
+}
+
+/* Dashboard Section */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  min-height: 65px;
+}
+
+.stat-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-gradient);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: 800;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.stat-change {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 8px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.stat-change.positive {
+  background: rgba(0, 255, 136, 0.2);
+  color: var(--success);
+}
+
+.stat-change.negative {
+  background: rgba(255, 68, 68, 0.2);
+  color: var(--error);
+}
+
+.chart-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.chart-header {
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.chart-container {
+  height: 180px;
+  margin: 8px 0;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.btn {
+  flex: 1;
+  background: var(--primary-gradient);
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 0, 128, 0.3);
+}
+
+.btn.secondary {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+
+.features {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.features::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: var(--primary-gradient);
+  z-index: -1;
+  filter: blur(1px);
+  opacity: 0.3;
+}
+
+.features h3 {
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.feature-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+}
+
+.feature-icon {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.feature-item h4 {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.feature-item p {
+  font-size: 9px;
+  color: var(--text-dim);
+  line-height: 1.2;
+}
+
+.network-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.network-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.network-card h4 {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.metric-row:last-child {
+  border-bottom: none;
+}
+
+.metric-label,
+.metric-value {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.metric-value {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.mini-chart {
+  height: 40px;
+  margin: 6px 0 0 0;
+}
+
+/* Social Section */
+.social-subnav {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 56px;
+  z-index: 10;
+  overflow-x: auto;
+}
+
+.subnav-tab {
+  flex: 1;
+  background: var(--bg-card);
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.subnav-tab.active,
+.subnav-tab:hover {
+  background: var(--primary-gradient);
+  color: var(--text);
+}
+
+.social-layout {
+  height: calc(100vh - 112px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.social-content {
+  display: none;
+}
+
+.social-content.active {
+  display: block;
+  animation: fadeInUp 0.5s ease;
+}
+
+.post-composer {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+
+.composer-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 14px;
+  resize: none;
+  min-height: 50px;
+  outline: none;
+}
+
+.composer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.media-icons {
+  display: flex;
+  gap: 8px;
+}
+
+.media-icon {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.media-icon:hover {
+  background: var(--bg-secondary);
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.post {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.post:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 0, 128, 0.2);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.post-header h4 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.post-time {
+  color: var(--text-dim);
+  font-size: 10px;
+}
+
+.post p {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.post-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  color: var(--primary);
+}
+
+.action-btn.liked .icon {
+  color: var(--error);
+  animation: pulse 0.5s ease;
+}
+
+.action-btn .icon {
+  font-size: 1rem;
+}
+
+.action-btn .count {
+  font-weight: 600;
+}
+
+.stream-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stream-card {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+}
+
+.stream-placeholder {
+  height: 120px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.stream-info h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.stream-host,
+.stream-viewers {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.join-stream {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.trending-section {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+}
+
+.trending-section h3 {
+  font-size: 14px;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.trending-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.trending-item:last-child {
+  border-bottom: none;
+}
+
+.trending-topic {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.trending-count {
+  color: var(--text-dim);
+  font-size: 10px;
+}
+
+.trending-sidebar {
+  display: none;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  max-width: 300px;
+}
+
+.trending-sidebar h3 {
+  font-size: 14px;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.post-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  width: 95%;
+  max-width: 500px;
+  max-height: 90vh;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.modal-header {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: var(--primary);
+}
+
+.modal-post-content {
+  padding: 12px;
+}
+
+.modal-post-content .post {
+  cursor: default;
+}
+
+.modal-post-content .post:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.comments-section {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.comments-section h4 {
+  font-size: 14px;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.comment {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comment-header .avatar {
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+}
+
+.comment-header h5 {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.comment-time {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.comment p {
+  font-size: 12px;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.comment-action-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.comment-action-btn:hover {
+  color: var(--primary);
+}
+
+.comment-action-btn.liked .icon {
+  color: var(--error);
+}
+
+.comment-action-btn .icon {
+  font-size: 0.9rem;
+}
+
+.reply {
+  margin-left: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 2px solid var(--primary);
+}
+
+.comment-input-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.comment-input {
+  flex: 1;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  resize: none;
+  min-height: 40px;
+  outline: none;
+}
+
+.comment-submit {
+  padding: 8px 16px;
+}
+
+/* Desktop Adjustments */
+@media (min-width: 768px) {
+  .social-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 12px;
+  }
+  .trending-sidebar {
+    display: block;
+  }
+  .social-content.trending {
+    display: none;
+  }
+  .modal-content {
+    max-width: 600px;
+  }
+  .post-composer,
+  .post,
+  .stream-card,
+  .trending-section {
+    padding: 16px;
+  }
+  .post-header h4,
+  .modal-header h3,
+  .stream-info h4,
+  .trending-section h3 {
+    font-size: 16px;
+  }
+  .post p,
+  .comment p {
+    font-size: 14px;
+  }
+  .post-time,
+  .stream-host,
+  .stream-viewers,
+  .trending-count,
+  .comment-time {
+    font-size: 12px;
+  }
+  .stream-placeholder {
+    height: 200px;
+  }
+}
+
+/* Wallet Section */
+.wallet-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  padding-bottom: 60px;
+}
+
+.wallet-tabs {
+  display: flex;
+  background: var(--bg-secondary);
+  padding: 4px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+}
+
+.wallet-tab {
+  flex: 1;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.wallet-tab.active {
+  background: var(--primary);
+  color: var(--text);
+}
+.convert-btn {
+  color: var(--glow-pink);
+}
+.wallet-content {
+  padding: 12px;
+}
+
+.wallet-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.transaction-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.transaction-icon.send {
+  background: rgba(255, 68, 68, 0.2);
+  color: var(--error);
+}
+
+.transaction-icon.receive {
+  background: rgba(0, 255, 136, 0.2);
+  color: var(--success);
+}
+
+.form-group {
+  margin-bottom: 8px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text-dim);
+  font-size: 12px;
   font-weight: 500;
 }
 
-    /* Main Content */
-    .main-content {
-      margin-left: 280px;
-      min-height: 100vh;
-      background: linear-gradient(135deg, var(--bg-primary) 0%, #1a0033 50%, var(--bg-primary) 100%);
-      transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
-      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-    }
-
-    .main-content.expanded {
-      margin-left: 0;
-    }
-
-    .section {
-      display: none;
-      padding: 0;
-      padding-top: 0;
-      animation: fadeInUp 0.6s ease;
-      overflow: hidden;
-      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-    }
-
-    .section.active {
-      display: block;
-      background: var(--bg-primary);
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      right: 1rem;
-      z-index: 10;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      color: white;
-      width: 100%;
-      height: 70px;
-      padding-left: 20px;
-    }
-
-    .section-title {
-      font-size: 22px;
-      font-weight: 700;
-      background: var(--primary-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Mobile Menu */
-    .mobile-menu-btn {
-      display: none;
-      top: 1rem;
-      right: 1rem;
-      z-index: 1001;
-      background: black;
-      border: 1px solid var(--accent-color);
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* Dashboard */
-    .dashboard-grid {
-      display: flex;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 14px;
-      margin-bottom: 15px;
-      overflow: hidden;
-      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-    }
-
-    .stat-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 14px;
-      text-align: center;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--primary-gradient);
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(255, 0, 128, 0.2);
-    }
-
-    .stat-value {
-      font-size: 2.5rem;
-      font-weight: 800;
-      background: var(--primary-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
-    }
-
-    .stat-label {
-      color: var(--text-secondary);
-      font-size: 1rem;
-      font-weight: 500;
-    }
-
-    .market-chart {
-      background: var(--bg-card);
-      border-radius: 20px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      border: 1px solid var(--border-color);
-    }
-
-    .chart-placeholder {
-      height: 300px;
-      background: linear-gradient(135deg, rgba(255, 0, 128, 0.1), rgba(121, 40, 202, 0.1));
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-secondary);
-      margin-bottom: 1rem;
-    }
-
-    .trading-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-    }
-
-    .btn {
-      background: var(--primary-gradient);
-      border: 1px solid purple;
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
-      text-align: center;
-    }
-
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 30px rgba(255, 0, 128, 0.4);
-    }
-
-    .btn.secondary {
-      background: transparent;
-      border: 2px solid var(--accent-color);
-      color: var(--accent-color);
-    }
-
-
-    .container {
-      height: 100vh;
-      overflow: auto;
-            padding: 12px;
-            max-width: 1400px;
-            background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-        }
- /* Mobile-first grid - ultra compact */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
-        .stat-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.2s ease;
-            min-height: 65px;
-        }
-
-        .stat-card:hover {
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-1px);
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-
-        .stat-value {
-            font-size: 16px;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.1;
-            margin-bottom: 2px;
-        }
-
-        .stat-label {
-            font-size: 10px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .stat-change {
-            position: absolute;
-            top: 4px;
-            right: 6px;
-            font-size: 8px;
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-weight: 600;
-        }
-
-        .stat-change.positive {
-            background: rgba(0, 255, 136, 0.2);
-            color: var(--success);
-        }
-
-        .stat-change.negative {
-            background: rgba(255, 68, 68, 0.2);
-            color: var(--error);
-        }
-
-        /* Chart section - tight design */
-        .chart-section {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
-        }
-
-        .chart-header {
-            color: var(--primary);
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .chart-container {
-            height: 180px;
-            margin: 8px 0;
-        }
-
-        /* Compact button row */
-        .action-buttons {
-            display: flex;
-            gap: 4px;
-            margin-top: 8px;
-        }
-
-        .btn {
-            flex: 1;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border: none;
-            padding: 8px 4px;
-            border-radius: 6px;
-            color: var(--text);
-            font-weight: 600;
-            font-size: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(255, 0, 128, 0.3);
-        }
-
-        .btn:nth-child(even) {
-            background: linear-gradient(90deg, var(--secondary), var(--accent));
-        }
-
-        /* Features section */
-        .features {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .features::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--primary));
-            z-index: -1;
-            filter: blur(1px);
-            opacity: 0.3;
-        }
-
-        .features h3 {
-            color: var(--primary);
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-        }
-
-        .feature-item {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 8px;
-            text-align: center;
-        }
-
-        .feature-icon {
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-
-        .feature-item h4 {
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .feature-item p {
-            font-size: 9px;
-            color: var(--text-dim);
-            line-height: 1.2;
-        }
-
-        /* Network stats - compact grid */
-        .network-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 6px;
-        }
-
-        .network-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px;
-        }
-
-        .network-card h4 {
-            color: var(--accent);
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .metric-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .metric-row:last-child {
-            border-bottom: none;
-        }
-
-        .metric-label {
-            color: var(--text-dim);
-            font-size: 10px;
-        }
-
-        .metric-value {
-            color: var(--text);
-            font-weight: 600;
-            font-size: 10px;
-        }
-
-        .mini-chart {
-            height: 40px;
-            margin: 6px 0 0 0;
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Tablet adjustments */
-        @media (min-width: 480px) {
-            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-            .stat-card { padding: 12px; min-height: 75px; }
-            .stat-value { font-size: 18px; }
-            .stat-label { font-size: 11px; }
-            .chart-container { height: 220px; }
-            .btn { padding: 10px 8px; font-size: 11px; }
-            .feature-grid { grid-template-columns: repeat(4, 1fr); }
-            .network-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-        }
-
-        /* Desktop adjustments */
-        @media (min-width: 768px) {
-            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
-            .stat-card { padding: 16px; min-height: 90px; }
-            .stat-value { font-size: 24px; }
-            .stat-label { font-size: 12px; }
-            .chart-container { height: 300px; }
-            .chart-section { padding: 16px; }
-            .btn { padding: 12px 16px; font-size: 12px; }
-            .network-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        }
-
-        @media (min-width: 1024px) {
-            .stats-grid { grid-template-columns: repeat(4, 1fr); }
-            .chart-container { height: 350px; }
-        }
-
-        /* Ultra compact for very small screens */
-        @media (max-width: 360px) {
-            .stat-value { font-size: 14px; }
-            .stat-label { font-size: 9px; }
-            .chart-container { height: 160px; }
-            .btn { font-size: 9px; padding: 6px 4px; }
-        }
-
-        /* Loading animation */
-        .loading {
-            width: 12px;
-            height: 12px;
-            border: 2px solid var(--border);
-            border-top: 2px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-    /* Social Feed */
-    .social-layout {
-      height: calc(100vh - 70px);
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-      overflow: auto;
-      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-    }
-
-    .feed {
-      background: var(--bg-card);
-      padding: 2rem;
-      border: 1px solid var(--border-color);
-      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-    }
-
-    .post-composer {
-      background: var(--bg-secondary);
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border: 1px solid var(--border-color);
-    }
-
-    .composer-input {
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: var(--text-primary);
-      font-size: 1.1rem;
-      resize: none;
-      min-height: 60px;
-      outline: none;
-    }
-
-    .composer-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1rem;
-    }
-
-    .media-icons {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .media-icon {
-      background: none;
-      border: none;
-      color: var(--accent-color);
-      font-size: 1.25rem;
-      cursor: pointer;
-      padding: 0.5rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .media-icon:hover {
-      background: var(--bg-secondary);
-    }
-
-    .post {
-      background: var(--bg-secondary);
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      border: 1px solid var(--border-color);
-      transition: all 0.3s ease;
-    }
-
-    .post:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .post-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--primary-gradient);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 600;
-    }
-
-    .post-actions {
-      display: flex;
-      gap: 2rem;
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .action-btn {
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: color 0.3s ease;
-    }
-
-    .action-btn:hover {
-      color: var(--accent-color);
-    }
-
-    .trending {
-      background: var(--bg-card);
-      border-radius: 20px;
-      padding: 2rem;
-      border: 1px solid var(--border-color);
-      height: fit-content;
-      position: sticky;
-      top: 2rem;
-      margin-right: 10px;
-    }
-
-    .trending-item {
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .trending-item:last-child {
-      border-bottom: none;
-    }
-
-    .trending-topic {
-      color: var(--accent-color);
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .trending-count {
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-    }
-
-    /* Wallet */
-    #wallet {
-      height: 100vh;
-      overflow: hidden;
-    }
-    .wallet-layout {
-      height: 100vh;
-      display: grid;
-      overflow: auto;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 15px;
-      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-    }
-    .wallet-card {
-      background: var(--bg-card);
-      border-radius: 20px;
-      padding: 15px;
-      border: 1px solid var(--border-color);
-    }
-
-    .wallet-tabs {
-      display: flex;
-      background: var(--bg-secondary);
-      padding: 0.25rem;
-    }
-
-    .wallet-tab {
-      flex: 1;
-      padding: 0.75rem 1rem;
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 500;
-    }
-
-    .wallet-tab.active {
-      background: var(--accent-color);
-      color: white;
-    }
-
-    .transaction-item {
-        height: fit-content;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .transaction-item:last-child {
-      border-bottom: none;
-    }
-
-    .transaction-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 1rem;
-    }
-
-    .transaction-icon.send {
-      background: rgba(255, 68, 68, 0.2);
-      color: var(--error-color);
-    }
-
-    .transaction-icon.receive {
-      background: rgba(0, 255, 136, 0.2);
-      color: var(--success-color);
-    }
-
-    .form-group {
-      margin-bottom: 10px;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-
-    .form-input {
-      width: 100%;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      padding: 1rem;
-      border-radius: 12px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.1);
-    }
-
-    .p2p-marketplace {
-      background: var(--bg-card);
-      border-radius: 20px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      border: 1px solid var(--border-color);
-    }
-
-    .p2p-offers {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .p2p-offer {
-      background: var(--bg-secondary);
-      border-radius: 12px;
-      padding: 1.5rem;
-      border: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .offer-details h4 {
-      color: var(--accent-color);
-      margin-bottom: 0.5rem;
-    }
-
-    .offer-rate {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .offer-limit {
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-    }
-
-    /* Messages */
-    .messages-layout {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      height: calc(100vh - 70px);
-      overflow: auto;
-      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-    }
-
-    .chat-list {
-      height: 100%;
-      background: var(--bg-card);
-      padding: 1.5rem;
-      border: 1px solid var(--border-color);
-      overflow-y: auto;
-    }
-
-    .chat-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-bottom: 0.5rem;
-    }
-
-    .chat-item:hover,
-    .chat-item.active {
-        border: 1px solid var(--accent-color);
-        background: var(--bg-secondary);
-    }
-
-    .chat-container {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .chat-header {
-      padding: 10px 20px;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .chat-messages {
-      flex: 1;
-      padding: 12px;
-      overflow-y: auto;
-    }
-
-    .message {
-      margin-bottom: 1rem;
-      display: flex;
-      gap: 12px;
-    }
-
-    .message.sent {
-      justify-content: flex-end;
-    }
-
-    .message.sent .message-bubble {
-      background: var(--accent-color);
-      color: white;
-    }
-
-    .message-bubble {
-      background: var(--bg-secondary);
-      padding: 1rem 1.5rem;
-      border-radius: 18px;
-      max-width: 70%;
-      word-wrap: break-word;
-    }
-
-    .chat-input-container {
-      padding: 8px 20px;
-      border-top: 1px solid var(--border-color);
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    .chat-input {
-      flex: 1;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      padding: 12px 15px;
-      border-radius: 25px;
-      outline: none;
-    }
-
-    .send-btn {
-      background: var(--accent-color);
-      border: none;
-      color: white;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .send-btn:hover {
-      transform: scale(1.1);
-    }
-
-    /* Notifications */
-    #notifications {
-      height: 100vh;
-      overflow: hidden;
-    }
-    .notificationFeeds {
-        height: 100vh;
-        overflow-y: auto;
-        padding: 12px;
-        margin-bottom: 60px;
-        background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-    }
-    .notification-filters {
-      display: flex;
-      gap: 1rem;
-      padding: 6px;
-    }
-
-    
-
-    .filter-btn {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      color: var(--text-secondary);
-      padding: 0.75rem 1.5rem;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .filter-btn.active,
-    .filter-btn:hover {
-      background: var(--accent-color);
-      color: white;
-      border-color: var(--accent-color);
-    }
-
-    .notification {
-      background: var(--bg-card);
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid var(--border-color);
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-      transition: all 0.3s ease;
-    }
-
-    .notification:hover {
-      transform: translateX(5px);
-      background: var(--bg-secondary);
-    }
-
-    .notification-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-    }
-
-    .notification-icon.success {
-      background: rgba(0, 255, 136, 0.2);
-      color: var(--success-color);
-    }
-
-    .notification-icon.warning {
-      background: rgba(255, 170, 0, 0.2);
-      color: var(--warning-color);
-    }
-
-    .notification-icon.info {
-      background: rgba(255, 0, 128, 0.2);
-      color: var(--accent-color);
-    }
-
-    .notification-content {
-      flex: 1;
-    }
-
-    .notification-title {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .notification-text {
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    .notification-time {
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-      margin-top: 0.5rem;
-    }
-
-    /* Community */
-
-    /* Community Chat Modal */
-    .community-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-    }
-
-    .modal-content {
-      background: var(--bg-primary);
-      border-radius: 20px;
-      width: 90%;
-      max-width: 800px;
-      height: 80vh;
-      border: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .modal-header {
-      padding: 1.5rem;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-
-    .close-btn:hover {
-      color: var(--accent-color);
-    }
-
-
-
-
-    /* Animated background particles */
-        .background-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
-        }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-top: 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.5s forwards;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .community-grid {
-          height: 100vh;
-      overflow: auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 2.5rem;
-            padding: 12px;
-            max-width: 1400px;
-            margin: 0;
-            background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-        }
-
-        .community-card {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 2rem;
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            transform-style: preserve-3d;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .community-flag {
-            font-size: 4rem;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            background: rgba(139, 92, 246, 0.1);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .community-card:hover .community-flag {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-        }
-        .community-header {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .community-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .community-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #050208 0%, #df02c2 70%, purple 5%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-            border: 1px solid purple;
-            width: fit-content;
-            padding: 6px 8px;
-            border-radius: 12px;
-            opacity: 100%;
-        }
-
-        .community-members {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .online-indicator {
-            width: 8px;
-            height: 8px;
-            background: var(--success-color);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-
-        .community-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 2rem 0;
-            background: rgba(139, 92, 246, 0.05);
-            padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid rgba(139, 92, 246, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-item {
-            text-align: center;
-            position: relative;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--accent-color), var(--glow-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.25rem;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 500;
-        }
-
-        .community-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .community-btn {
-            flex: 1;
-            background: linear-gradient(135deg, #050208 10%, #df02af 70%, black 20%);
-            border: 1px solid purple;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .community-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .community-btn:hover::before {
-            left: 100%;
-        }
-
-        .community-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
-        }
-
-        .community-btn.joined {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-
-        .preview-btn {
-            background: rgba(139, 92, 246, 0.1);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            color: var(--accent-color);
-            padding: 1rem;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 60px;
-        }
-
-        .preview-btn:hover {
-            background: rgba(139, 92, 246, 0.2);
-            transform: scale(1.05);
-        }
-
-        /* Activity indicators */
-        .activity-pulse {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 12px;
-            height: 12px;
-            background: var(--success-color);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .section-title {
-                font-size: 2.5rem;
-            }
-            
-            .community-grid {
-              height: 100vh;
-      overflow: auto;
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .community-card {
-                padding: 1.5rem;
-            }
-            
-            .community-flag {
-                font-size: 3rem;
-                width: 60px;
-                height: 60px;
-            }
-        }
-
-        /* Loading animations */
-        .community-card {
-            opacity: 0;
-            animation: slideInUp 0.8s ease forwards;
-        }
-
-        .community-card:nth-child(1) { animation-delay: 0.1s; }
-        .community-card:nth-child(2) { animation-delay: 0.2s; }
-        .community-card:nth-child(3) { animation-delay: 0.3s; }
-        .community-card:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Floating action button */
-        .floating-stats {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 1rem;
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            opacity: 0;
-            animation: fadeIn 1s ease 2s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .global-stat {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        .global-number {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--accent-color);
-            display: block;
-        }
-
-    /* Account */
-    .account-tabs {
-      display: flex;
-      background: var(--bg-secondary);
-      border-radius: 12px;
-      padding: 0.25rem;
-      /* margin-bottom: 2rem; */
-    }
-
-    .account-tab {
-      flex: 1;
-      padding: 1rem 2rem;
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 600;
-    }
-
-    .account-tab.active {
-      background: var(--accent-color);
-      color: white;
-    }
-
-    .profile-section {
-      height: 100vh;
-      overflow: auto;
-      background: radial-gradient(circle at 20% 80%, rgba(131,56, 236, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 0, 118, 0.1) 0%, transparent 50%);
-      padding: 15px 20px;
-      border: 1px solid var(--border-color);
-    }
-
-    .profile-header {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .profile-avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: var(--primary-gradient);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: white;
-      font-weight: 700;
-    }
-
-    .profile-info h2 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .profile-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .profile-stat {
-      text-align: center;
-      padding: 12px;
-      background: var(--bg-secondary);
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-    }
-
-   .subsection-nav {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .nav-tab {
-            background: var(--bg-card);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-tab::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-gradient);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-
-        .nav-tab.active,
-        .nav-tab:hover {
-            color: var(--text-primary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px var(--glow-color);
-        }
-
-        .nav-tab.active::before,
-        .nav-tab:hover::before {
-            left: 0;
-        }
-
-        .subsection {
-            display: none;
-            padding: 2rem;
-            min-height: calc(100vh - 200px);
-        }
-
-        .subsection.active {
-            display: block;
-            animation: fadeInUp 0.5s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Pay Bills Section */
-        .bills-grid {
-          height: 100vh;
-      overflow: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            height: 100%;
-        }
-
-        .bills-left {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .quick-pay-card {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quick-pay-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, var(--accent-color), transparent);
-            animation: rotate 4s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes rotate {
-            to { transform: rotate(360deg); }
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .bill-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .form-group {
-            position: relative;
-        }
-
-        .form-input, .form-select {
-            width: 100%;
-            padding: 1rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(255, 0, 128, 0.2);
-        }
-
-        .amount-input {
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-align: center;
-            background: linear-gradient(45deg, var(--bg-secondary), var(--bg-card));
-        }
-
-        .btn {
-            background: var(--button-gradient);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 0, 128, 0.3);
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            font-size: 1.1rem;
-            padding: 1.2rem 2.5rem;
-        }
-
-        .recent-bills {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .bill-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            background: var(--bg-secondary);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .bill-item:hover {
-            transform: translateX(10px);
-            background: var(--bg-primary);
-        }
-
-        .bill-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .bill-name {
-            color: var(--text-primary);
-            font-weight: bold;
-        }
-
-        .bill-date {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        .bill-amount {
-            color: var(--success-color);
-            font-weight: bold;
-        }
-
-        /* Staking Section */
-        .staking-dashboard {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            height: 100%;
-        }
-
-        .staking-main {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .staking-pool {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid var(--border-color);
-            position: relative;
-        }
-
-        .pool-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .pool-apy {
-            font-size: 3rem;
-            font-weight: bold;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .pool-info {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .info-item {
-            text-align: center;
-            padding: 1rem;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-        }
-
-        .info-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-
-        .info-label {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-        }
-
-        .staking-form {
-            display: flex;
-            gap: 1rem;
-            align-items: end;
-        }
-
-        .staking-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .rewards-card {
-            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-color));
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .rewards-amount {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 1rem 0;
-        }
-
-        .leaderboard {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .leaderboard-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            background: var(--bg-secondary);
-            border-radius: 10px;
-        }
-
-        .rank {
-            background: var(--primary-gradient);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        /* Savings Section */
-        .savings-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            height: 100%;
-        }
-
-        .savings-plans {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .savings-plan {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid var(--border-color);
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .savings-plan:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(255, 0, 128, 0.2);
-        }
-
-        .plan-badge {
-            position: absolute;
-            top: -10px;
-            right: 20px;
-            background: var(--primary-gradient);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        .plan-title {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-        }
-
-        .plan-features {
-            list-style: none;
-            margin: 1rem 0;
-        }
-
-        .plan-features li {
-            padding: 0.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .plan-features li::before {
-            content: '✓';
-            color: var(--success-color);
-            font-weight: bold;
-        }
-
-        .savings-tracker {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .goal-progress {
-            margin: 2rem 0;
-        }
-
-        .progress-bar {
-            background: var(--bg-secondary);
-            height: 10px;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--primary-gradient);
-            border-radius: 5px;
-            animation: progressAnimation 2s ease-in-out;
-        }
-
-        @keyframes progressAnimation {
-            from { width: 0%; }
-            to { width: var(--progress, 0%); }
-        }
-
-        .goal-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .stat-card {
-            background: var(--bg-secondary);
-            padding: 1rem;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .floating-particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            background: var(--accent-color);
-            border-radius: 50%;
-            opacity: 0.1;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        @media (max-width: 768px) {
-            .bills-grid, 
-            .staking-dashboard, 
-            .savings-layout {
-                grid-template-columns: 1fr;
-            }
-          .sidebar {
-            height: 100vh;
-              height: 100dvh;
-            box-sizing: border-box;
-          }
-            
-            .subsection-nav {
-                top: 60px;
-                width: 100%;
-                position: fixed;
-                padding: 8px 12px;
-                flex-direction: row;
-                background-color: black;
-                border-bottom: 1px solid var(--border-color);
-            }
-            .subsection-nav > .nav-tab {
-                display: flex;
-                flex-direction: row;
-                font-size: 12px;
-                padding: 6px 0;
-                flex: 1;
-                align-items: center;
-                justify-content: center;
-            }
-            .subsection  {
-                padding-top: 60px;
-            }
-        }
-
-    /* Responsive Design */
-    @media (max-width: 1200px) {
-      .social-layout {
-        grid-template-columns: 1fr;
-      }
-      
-      .trending {
-        position: static;
-      }
-    }
-
-    @media (max-width: 768px) {
-      body{
-        height: 100vh;
-        overflow: hidden;
-      }
-      .mobile-menu-btn {
-        display: block;
-      }
-
-      .sidebar {
-        height: 100vh;
-          height: 100dvh;
-        transform: translateX(-100%);
-      }
-      
-
-      .sidebar.active {
-        left: 0;
-        height: 100%;
-        width: 80%;
-        height: 100dvh;
-        position: fixed;
-        transform: translateX(0);
-      }
-
-      .main-content {
-        margin-left: 0;
-      }
-
-      .stat-card {
-        padding: 12px;
-      }
-      .stat-item {
-        font-size: 12px;
-      }
-      .stat-label {
-        font-size: 10px;
-      }
-      .stat-value {
-        font-size: 14px;
-      }
-      .section-header {
-        position: sticky;
-        height: 60px;
-        padding-left: 14px;
-        padding-right: 14px;
-        margin: 0;
-      }
-      #finance {
-        height: 100vh;
-        overflow: hidden;
-      }
-      #finance .subsection {
-        height: 100%;
-        overflow-y: auto;
-        padding: 12px;
-        padding-top: 56px;
-      }
-      #finance > .section-header {
-        top: 0;
-        position: sticky;
-      }
-      .section-title {
-        font-size: 17px;
-      }
-
-      .dashboard-grid,
-      .wallet-layout,
-      .finance-grid,
-      .community-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-      .wallet-layout {
-        padding-bottom: 60px;
-      }
-
-      .messages-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .chat-list {
-        display: none;
-      }
-
-      .profile-header {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .modal-content {
-        width: 95%;
-        height: 90vh;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .wallet-card,
-      .stat-card,
-      .community-card {
-        padding: 10px;
-      }
-
-      .btn {
-        padding: 0.75rem 1.5rem;
-      }
-      .stat-card {
-        padding: 12px;
-      }
-      .stat-item {
-        font-size: 10px;
-      }
-      .stat-value {
-        font-size: 14px;
-      }
-      .wallet-layout {
-        padding-bottom: 60px;
-      }
-    }
-
-     .user-profile {
-      margin-top: auto;
-      padding: 1rem;
-      background: var(--bg-card);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .user-profile .wallet-address {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 150px;
-    }
-
-    .SectionContent {
-        height: calc(100vh - 70px);
-        padding: 12px;
-        overflow: auto;
-    }
-    .wallet-content {
-        padding-bottom: 70px;
-    }
-
-    /* Animated background particles */
-        .background-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 6s ease-in-out infinite;
-        }
+.form-input,
+.form-select {
+  width: 100%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(255, 0, 128, 0.1);
+}
+
+.p2p-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.p2p-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+}
+
+.p2p-tab {
+  flex: 1;
+  padding: 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.p2p-tab.active {
+  background: var(--primary);
+  color: var(--text);
+}
+
+.p2p-filters {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+}
+
+.filter-group {
+  flex: 1;
+}
+
+.p2p-offers-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.p2p-offer {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.offer-details h4 {
+  color: var(--primary);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.offer-rate {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.offer-limit {
+  color: var(--text-dim);
+  font-size: 10px;
+}
+
+.p2p-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Messages Section */
+.messages-layout {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 56px);
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.chat-list {
+  background: var(--surface);
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: none;
+}
+
+.chat-list.active {
+  display: block;
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: all 0.2s ease;
+}
+
+.chat-item:hover,
+.chat-item.active {
+  background: var(--bg-secondary);
+  border: 1px solid var(--primary);
+}
+
+.chat-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.message.sent {
+  justify-content: flex-end;
+}
+
+.message-bubble {
+  background: var(--bg-secondary);
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+  font-size: 12px;
+}
+
+.message.sent .message-bubble {
+  background: var(--primary);
+  color: var(--text);
+}
+
+.chat-input-container {
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.chat-input {
+  flex: 1;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  outline: none;
+}
+
+.send-btn {
+  background: var(--primary);
+  border: none;
+  color: var(--text);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.send-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Notifications Section */
+.notificationFeeds {
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.notification-filters {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+}
+
+.filter-btn {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: var(--primary);
+  color: var(--text);
+  border-color: var(--primary);
+}
+
+.notification {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.notification:hover {
+  transform: translateX(3px);
+  background: var(--bg-secondary);
+}
+
+.notification-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.notification-icon.success {
+  background: rgba(0, 255, 136, 0.2);
+  color: var(--success);
+}
+
+.notification-icon.warning {
+  background: rgba(255, 170, 0, 0.2);
+  color: var(--warning);
+}
+
+.notification-icon.info {
+  background: rgba(255, 0, 128, 0.2);
+  color: var(--primary);
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.notification-text {
+  color: var(--text-dim);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.notification-time {
+  color: var(--text-dim);
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+/* Community Section */
+.community-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+}
+
+.community-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  position: relative;
+  transition: all 0.2s ease;
+  animation: slideInUp 0.5s ease forwards;
+}
+
+.community-card:hover {
+  transform: translateY(-2px);
+}
+
+.community-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.community-flag {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(139, 92, 246, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.community-card:hover .community-flag {
+  transform: scale(1.05);
+}
+
+.community-info {
+  flex: 1;
+}
+
+.community-name {
+  font-size: 16px;
+  font-weight: 700;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+}
+
+.community-members {
+  color: var(--text-dim);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.online-indicator {
+  width: 6px;
+  height: 6px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.community-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 8px 0;
+  background: rgba(139, 92, 246, 0.05);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 16px;
+  font-weight: 700;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.community-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.community-btn {
+  flex: 1;
+  background: var(--primary-gradient);
+  border: none;
+  color: var(--text);
+  padding: 8px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.community-btn:hover {
+  transform: translateY(-1px);
+}
+
+.community-btn.joined {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.preview-btn {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid var(--border);
+  color: var(--primary);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+}
+
+.preview-btn:hover {
+  background: rgba(139, 92, 246, 0.2);
+}
+
+.activity-pulse {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.community-modal {
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: var(--bg-primary);
+  width: 100%;
+  height: 100vh;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  width: 36px;
+  height: 36px;
+  background: red;
+  border: 1px solid var(--border);
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: var(--primary);
+}
+
+/* Finance Section */
+.subsection-nav {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 56px;
+  z-index: 10;
+  overflow-x: auto;
+}
+
+.nav-tab {
+  flex: 1;
+  background: var(--bg-card);
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.nav-tab.active,
+.nav-tab:hover {
+  background: var(--primary-gradient);
+  color: var(--text);
+}
+
+.subsection {
+  display: none;
+  padding: 12px;
+  height: calc(100vh - 112px);
+  overflow-y: auto;
+}
+
+.subsection.active {
+  display: block;
+  animation: fadeInUp 0.5s ease;
+}
+
+.bills-grid,
+.staking-dashboard,
+.savings-layout {
+  display: flex;
+  flex-direction: column;
+  /* gap: 8px; */
+}
+
+.quick-pay-card,
+.recent-bills,
+.staking-pool,
+.rewards-card,
+.leaderboard,
+.savings-plan,
+.savings-tracker {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+}
+
+.card-title {
+  font-size: 14px;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.bill-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.amount-input {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--primary-gradient);
+  font-size: 12px;
+  padding: 10px;
+}
+
+.bill-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  margin: 4px 0;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+}
+
+.bill-name {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.bill-date,
+.bill-amount {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.bill-amount {
+  color: var(--success);
+}
+
+.pool-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.pool-apy {
+  font-size: 20px;
+  font-weight: bold;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pool-info,
+.goal-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.info-item,
+.stat-card {
+  background: var(--bg-secondary);
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.info-label {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.staking-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.rewards-amount {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  margin: 4px 0;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+}
+
+.rank {
+  background: var(--primary-gradient);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.plan-badge {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  background: var(--primary-gradient);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.plan-title {
+  font-size: 14px;
+  color: var(--primary);
+}
+
+.plan-features {
+  list-style: none;
+  margin: 8px 0;
+}
+
+.plan-features li {
+  padding: 4px 0;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.plan-features li::before {
+  content: '✓';
+  color: var(--success);
+}
+
+.goal-progress {
+  margin: 8px 0;
+}
+
+.progress-bar {
+  background: var(--bg-secondary);
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary-gradient);
+  border-radius: 4px;
+  animation: progressAnimation 2s ease-in-out;
+}
+
+/* Account Section */
+.account-tabs {
+  display: flex;
+  background: var(--bg-secondary);
+  padding: 4px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+}
+
+.account-tab {
+  flex: 1;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.account-tab.active {
+  background: var(--primary);
+  color: var(--text);
+}
+
+.profile-section {
+  padding: 12px;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.profile-info h2 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.profile-stat {
+  background: var(--bg-secondary);
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* Floating Stats */
+.floating-stats {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  animation: fadeIn 1s ease forwards;
+}
+
+.global-stat {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 10px;
+}
+
+.global-number {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* Media Queries */
+@media (min-width: 480px) {
+  .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stat-card { padding: 12px; min-height: 75px; }
+  .stat-value { font-size: 18px; }
+  .stat-label { font-size: 11px; }
+  .chart-container { height: 200px; }
+  .btn { padding: 10px; font-size: 11px; }
+  .feature-grid { grid-template-columns: repeat(4, 1fr); }
+  .network-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .community-grid { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    width: 240px;
+    transform: translateX(0);
+  }
+  .main-content { margin-left: 240px; }
+  .mobile-menu-btn { display: none; }
+  .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stat-card { padding: 16px; min-height: 90px; }
+  .stat-value { font-size: 20px; }
+  .stat-label { font-size: 12px; }
+  .chart-container { height: 250px; }
+  .chart-section { padding: 16px; }
+  .btn { padding: 12px; font-size: 12px; }
+  .network-grid { grid-template-columns: repeat(3, 1fr); }
+  .social-layout { grid-template-columns: 1fr 300px; display: grid; }
+  .trending { display: block; }
+  .messages-layout { grid-template-columns: 1fr 2fr; display: grid; }
+  .chat-list { display: block; }
+  .bills-grid, .staking-dashboard, .savings-layout { grid-template-columns: 1fr 1fr; display: grid; }
+  .community-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  .chart-container { height: 300px; }
+  .wallet-layout { grid-template-columns: repeat(2, 1fr); display: grid; }
+}
+
+/* Overlay for sidebar */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent dark overlay */
+  backdrop-filter: blur(5px); /* Subtle blur for modern look */
+  z-index: 999; /* Below sidebar but above content */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Adjust sidebar width on mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 75%; /* Sidebar takes 75% of screen width */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+  }
+  .main-content {
+    transition: transform 0.3s ease; /* Smooth slide effect */
+  }
+  .main-content.sidebar-active {
+    transform: translateX(75%); /* Slide content to reveal sidebar */
+  }
+}
+.wallet-content {
+  display: none; /* Hide all wallet content by default */
+  padding: 12px;
+}
+
+.wallet-content.active {
+  display: block; /* Show only the active content */
+}
+
+/* Overlay for sidebar */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  cursor: pointer; /* Make overlay clickable */
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Close button on overlay */
+.overlay-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  color: var(--text);
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.overlay-close-btn:hover {
+  background: var(--primary-gradient);
+  color: var(--text);
+  transform: scale(1.1);
+}
+
+/* Adjust sidebar width on mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 75%;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  }
+  .main-content {
+    transition: transform 0.3s ease;
+  }
+  .main-content.sidebar-active {
+    transform: translateX(75%);
+  }
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    padding: 8px;
+    height: 48px;
+  }
+  .section-title {
+    font-size: 16px;
+  }
+  .mobile-menu-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+    background: var(--primary-gradient);
+    border: none;
+    box-shadow: 0 2px 8px rgba(255, 0, 128, 0.3);
+  }
+  .btn {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 0, 128, 0.4);
+  }
+  .stat-card {
+    padding: 8px;
+    min-height: 60px;
+    border-radius: 10px;
+  }
+  .stat-value {
+    font-size: 10px;
+  }
+  .stat-label {
+    font-size: 9px;
+  }
+  .wallet-tabs,
+  .social-subnav,
+  .account-tabs,
+  .p2p-tabs {
+    gap: 3px;
+    padding: 3px;
+    background: var(--bg-card);
+    border-radius: 10px;
+  }
+  .wallet-tab,
+  .subnav-tab,
+  .account-tab,
+  .p2p-tab {
+    font-size: 10px;
+    padding: 6px 10px;
+    border-radius: 8px;
+  }
+  .wallet-tab.active,
+  .subnav-tab.active,
+  .account-tab.active,
+  .p2p-tab.active {
+    background: var(--primary-gradient);
+    box-shadow: 0 0 8px rgba(255, 0, 128, 0.3);
+  }
+  .section.active,
+  .stat-card,
+  .wallet-card,
+  .post,
+  .community-card,
+  .p2p-offer {
+    animation: slideIn 0.5s ease forwards;
+  }
+  .wallet-card,
+  .p2p-offer {
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  .form-input,
+  .form-select {
+    font-size: 11px;
+    padding: 6px;
+    border-radius: 6px;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
   </style>
 </head>
 <body>
@@ -2470,6 +2313,9 @@
     <!-- JavaScript will populate items here -->
   </div>
 </nav>
+<div class="sidebar-overlay" id="sidebarOverlay">
+  <button class="overlay-close-btn" onclick="toggleSidebar()">&times;</button>
+</div>
 
   <!-- Main Content -->
   <main class="main-content" id="mainContent">
@@ -2640,101 +2486,161 @@
     </section>
 
     <!-- Social Section -->
-    <section class="section" id="social">
-        <div class="background-particles" id="particles"></div>
-      <div class="section-header">
-        <h1 class="section-title">Social Feed</h1>
-        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+<section class="section" id="social">
+  <div class="background-particles" id="particles">
+    <div class="particle" style="width: 4px; height: 4px; top: 20%; left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="width: 6px; height: 6px; top: 60%; left: 80%; animation-delay: 2s;"></div>
+    <div class="particle" style="width: 3px; height: 3px; top: 80%; left: 30%; animation-delay: 4s;"></div>
+  </div>
+  <div class="section-header">
+    <h1 class="section-title">Social Hub</h1>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+  </div>
+
+  <div class="social-subnav">
+    <button class="subnav-tab active" data-tab="feeds">Feeds</button>
+    <button class="subnav-tab" data-tab="livestream">Live Streaming</button>
+    <button class="subnav-tab" data-tab="trending">Trending</button>
+  </div>
+
+  <div class="social-layout">
+    <!-- Feeds Subsection -->
+    <div class="social-content feeds active">
+      <div class="post-composer glass">
+        <textarea class="composer-input" placeholder="What's happening in the blockchain world?"></textarea>
+        <div class="composer-actions">
+          <div class="media-icons">
+            <button class="media-icon">📷</button>
+            <button class="media-icon">🎥</button>
+            <button class="media-icon">📊</button>
+            <button class="media-icon">💭</button>
+          </div>
+          <button class="btn">Post</button>
+        </div>
       </div>
 
-      <div class="social-layout">
-        <div class="feed">
-          <div class="post-composer">
-            <textarea class="composer-input" placeholder="What's happening in the blockchain world?"></textarea>
-            <div class="composer-actions">
-              <div class="media-icons">
-                <button class="media-icon">📷</button>
-                <button class="media-icon">🎥</button>
-                <button class="media-icon">📊</button>
-                <button class="media-icon">💭</button>
-              </div>
-              <button class="btn">Post</button>
+      <div class="feed">
+        <div class="post" data-post-id="1">
+          <div class="post-header">
+            <div class="avatar">A</div>
+            <div>
+              <h4>@Alice_Blockchain</h4>
+              <p class="post-time">2 hours ago</p>
             </div>
           </div>
-
-          <div class="post">
-            <div class="post-header">
-              <div class="avatar">A</div>
-              <div>
-                <h4>@Alice_Blockchain</h4>
-                <p style="color: var(--text-secondary); font-size: 0.875rem;">2 hours ago</p>
-              </div>
-            </div>
-            <p>Just bridged 1000 KDA to the new DeFi protocol! The future of finance is here 🚀 #KDA #DeFi #Blockchain</p>
-            <div class="post-actions">
-              <button class="action-btn">❤️ 234</button>
-              <button class="action-btn">💬 45</button>
-              <button class="action-btn">🔄 78</button>
-              <button class="action-btn">📤 Share</button>
-            </div>
-          </div>
-
-          <div class="post">
-            <div class="post-header">
-              <div class="avatar">B</div>
-              <div>
-                <h4>@BlockchainBob</h4>
-                <p style="color: var(--text-secondary); font-size: 0.875rem;">4 hours ago</p>
-              </div>
-            </div>
-            <p>Building the next generation dApp on Kadena! The scalability and security is unmatched. Who's ready for the beta? 🔥</p>
-            <div class="post-actions">
-              <button class="action-btn">❤️ 156</button>
-              <button class="action-btn">💬 23</button>
-              <button class="action-btn">🔄 34</button>
-              <button class="action-btn">📤 Share</button>
-            </div>
-          </div>
-
-          <div class="post">
-            <div class="post-header">
-              <div class="avatar">C</div>
-              <div>
-                <h4>@CryptoQueen</h4>
-                <p style="color: var(--text-secondary); font-size: 0.875rem;">6 hours ago</p>
-              </div>
-            </div>
-            <p>African blockchain adoption is accelerating! KAN platform is leading the charge 🌍⚡ #AfricanTech #Innovation</p>
-            <div class="post-actions">
-              <button class="action-btn">❤️ 423</button>
-              <button class="action-btn">💬 89</button>
-              <button class="action-btn">🔄 156</button>
-              <button class="action-btn">📤 Share</button>
-            </div>
+          <p>Just bridged 1000 KDA to the new DeFi protocol! 🚀 #KDA #DeFi</p>
+          <div class="post-actions">
+            <button class="action-btn like-btn" data-liked="false"><span class="icon">❤️</span> <span class="count">234</span></button>
+            <button class="action-btn comment-btn"><span class="icon">💬</span> <span class="count">45</span></button>
+            <button class="action-btn share-btn"><span class="icon">🔄</span> <span class="count">78</span></button>
           </div>
         </div>
 
-        <div class="trending" style="display: none;" id="trendingDesktop">
-          <h3>Trending</h3>
-          <div class="trending-item">
-            <div class="trending-topic">#KDAToTheMoon</div>
-            <div class="trending-count">12.4K posts</div>
+        <div class="post" data-post-id="2">
+          <div class="post-header">
+            <div class="avatar">B</div>
+            <div>
+              <h4>@BlockchainBob</h4>
+              <p class="post-time">4 hours ago</p>
+            </div>
           </div>
-          <div class="trending-item">
-            <div class="trending-topic">#DeFiRevolution</div>
-            <div class="trending-count">8.9K posts</div>
-          </div>
-          <div class="trending-item">
-            <div class="trending-topic">#BlockchainAfrica</div>
-            <div class="trending-count">6.2K posts</div>
-          </div>
-          <div class="trending-item">
-            <div class="trending-topic">#Web3Future</div>
-            <div class="trending-count">4.8K posts</div>
+          <p>Building the next gen dApp on Kadena! Who's ready for beta? 🔥</p>
+          <div class="post-actions">
+            <button class="action-btn like-btn" data-liked="false"><span class="icon">❤️</span> <span class="count">156</span></button>
+            <button class="action-btn comment-btn"><span class="icon">💬</span> <span class="count">23</span></button>
+            <button class="action-btn share-btn"><span class="icon">🔄</span> <span class="count">34</span></button>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+
+    <!-- Live Streaming Subsection -->
+    <div class="social-content livestream">
+      <div class="stream-grid">
+        <div class="stream-card glass">
+          <div class="stream-placeholder">Live Stream Placeholder</div>
+          <div class="stream-info">
+            <h4>Live KDA DeFi Discussion</h4>
+            <p class="stream-host">Hosted by @CryptoQueen</p>
+            <p class="stream-viewers">1,245 viewers • Live Now</p>
+            <button class="btn join-stream">Join Stream</button>
+          </div>
+        </div>
+        <div class="stream-card glass">
+          <div class="stream-placeholder">Live Stream Placeholder</div>
+          <div class="stream-info">
+            <h4>Kadena Dev Q&A</h4>
+            <p class="stream-host">Hosted by @TechGuru</p>
+            <p class="stream-viewers">892 viewers • Live Now</p>
+            <button class="btn join-stream">Join Stream</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trending Subsection (Mobile Only) -->
+    <div class="social-content trending">
+      <div class="trending-section glass">
+        <h3>🔥 General Trending</h3>
+        <div class="trending-item">
+          <div class="trending-topic">#KDAToTheMoon</div>
+          <div class="trending-count">12.4K posts</div>
+        </div>
+        <div class="trending-item">
+          <div class="trending-topic">#DeFiRevolution</div>
+          <div class="trending-count">8.9K posts</div>
+        </div>
+      </div>
+      <div class="trending-section glass">
+        <h3>📹 Trending Live Streams</h3>
+        <div class="trending-item">
+          <div class="trending-topic">KDA DeFi Discussion</div>
+          <div class="trending-count">1,245 viewers</div>
+        </div>
+        <div class="trending-item">
+          <div class="trending-topic">Kadena Dev Q&A</div>
+          <div class="trending-count">892 viewers</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trending Sidebar (Desktop Only) -->
+    <div class="trending-sidebar glass" id="trendingSidebar">
+      <h3 id="trendingTitle">🔥 Trending</h3>
+      <div class="trending-item">
+        <div class="trending-topic">#KDAToTheMoon</div>
+        <div class="trending-count">12.4K posts</div>
+      </div>
+      <div class="trending-item">
+        <div class="trending-topic">#DeFiRevolution</div>
+        <div class="trending-count">8.9K posts</div>
+      </div>
+      <div class="trending-item">
+        <div class="trending-topic">KDA DeFi Discussion</div>
+        <div class="trending-count">1,245 viewers</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post Overlay Modal -->
+  <div class="post-modal" id="postModal">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3>Post Details</h3>
+        <button class="close-btn" onclick="closePostModal()">&times;</button>
+      </div>
+      <div class="modal-post-content" id="modalPostContent"></div>
+      <div class="comments-section">
+        <h4>Comments</h4>
+        <div class="comments-list" id="commentsList"></div>
+        <div class="comment-input-container">
+          <textarea class="comment-input" placeholder="Add a comment..."></textarea>
+          <button class="btn comment-submit" onclick="submitComment()">Post</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- Wallet Section -->
     <section class="section" id="wallet">
@@ -2805,7 +2711,7 @@
                             <option>ETH</option>
                         </select>
                     </div>
-                    <div style="font-size: 1.5rem; color: var(--accent-color);">⇅</div>
+                    <div class="convert-btn" style="font-size: 1.5rem; color: var(--accent-color);">⇅</div>
                     <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; margin-top: 1rem;">
                         <input type="number" class="form-input" placeholder="0.00" readonly style="margin-bottom: 1rem;">
                         <select class="form-input">
@@ -2820,76 +2726,172 @@
         </div>
 
         <!-- P2P Market Tab Content -->
-        <div id="wallet-p2p" class="wallet-content SectionContent">
-            <div class="p2p-container">
-                <!-- Main P2P Trading Area -->
-                <div class="p2p-main">
-                    <div class="p2p-tabs">
-                        <button class="p2p-tab active" data-p2p-tab="buy">Buy Orders</button>
-                        <button class="p2p-tab" data-p2p-tab="sell">Sell Orders</button>
-                        <button class="p2p-tab" data-p2p-tab="my-orders">My Orders</button>
-                        <button class="p2p-tab" data-p2p-tab="create">Create Order</button>
-                    </div>
+<div id="wallet-p2p" class="wallet-content SectionContent">
+    <div class="p2p-container">
+        <!-- Main P2P Trading Area -->
+        <div class="p2p-main">
+            <div class="p2p-tabs">
+                <button class="p2p-tab active" data-p2p-tab="buy" onclick="switchP2PTab('buy')">Buy Orders</button>
+                <button class="p2p-tab" data-p2p-tab="sell" onclick="switchP2PTab('sell')">Sell Orders</button>
+                <button class="p2p-tab" data-p2p-tab="my-orders" onclick="switchP2PTab('my-orders')">My Orders</button>
+                <button class="p2p-tab" data-p2p-tab="create" onclick="switchP2PTab('create')">Create Order</button>
+            </div>
 
-                    <div class="p2p-filters">
-                        <div class="filter-group">
-                            <select id="p2p-currency-filter">
-                                <option value="all">All Currencies</option>
-                                <option value="KDA">Kadena (KDA)</option>
-                                <option value="BTC">Bitcoin (BTC)</option>
-                                <option value="ETH">Ethereum (ETH)</option>
-                                <option value="USDT">Tether (USDT)</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <select id="p2p-payment-filter">
-                                <option value="all">All Methods</option>
-                                <option value="bank">Bank Transfer</option>
-                                <option value="mobile">Mobile Money</option>
-                                <option value="cash">Cash</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <input type="number" id="p2p-min-amount" placeholder="Min Amount (NGN)">
-                        </div>
-                    </div>
+            <div class="p2p-filters">
+                <div class="filter-group">
+                    <select id="p2p-currency-filter">
+                        <option value="all">All Currencies</option>
+                        <option value="KDA">Kadena (KDA)</option>
+                        <option value="BTC">Bitcoin (BTC)</option>
+                        <option value="ETH">Ethereum (ETH)</option>
+                        <option value="USDT">Tether (USDT)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="p2p-payment-filter">
+                        <option value="all">All Methods</option>
+                        <option value="bank">Bank Transfer</option>
+                        <option value="mobile">Mobile Money</option>
+                        <option value="cash">Cash</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <input type="number" id="p2p-min-amount" placeholder="Min Amount (NGN)">
+                </div>
+            </div>
 
-                    <div id="p2p-offers-container" class="p2p-offers-grid">
-                        <!-- Offers will be populated by JavaScript -->
+            <!-- P2P Subsection Content -->
+            <div id="p2p-buy" class="p2p-content active">
+                <div class="p2p-offers-grid">
+                    <div class="p2p-offer">
+                        <div class="offer-details">
+                            <h4>Seller: @CryptoTrader</h4>
+                            <div class="offer-rate">₦1,200/KDA</div>
+                            <div class="offer-limit">Limit: ₦10,000 - ₦500,000</div>
+                        </div>
+                        <button class="btn">Buy Now</button>
+                    </div>
+                    <div class="p2p-offer">
+                        <div class="offer-details">
+                            <h4>Seller: @KDAFan</h4>
+                            <div class="offer-rate">₦1,180/KDA</div>
+                            <div class="offer-limit">Limit: ₦5,000 - ₦300,000</div>
+                        </div>
+                        <button class="btn">Buy Now</button>
                     </div>
                 </div>
-
-                <!-- P2P Sidebar -->
-                <div class="p2p-sidebar">
-                    <div class="wallet-card">
-                        <h3>P2P Balance</h3>
-                        <div class="balance-item">
-                            <span class="balance-label">KDA Balance:</span>
-                            <span class="balance-value" id="p2p-kda-balance">125.48 KDA</span>
+            </div>
+            <div id="p2p-sell" class="p2p-content">
+                <div class="p2p-offers-grid">
+                    <div class="p2p-offer">
+                        <div class="offer-details">
+                            <h4>Buyer: @TradeMaster</h4>
+                            <div class="offer-rate">₦1,150/KDA</div>
+                            <div class="offer-limit">Limit: ₦20,000 - ₦600,000</div>
                         </div>
-                        <div class="balance-item">
-                            <span class="balance-label">NGN Balance:</span>
-                            <span class="balance-value" id="p2p-ngn-balance">₦45,230.00</span>
-                        </div>
-                        <div class="balance-item">
-                            <span class="balance-label">In Escrow:</span>
-                            <span class="balance-value" id="p2p-escrow-balance">₦15,000.00</span>
-                        </div>
-                        <div class="balance-item">
-                            <span class="balance-label">Available:</span>
-                            <span class="balance-value" id="p2p-available-balance">₦30,230.00</span>
-                        </div>
+                        <button class="btn">Sell Now</button>
                     </div>
-
-                    <div class="wallet-card">
-                        <h3>Recent P2P Activity</h3>
-                        <div id="p2p-recent-orders">
-                            <!-- Recent orders will be populated by JavaScript -->
+                    <div class="p2p-offer">
+                        <div class="offer-details">
+                            <h4>Buyer: @BlockchainPro</h4>
+                            <div class="offer-rate">₦1,140/KDA</div>
+                            <div class="offer-limit">Limit: ₦15,000 - ₦400,000</div>
                         </div>
+                        <button class="btn">Sell Now</button>
+                    </div>
+                </div>
+            </div>
+            <div id="p2p-my-orders" class="p2p-content">
+                <div class="p2p-offers-grid">
+                    <div class="p2p-offer">
+                        <div class="offer-details">
+                            <h4>Your Buy Order</h4>
+                            <div class="offer-rate">₦1,190/KDA</div>
+                            <div class="offer-limit">Status: Active</div>
+                        </div>
+                        <button class="btn secondary">Cancel Order</button>
+                    </div>
+                    <div class="p2p-offer">
+                        <div class="offer-details">
+                            <h4>Your Sell Order</h4>
+                            <div class="offer-rate">₦1,160/KDA</div>
+                            <div class="offer-limit">Status: Pending</div>
+                        </div>
+                        <button class="btn secondary">Cancel Order</button>
+                    </div>
+                </div>
+            </div>
+            <div id="p2p-create" class="p2p-content">
+                <div class="wallet-card" style="max-width: 500px; margin: 0 auto;">
+                    <h3>Create P2P Order</h3>
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Order Type</label>
+                            <select class="form-input">
+                                <option>Buy</option>
+                                <option>Sell</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Amount (KDA)</label>
+                            <input type="number" class="form-input" placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Price per KDA (NGN)</label>
+                            <input type="number" class="form-input" placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Payment Method</label>
+                            <select class="form-input">
+                                <option>Bank Transfer</option>
+                                <option>Mobile Money</option>
+                                <option>Cash</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%;">Create Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- P2P Sidebar -->
+        <div class="p2p-sidebar">
+            <div class="wallet-card">
+                <h3>P2P Balance</h3>
+                <div class="balance-item">
+                    <span class="balance-label">KDA Balance:</span>
+                    <span class="balance-value" id="p2p-kda-balance">125.48 KDA</span>
+                </div>
+                <div class="balance-item">
+                    <span class="balance-label">NGN Balance:</span>
+                    <span class="balance-value" id="p2p-ngn-balance">₦45,230.00</span>
+                </div>
+                <div class="balance-item">
+                    <span class="balance-label">In Escrow:</span>
+                    <span class="balance-value" id="p2p-escrow-balance">₦15,000.00</span>
+                </div>
+                <div class="balance-item">
+                    <span class="balance-label">Available:</span>
+                    <span class="balance-value" id="p2p-available-balance">₦30,230.00</span>
+                </div>
+            </div>
+
+            <div class="wallet-card">
+                <h3>Recent P2P Activity</h3>
+                <div id="p2p-recent-orders">
+                    <div class="transaction-item">
+                        <div>Buy 50 KDA</div>
+                        <div style="color: var(--success); font-size: 0.875rem;">Completed • ₦59,000</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div>Sell 30 KDA</div>
+                        <div style="color: var(--warning); font-size: 0.875rem;">Pending • ₦34,800</div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
         <!-- History Tab Content (Previously Overview) -->
         <div id="wallet-history" class="wallet-content SectionContent">
@@ -2998,7 +3000,7 @@
         </div>
     </section>
 
-    <!-- Messages Section -->
+     <!-- Messages Section -->
     <section class="section" id="messages">
       <div class="section-header">
         <h1 class="section-title">Messages</h1>
@@ -3765,336 +3767,294 @@
       </div>
     </div>
   </div>
+<script>
+ // ========================================
+// GLOBAL VARIABLES & STATE MANAGEMENT
+// ========================================
 
-  <script>
-    // Global variables
-    let currentSection = 'dashboard';
-    let currentWalletTab = 'overview';
-    let currentAccountTab = 'profile';
-    let joinedCommunities = new Set();
+let currentSection = 'dashboard';
+let currentWalletTab = 'overview';
+let currentAccountTab = 'profile';
+let joinedCommunities = new Set();
+let mainChart = null;
+let networkChart = null;
+let defiChart = null;
+let adoptionChart = null;
 
-    // Navigation
-    function showSection(sectionId) {
-      // Hide all sections
-      document.querySelectorAll('.section').forEach(section => {
+// ========================================
+// NAVIGATION FUNCTIONS
+// ========================================
+
+function showSection(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
-      });
-      
-      // Show selected section
-      document.getElementById(sectionId).classList.add('active');
-      
-      // Update navigation
-      document.querySelectorAll('.nav-link').forEach(link => {
+    });
+    
+    // Show selected section
+    document.getElementById(sectionId).classList.add('active');
+    
+    // Update navigation
+    document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.remove('active');
-      });
-      event.target.classList.add('active');
-      
-      currentSection = sectionId;
-      
-      // Handle responsive design for social section
-      if (sectionId === 'social') {
+    });
+    event.target.classList.add('active');
+    
+    currentSection = sectionId;
+    
+    // Handle responsive design for social section
+    if (sectionId === 'social') {
         const trending = document.getElementById('trendingDesktop');
         if (window.innerWidth > 1200) {
-          trending.style.display = 'block';
-          document.querySelector('.social-layout').style.gridTemplateColumns = '2fr 1fr';
+            trending.style.display = 'block';
+            document.querySelector('.social-layout').style.gridTemplateColumns = '2fr 1fr';
         }
-      }
-      
-      // Close sidebar on mobile
-      if (window.innerWidth <= 768) {
-        document.getElementById('sidebar').classList.remove('active');
-      }
     }
+    
+    // Close sidebar on mobile
+    if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('active');
+    }
+}
 
-    // Sidebar toggle
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const mainContent = document.getElementById('mainContent');
-      
-      sidebar.classList.toggle('active');
-      
-      if (window.innerWidth > 768) {
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    
+    sidebar.classList.toggle('active');
+    
+    if (window.innerWidth > 768) {
         sidebar.classList.toggle('hidden');
         mainContent.classList.toggle('expanded');
-      }
     }
+}
 
-    // Wallet tabs
-    function switchWalletTab(tabId) {
-      // Hide all wallet content
-      document.querySelectorAll('.wallet-content').forEach(content => {
+// ========================================
+// TAB SWITCHING FUNCTIONS
+// ========================================
+
+function switchWalletTab(tabId) {
+    // Hide all wallet content
+    document.querySelectorAll('.wallet-content').forEach(content => {
         content.style.display = 'none';
-      });
-      
-      // Show selected content
-      document.getElementById(`wallet-${tabId}`).style.display = 'block';
-      
-      // Update tab buttons
-      document.querySelectorAll('.wallet-tab').forEach(tab => {
+    });
+    
+    // Show selected content
+    document.getElementById(`wallet-${tabId}`).style.display = 'block';
+    
+    // Update tab buttons
+    document.querySelectorAll('.wallet-tab').forEach(tab => {
         tab.classList.remove('active');
-      });
-      event.target.classList.add('active');
-      
-      currentWalletTab = tabId;
-    }
+    });
+    event.target.classList.add('active');
+    
+    currentWalletTab = tabId;
+}
 
-    // Account tabs
-    function switchAccountTab(tabId) {
-      // Hide all account content
-      document.querySelectorAll('.account-content').forEach(content => {
+function switchAccountTab(tabId) {
+    // Hide all account content
+    document.querySelectorAll('.account-content').forEach(content => {
         content.style.display = 'none';
-      });
-      
-      // Show selected content
-      document.getElementById(`account-${tabId}`).style.display = 'block';
-      
-      // Update tab buttons
-      document.querySelectorAll('.account-tab').forEach(tab => {
+    });
+    
+    // Show selected content
+    document.getElementById(`account-${tabId}`).style.display = 'block';
+    
+    // Update tab buttons
+    document.querySelectorAll('.account-tab').forEach(tab => {
         tab.classList.remove('active');
-      });
-      event.target.classList.add('active');
-      
-      currentAccountTab = tabId;
-    }
+    });
+    event.target.classList.add('active');
+    
+    currentAccountTab = tabId;
+}
 
-    // Community functions
-    function joinCommunity(button, communityId) {
-      if (joinedCommunities.has(communityId)) {
-        // Open community chat
+// ========================================
+// COMMUNITY FUNCTIONS
+// ========================================
+
+function joinCommunity(button, communityId) {
+    if (joinedCommunities.has(communityId)) {
         openCommunityChat(communityId);
-      } else {
+    } else {
         // Join community
         joinedCommunities.add(communityId);
         button.textContent = 'Go to Community';
         button.classList.add('joined');
         
-        // Simulate joining animation
+        // Animate button
         button.style.transform = 'scale(0.95)';
         setTimeout(() => {
-          button.style.transform = 'scale(1)';
+            button.style.transform = 'scale(1)';
         }, 150);
-      }
     }
+}
 
-    function openCommunityChat(communityId) {
-      const modal = document.getElementById('communityModal');
-      const communityNames = {
+function openCommunityChat(communityId) {
+    const modal = document.getElementById('communityModal');
+    const communityNames = {
         'africa': 'Africa Community',
         'usa': 'USA Community', 
         'asia': 'Asia Community',
         'europe': 'Europe Community'
-      };
-      
-      document.getElementById('communityName').textContent = communityNames[communityId] || 'Community';
-      modal.style.display = 'flex';
-    }
+    };
+    
+    document.getElementById('communityName').textContent = communityNames[communityId] || 'Community';
+    modal.style.display = 'flex';
+}
 
-    function closeCommunityChat() {
-      document.getElementById('communityModal').style.display = 'none';
-    }
+function closeCommunityChat() {
+    document.getElementById('communityModal').style.display = 'none';
+}
 
-    function sendCommunityMessage() {
-      const input = document.getElementById('communityInput');
-      const message = input.value.trim();
-      
-      if (message) {
+function sendCommunityMessage() {
+    const input = document.getElementById('communityInput');
+    const message = input.value.trim();
+    
+    if (message) {
         const messagesContainer = document.getElementById('communityMessages');
         
         // Create message element
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message sent';
-        messageDiv.innerHTML = `
-          <div class="message-bubble">${message}</div>
-        `;
+        messageDiv.innerHTML = `<div class="message-bubble">${message}</div>`;
         
         messagesContainer.appendChild(messageDiv);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
         
         input.value = '';
         
-        // Simulate response after 2 seconds
+        // Simulate response
         setTimeout(() => {
-          const responseDiv = document.createElement('div');
-          responseDiv.className = 'message';
-          responseDiv.innerHTML = `
-            <div class="avatar">👥</div>
-            <div class="message-bubble">Thanks for sharing! Great to have you in the community.</div>
-          `;
-          messagesContainer.appendChild(responseDiv);
-          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            const responseDiv = document.createElement('div');
+            responseDiv.className = 'message';
+            responseDiv.innerHTML = `
+                <div class="avatar">👥</div>
+                <div class="message-bubble">Thanks for sharing! Great to have you in the community.</div>
+            `;
+            messagesContainer.appendChild(responseDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }, 2000);
-      }
     }
+}
 
-    // Messages functions
-    function sendMessage() {
-      const input = document.getElementById('messageInput');
-      const message = input.value.trim();
-      
-      if (message) {
+// ========================================
+// MESSAGING FUNCTIONS
+// ========================================
+
+function sendMessage() {
+    const input = document.getElementById('messageInput');
+    const message = input.value.trim();
+    
+    if (message) {
         const messagesContainer = document.getElementById('chatMessages');
         
         // Create message element
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message sent';
-        messageDiv.innerHTML = `
-          <div class="message-bubble">${message}</div>
-        `;
+        messageDiv.innerHTML = `<div class="message-bubble">${message}</div>`;
         
         messagesContainer.appendChild(messageDiv);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
         
         input.value = '';
         
-        // Simulate response after 1 second
+        // Simulate response
         setTimeout(() => {
-          const responseDiv = document.createElement('div');
-          responseDiv.className = 'message';
-          responseDiv.innerHTML = `
-            <div class="avatar">T</div>
-            <div class="message-bubble">I understand. Let me help you with that right away.</div>
-          `;
-          messagesContainer.appendChild(responseDiv);
-          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            const responseDiv = document.createElement('div');
+            responseDiv.className = 'message';
+            responseDiv.innerHTML = `
+                <div class="avatar">T</div>
+                <div class="message-bubble">I understand. Let me help you with that right away.</div>
+            `;
+            messagesContainer.appendChild(responseDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }, 1000);
-      }
     }
+}
 
+// ========================================
+// MARKET DATA & SIDEBAR
+// ========================================
 
-    // Sample market data (replace with real data or API call)
-const marketData = [
-  { symbol: 'BTC', price: 50000, change: 2.5 },
-  { symbol: 'ETH', price: 3000, change: -1.2 },
-  { symbol: 'ADA', price: 1.5, change: 0.8 },
-];
+function initializeMarketData() {
+    const marketData = [
+        { symbol: 'BTC', price: 50000, change: 2.5 },
+        { symbol: 'ETH', price: 3000, change: -1.2 },
+        { symbol: 'ADA', price: 1.5, change: 0.8 },
+    ];
 
-// Get the sidebar-mini-market container
-const marketContainer = document.querySelector('.sidebar-mini-market');
+    const marketContainer = document.querySelector('.sidebar-mini-market');
+    if (!marketContainer) return;
 
-// Clear any existing content (except the h4)
-marketContainer.innerHTML = '<h4>Market Snapshot</h4>';
+    marketContainer.innerHTML = '<h4>Market Snapshot</h4>';
 
-// Loop through the first 3 items of marketData and create elements
-marketData.slice(0, 3).forEach(coin => {
-  const item = document.createElement('div');
-  item.className = 'mini-market-item';
-  item.innerHTML = `
-    <span>${coin.symbol}</span>
-    <span>$${coin.price.toLocaleString()}</span>
-    <span class="${coin.change > 0 ? 'positive' : 'negative'}">${coin.change}%</span>
-  `;
-  marketContainer.appendChild(item);
-});
-
-
-
-    // Responsive handling
-    function handleResize() {
-      const socialLayout = document.querySelector('.social-layout');
-      const trending = document.getElementById('trendingDesktop');
-      
-      if (window.innerWidth <= 1200) {
-        if (socialLayout) {
-          socialLayout.style.gridTemplateColumns = '1fr';
-        }
-        if (trending) {
-          trending.style.display = 'none';
-        }
-      } else if (currentSection === 'social') {
-        if (socialLayout) {
-          socialLayout.style.gridTemplateColumns = '2fr 1fr';
-        }
-        if (trending) {
-          trending.style.display = 'block';
-        }
-      }
-    }
-
-    // Event listeners
-    window.addEventListener('resize', handleResize);
-    
-    // Handle Enter key in inputs
-    document.getElementById('messageInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        sendMessage();
-      }
+    marketData.slice(0, 3).forEach(coin => {
+        const item = document.createElement('div');
+        item.className = 'mini-market-item';
+        item.innerHTML = `
+            <span>${coin.symbol}</span>
+            <span>$${coin.price.toLocaleString()}</span>
+            <span class="${coin.change > 0 ? 'positive' : 'negative'}">${coin.change}%</span>
+        `;
+        marketContainer.appendChild(item);
     });
-    
-    document.getElementById('communityInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        sendCommunityMessage();
-      }
-    });
+}
 
-    // Initialize
-    handleResize();
-    
-    // Add some dynamic effects
-    setInterval(() => {
-      const stats = document.querySelectorAll('.stat-card');
-      stats.forEach((card, index) => {
-        setTimeout(() => {
-          card.style.animation = 'pulse 0.6s ease';
-          setTimeout(() => {
-            card.style.animation = '';
-          }, 600);
-        }, index * 200);
-      });
-    }, 10000);
-
-    // Simulate real-time updates
-    setInterval(() => {
-      // Update member counts
-      const memberCounts = document.querySelectorAll('.community-members');
-      memberCounts.forEach(count => {
-        const current = parseInt(count.textContent.replace(/[^\d]/g, ''));
-        count.textContent = `${(current + Math.floor(Math.random() * 5)).toLocaleString()} members`;
-      });
-    }, 30000);
-
-
-
-    let mainChart = null;
-let networkChart = null;
-let defiChart = null;
-let adoptionChart = null;
-
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
-        initCharts();
-        fetchData();
-        startUpdates();
-    }, 100);
-});
+// ========================================
+// CHART INITIALIZATION & MANAGEMENT
+// ========================================
 
 function initCharts() {
     Chart.defaults.color = '#888888';
     Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
 
-    // Generate realistic price data for last 24 hours
+    const priceData = generatePriceData();
+    const labels = generateTimeLabels();
+
+    initMainChart(priceData, labels);
+    initNetworkChart();
+    initDefiChart();
+    initAdoptionChart();
+    
+    startLiveUpdates();
+}
+
+function generatePriceData() {
     const priceData = [];
-    const labels = [];
     const basePrice = 0.4285;
     const now = Date.now();
     
     for (let i = 48; i >= 0; i--) {
-        const time = new Date(now - (i * 30 * 60 * 1000));
         const variation = (Math.random() - 0.5) * 0.06;
         const trend = Math.sin(i / 8) * 0.02;
         const volatility = Math.sin(i / 3) * 0.01;
         const price = Math.max(0.001, basePrice + variation + trend + volatility);
-        
         priceData.push(price);
+    }
+    
+    return priceData;
+}
+
+function generateTimeLabels() {
+    const labels = [];
+    const now = Date.now();
+    
+    for (let i = 48; i >= 0; i--) {
+        const time = new Date(now - (i * 30 * 60 * 1000));
         labels.push(time.toLocaleTimeString('en-US', { 
             hour: '2-digit', 
             minute: '2-digit' 
         }));
     }
+    
+    return labels;
+}
 
-    // Main chart
+function initMainChart(priceData, labels) {
     const canvas = document.getElementById('mainChart');
     if (!canvas) {
-        console.error('Canvas not found!');
+        console.error('Main chart canvas not found!');
         return;
     }
     
@@ -4126,9 +4086,7 @@ function initCharts() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            animation: {
-                duration: 0
-            },
+            animation: { duration: 0 },
             plugins: {
                 legend: { display: false },
                 tooltip: {
@@ -4187,13 +4145,13 @@ function initCharts() {
             }
         }
     });
+}
 
-    // Network mini chart
-    const netCtx = document.getElementById('networkChart').getContext('2d');
-    const networkData = [];
-    for (let i = 0; i < 12; i++) {
-        networkData.push(Math.floor(Math.random() * 1200) + 800);
-    }
+function initNetworkChart() {
+    const netCtx = document.getElementById('networkChart')?.getContext('2d');
+    if (!netCtx) return;
+
+    const networkData = Array.from({length: 12}, () => Math.floor(Math.random() * 1200) + 800);
     
     networkChart = new Chart(netCtx, {
         type: 'line',
@@ -4219,9 +4177,12 @@ function initCharts() {
             }
         }
     });
+}
 
-    // DeFi mini chart  
-    const defiCtx = document.getElementById('defiChart').getContext('2d');
+function initDefiChart() {
+    const defiCtx = document.getElementById('defiChart')?.getContext('2d');
+    if (!defiCtx) return;
+
     const defiData = [45.7, 47.2, 46.8, 48.1, 49.3, 47.9, 45.7];
     
     defiChart = new Chart(defiCtx, {
@@ -4246,9 +4207,12 @@ function initCharts() {
             }
         }
     });
+}
 
-    // Adoption mini chart
-    const adoptCtx = document.getElementById('adoptionChart').getContext('2d');
+function initAdoptionChart() {
+    const adoptCtx = document.getElementById('adoptionChart')?.getContext('2d');
+    if (!adoptCtx) return;
+
     adoptionChart = new Chart(adoptCtx, {
         type: 'doughnut',
         data: {
@@ -4268,123 +4232,145 @@ function initCharts() {
             }
         }
     });
-
-    startLiveUpdates();
 }
 
+// ========================================
+// REAL-TIME DATA UPDATES
+// ========================================
+
 function startLiveUpdates() {
-    // Simulate real-time price updates
+    // Update main chart data every 3 seconds
     setInterval(() => {
-        if (mainChart) {
-            const data = mainChart.data.datasets[0].data;
-            const lastPrice = data[data.length - 1];
-            const variation = (Math.random() - 0.5) * 0.02;
-            const newPrice = Math.max(0.001, lastPrice + variation);
-            
-            // Remove first point and add new one
-            data.shift();
-            data.push(newPrice);
-            
-            // Update labels
-            const labels = mainChart.data.labels;
-            labels.shift();
-            labels.push(new Date().toLocaleTimeString('en-US', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            }));
-            
-            // Update price display
-            document.getElementById('price').textContent = `$${newPrice.toFixed(4)}`;
-            
-            mainChart.update('none');
-        }
+        updateMainChart();
     }, 3000);
 
-    // Update network stats
+    // Update network stats every 5 seconds
     setInterval(() => {
-        if (networkChart) {
-            const data = networkChart.data.datasets[0].data;
-            data.shift();
-            data.push(Math.floor(Math.random() * 1200) + 800);
-            networkChart.update('none');
-        }
+        updateNetworkChart();
     }, 5000);
 
-    // Animate numbers
+    // Update UI stats every 4 seconds
     setInterval(() => {
-        const elements = document.querySelectorAll('.pulse');
-        elements.forEach(el => {
-            if (el.textContent.includes('TPS')) {
-                const current = parseInt(el.textContent.replace(/[^0-9]/g, ''));
-                const change = Math.floor((Math.random() - 0.5) * 200);
-                el.textContent = `${Math.max(800, current + change)} TPS`;
-            }
-            if (el.textContent.includes(',')) {
-                const current = parseInt(el.textContent.replace(/[^0-9]/g, ''));
-                const change = Math.floor((Math.random() - 0.5) * 100);
-                el.textContent = (current + change).toLocaleString();
-            }
-        });
+        updateUIStats();
     }, 4000);
 }
 
-function fetchData() {
-    simulateDataUpdates();
-}
-
-function simulateDataUpdates() {
-    // Simulate price fluctuations
-    setInterval(() => {
-        const priceEl = document.getElementById('price');
-        const currentPrice = parseFloat(priceEl.textContent.replace('$', ''));
-        const variation = (Math.random() - 0.5) * 0.01;
-        const newPrice = Math.max(0.001, currentPrice + variation);
+function updateMainChart() {
+    if (!mainChart) return;
+    
+    const data = mainChart.data.datasets[0].data;
+    const lastPrice = data[data.length - 1];
+    const variation = (Math.random() - 0.5) * 0.02;
+    const newPrice = Math.max(0.001, lastPrice + variation);
+    
+    // Remove first point and add new one
+    data.shift();
+    data.push(newPrice);
+    
+    // Update labels
+    const labels = mainChart.data.labels;
+    labels.shift();
+    labels.push(new Date().toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+    }));
+    
+    // Update price display
+    const priceEl = document.getElementById('price');
+    if (priceEl) {
         priceEl.textContent = `$${newPrice.toFixed(4)}`;
-
-        // Update change percentage
-        const changeEl = document.getElementById('priceChange');
-        const change = ((newPrice - 0.4285) / 0.4285) * 100;
-        changeEl.textContent = `${change > 0 ? '+' : ''}${change.toFixed(1)}%`;
-        changeEl.className = `stat-change ${change > 0 ? 'positive' : 'negative'}`;
-    }, 2000);
-
-    // Simulate volume changes
-    setInterval(() => {
-        const volumeEl = document.getElementById('volume');
-        const base = 14.2;
-        const variation = (Math.random() - 0.5) * 4;
-        const newVolume = Math.max(1, base + variation);
-        volumeEl.textContent = `$${newVolume.toFixed(1)}M`;
-    }, 7000);
-
-    // Simulate market cap changes
-    setInterval(() => {
-        const capEl = document.getElementById('marketCap');
-        const base = 1.08;
-        const variation = (Math.random() - 0.5) * 0.2;
-        const newCap = Math.max(0.1, base + variation);
-        capEl.textContent = `$${newCap.toFixed(2)}B`;
-    }, 9000);
+    }
+    
+    mainChart.update('none');
 }
 
-function startUpdates() {
-    const pulseElements = document.querySelectorAll('.pulse');
-    pulseElements.forEach(el => {
+function updateNetworkChart() {
+    if (!networkChart) return;
+    
+    const data = networkChart.data.datasets[0].data;
+    data.shift();
+    data.push(Math.floor(Math.random() * 1200) + 800);
+    networkChart.update('none');
+}
+
+function updateUIStats() {
+    const elements = document.querySelectorAll('.pulse');
+    elements.forEach(el => {
         if (el.textContent.includes('TPS')) {
             const current = parseInt(el.textContent.replace(/[^0-9]/g, ''));
             const change = Math.floor((Math.random() - 0.5) * 200);
             el.textContent = `${Math.max(800, current + change)} TPS`;
         }
+        if (el.textContent.includes(',')) {
+            const current = parseInt(el.textContent.replace(/[^0-9]/g, ''));
+            const change = Math.floor((Math.random() - 0.5) * 100);
+            el.textContent = (current + change).toLocaleString();
+        }
     });
-
-    setInterval(fetchData, 60000);
 }
 
-function setSidebarHeight() {
-  document.querySelector('.sidebar').style.height = window.innerHeight + 'px';
+// ========================================
+// DATA SIMULATION FUNCTIONS
+// ========================================
+
+function simulateDataUpdates() {
+    // Price fluctuations every 2 seconds
+    setInterval(() => {
+        updatePriceData();
+    }, 2000);
+
+    // Volume changes every 7 seconds
+    setInterval(() => {
+        updateVolumeData();
+    }, 7000);
+
+    // Market cap changes every 9 seconds
+    setInterval(() => {
+        updateMarketCapData();
+    }, 9000);
 }
-setSidebarHeight();
-window.addEventListener('resize', setSidebarHeight);
+
+function updatePriceData() {
+    const priceEl = document.getElementById('price');
+    if (!priceEl) return;
+    
+    const currentPrice = parseFloat(priceEl.textContent.replace('$', ''));
+    const variation = (Math.random() - 0.5) * 0.01;
+    const newPrice = Math.max(0.001, currentPrice + variation);
+    priceEl.textContent = `$${newPrice.toFixed(4)}`;
+
+    // Update change percentage
+    const changeEl = document.getElementById('priceChange');
+    if (changeEl) {
+        const change = ((newPrice - 0.4285) / 0.4285) * 100;
+        changeEl.textContent = `${change > 0 ? '+' : ''}${change.toFixed(1)}%`;
+        changeEl.className = `stat-change ${change > 0 ? 'positive' : 'negative'}`;
+    }
+}
+
+function updateVolumeData() {
+    const volumeEl = document.getElementById('volume');
+    if (!volumeEl) return;
+    
+    const base = 14.2;
+    const variation = (Math.random() - 0.5) * 4;
+    const newVolume = Math.max(1, base + variation);
+    volumeEl.textContent = `$${newVolume.toFixed(1)}M`;
+}
+
+function updateMarketCapData() {
+    const capEl = document.getElementById('marketCap');
+    if (!capEl) return;
+    
+    const base = 1.08;
+    const variation = (Math.random() - 0.5) * 0.2;
+    const newCap = Math.max(0.1, base + variation);
+    capEl.textContent = `$${newCap.toFixed(2)}B`;
+}
+
+// ========================================
+// TRADING FUNCTIONS
+// ========================================
 
 function trade(type) {
     const btn = event.target;
@@ -4408,20 +4394,699 @@ function stake() {
 function swap() {
     alert('Swap: KDA ↔ USDC, ETH, BTC');
 }
+
+// ========================================
+// SOCIAL SECTION DATA & FUNCTIONS
+// ========================================
+
+const postsData = {
+    1: {
+        user: '@Alice_Blockchain',
+        avatar: 'A',
+        time: '2 hours ago',
+        content: 'Just bridged 1000 KDA to the new DeFi protocol! 🚀 #KDA #DeFi',
+        likes: 234,
+        comments: [
+            { 
+                id: 1, 
+                user: '@CryptoFan', 
+                avatar: 'C', 
+                time: '1h ago', 
+                content: 'Amazing! Which protocol?', 
+                likes: 12, 
+                replies: [
+                    { id: 1, user: '@Alice_Blockchain', avatar: 'A', time: '30m ago', content: 'The new KDA-USDC pool!', likes: 5 }
+                ]
+            },
+            { id: 2, user: '@TechGuru', avatar: 'T', time: '45m ago', content: 'Great move! 🚀', likes: 8, replies: [] }
+        ]
+    },
+    2: {
+        user: '@BlockchainBob',
+        avatar: 'B',
+        time: '4 hours ago',
+        content: 'Building the next gen dApp on Kadena! Who\'s ready for beta? 🔥',
+        likes: 156,
+        comments: [
+            { id: 3, user: '@DevStar', avatar: 'D', time: '2h ago', content: 'Count me in!', likes: 10, replies: [] }
+        ]
+    }
+};
+
+function initializeSocialSection() {
+    initializeSubnavTabs();
+    initializePostInteractions();
+    initializeLikeButtons();
+    initializeCommentButtons();
+}
+
+function initializeSubnavTabs() {
+    document.querySelectorAll('.subnav-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.subnav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.social-content').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelector(`.social-content.${tab.dataset.tab}`).classList.add('active');
+            
+            updateTrendingSidebar(tab.dataset.tab);
+        });
+    });
+}
+
+function updateTrendingSidebar(tabType) {
+    const trendingTitle = document.getElementById('trendingTitle');
+    const trendingSidebar = document.querySelector('.trending-sidebar');
+    
+    if (!trendingTitle || !trendingSidebar) return;
+    
+    if (tabType === 'livestream') {
+        trendingTitle.textContent = '📹 Trending Live Streams';
+        trendingSidebar.innerHTML = `
+            <h3 id="trendingTitle">📹 Trending Live Streams</h3>
+            <div class="trending-item">
+                <div class="trending-topic">KDA DeFi Discussion</div>
+                <div class="trending-count">1,245 viewers</div>
+            </div>
+            <div class="trending-item">
+                <div class="trending-topic">Kadena Dev Q&A</div>
+                <div class="trending-count">892 viewers</div>
+            </div>
+        `;
+    } else {
+        trendingTitle.textContent = '🔥 Trending';
+        trendingSidebar.innerHTML = `
+            <h3 id="trendingTitle">🔥 Trending</h3>
+            <div class="trending-item">
+                <div class="trending-topic">#KDAToTheMoon</div>
+                <div class="trending-count">12.4K posts</div>
+            </div>
+            <div class="trending-item">
+                <div class="trending-topic">#DeFiRevolution</div>
+                <div class="trending-count">8.9K posts</div>
+            </div>
+        `;
+    }
+}
+
+function initializePostInteractions() {
+    document.querySelectorAll('.post').forEach(post => {
+        post.addEventListener('click', () => {
+            const postId = post.dataset.postId;
+            openPostModal(postId);
+        });
+    });
+}
+
+function initializeLikeButtons() {
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleLike(btn);
+        });
+    });
+}
+
+function initializeCommentButtons() {
+    document.querySelectorAll('.comment-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const post = btn.closest('.post');
+            openPostModal(post.dataset.postId);
+        });
+    });
+}
+
+function toggleLike(btn) {
+    const isLiked = btn.dataset.liked === 'true';
+    const countSpan = btn.querySelector('.count');
+    let count = parseInt(countSpan.textContent);
+    
+    if (isLiked) {
+        btn.classList.remove('liked');
+        btn.dataset.liked = 'false';
+        count--;
+    } else {
+        btn.classList.add('liked');
+        btn.dataset.liked = 'true';
+        count++;
+    }
+    
+    countSpan.textContent = count;
+}
+
+// ========================================
+// MODAL FUNCTIONS
+// ========================================
+
+function openPostModal(postId) {
+    const postData = postsData[postId];
+    if (!postData) return;
+    
+    const modal = document.getElementById('postModal');
+    const modalPostContent = document.getElementById('modalPostContent');
+    const commentsList = document.getElementById('commentsList');
+    
+    if (!modal || !modalPostContent || !commentsList) return;
+
+    // Render post content
+    modalPostContent.innerHTML = createPostHTML(postData);
+    
+    // Render comments
+    commentsList.innerHTML = postData.comments.map(comment => createCommentHTML(comment)).join('');
+
+    // Attach event listeners
+    attachModalEventListeners(modalPostContent, commentsList);
+    
+    modal.style.display = 'flex';
+}
+
+function createPostHTML(postData) {
+    return `
+        <div class="post">
+            <div class="post-header">
+                <div class="avatar">${postData.avatar}</div>
+                <div>
+                    <h4>${postData.user}</h4>
+                    <p class="post-time">${postData.time}</p>
+                </div>
+            </div>
+            <p>${postData.content}</p>
+            <div class="post-actions">
+                <button class="action-btn like-btn" data-liked="false">
+                    <span class="icon">❤️</span> 
+                    <span class="count">${postData.likes}</span>
+                </button>
+                <button class="action-btn comment-btn">
+                    <span class="icon">💬</span> 
+                    <span class="count">${postData.comments.length}</span>
+                </button>
+                <button class="action-btn share-btn">
+                    <span class="icon">🔄</span> 
+                    <span class="count">78</span>
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function createCommentHTML(comment) {
+    const repliesHTML = comment.replies.length > 0 ? `
+        <div class="replies">
+            ${comment.replies.map(reply => `
+                <div class="comment reply" data-reply-id="${reply.id}">
+                    <div class="comment-header">
+                        <div class="avatar">${reply.avatar}</div>
+                        <div>
+                            <h5>${reply.user}</h5>
+                            <p class="comment-time">${reply.time}</p>
+                        </div>
+                    </div>
+                    <p>${reply.content}</p>
+                    <div class="comment-actions">
+                        <button class="comment-action-btn like-btn" data-liked="false">
+                            <span class="icon">❤️</span> 
+                            <span class="count">${reply.likes}</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    ` : '';
+
+    return `
+        <div class="comment" data-comment-id="${comment.id}">
+            <div class="comment-header">
+                <div class="avatar">${comment.avatar}</div>
+                <div>
+                    <h5>${comment.user}</h5>
+                    <p class="comment-time">${comment.time}</p>
+                </div>
+            </div>
+            <p>${comment.content}</p>
+            <div class="comment-actions">
+                <button class="comment-action-btn like-btn" data-liked="false">
+                    <span class="icon">❤️</span> 
+                    <span class="count">${comment.likes}</span>
+                </button>
+                <button class="comment-action-btn reply-btn">Reply</button>
+            </div>
+            ${repliesHTML}
+        </div>
+    `;
+}
+
+function attachModalEventListeners(modalPostContent, commentsList) {
+    // Modal like buttons
+    modalPostContent.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', () => toggleLike(btn));
+    });
+
+    // Comment like buttons
+    commentsList.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', () => toggleLike(btn));
+    });
+
+    // Reply buttons
+    commentsList.querySelectorAll('.reply-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const comment = btn.closest('.comment');
+            const commentId = comment.dataset.commentId;
+            showReplyInput(comment, commentId);
+        });
+    });
+}
+
+function showReplyInput(comment, commentId) {
+    // Remove existing reply input if any
+    const existingInput = comment.querySelector('.reply-input');
+    if (existingInput) {
+        existingInput.remove();
+        return;
+    }
+
+    const replyInput = document.createElement('div');
+    replyInput.className = 'comment-input-container reply-input';
+    replyInput.innerHTML = `
+        <textarea class="comment-input" placeholder="Reply to comment..."></textarea>
+        <button class="btn comment-submit" onclick="submitReply(${commentId})">Reply</button>
+    `;
+    comment.appendChild(replyInput);
+}
+
+function closePostModal() {
+    const modal = document.getElementById('postModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function submitComment() {
+    const commentInput = document.querySelector('.comment-input');
+    const commentText = commentInput?.value.trim();
+    
+    if (!commentText || !commentInput) return;
+    
+    const commentsList = document.getElementById('commentsList');
+    if (!commentsList) return;
+    
+    const newComment = {
+        id: Date.now(),
+        user: '@CurrentUser',
+        avatar: 'U',
+        time: 'Just now',
+        content: commentText,
+        likes: 0,
+        replies: []
+    };
+    
+    const newCommentHTML = `
+        <div class="comment" data-comment-id="${newComment.id}">
+            <div class="comment-header">
+                <div class="avatar">${newComment.avatar}</div>
+                <div>
+                    <h5>${newComment.user}</h5>
+                    <p class="comment-time">${newComment.time}</p>
+                </div>
+            </div>
+            <p>${newComment.content}</p>
+            <div class="comment-actions">
+                <button class="comment-action-btn like-btn" data-liked="false">
+                    <span class="icon">❤️</span> 
+                    <span class="count">0</span>
+                </button>
+                <button class="comment-action-btn reply-btn">Reply</button>
+            </div>
+        </div>
+    `;
+    
+    commentsList.insertAdjacentHTML('beforeend', newCommentHTML);
+    commentInput.value = '';
+    
+    // Reattach event listeners for new comment
+    const newCommentElement = commentsList.lastElementChild;
+    attachCommentEventListeners(newCommentElement);
+}
+
+function submitReply(commentId) {
+    const comment = document.querySelector(`.comment[data-comment-id="${commentId}"]`);
+    const replyInput = comment?.querySelector('.reply-input .comment-input');
+    const replyText = replyInput?.value.trim();
+    
+    if (!replyText || !comment || !replyInput) return;
+    
+    let repliesContainer = comment.querySelector('.replies');
+    if (!repliesContainer) {
+        repliesContainer = document.createElement('div');
+        repliesContainer.className = 'replies';
+        comment.appendChild(repliesContainer);
+    }
+    
+    const newReply = {
+        id: Date.now(),
+        user: '@CurrentUser',
+        avatar: 'U',
+        time: 'Just now',
+        content: replyText,
+        likes: 0
+    };
+    
+    const newReplyHTML = `
+        <div class="comment reply" data-reply-id="${newReply.id}">
+            <div class="comment-header">
+                <div class="avatar">${newReply.avatar}</div>
+                <div>
+                    <h5>${newReply.user}</h5>
+                    <p class="comment-time">${newReply.time}</p>
+                </div>
+            </div>
+            <p>${newReply.content}</p>
+            <div class="comment-actions">
+                <button class="comment-action-btn like-btn" data-liked="false">
+                    <span class="icon">❤️</span> 
+                    <span class="count">0</span>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    repliesContainer.insertAdjacentHTML('beforeend', newReplyHTML);
+    replyInput.value = '';
+    comment.querySelector('.reply-input')?.remove();
+    
+    // Reattach event listeners for new reply
+    const newReplyElement = repliesContainer.lastElementChild;
+    attachReplyEventListeners(newReplyElement);
+}
+
+function attachCommentEventListeners(commentElement) {
+    const likeBtn = commentElement.querySelector('.like-btn');
+    const replyBtn = commentElement.querySelector('.reply-btn');
+    
+    if (likeBtn) {
+        likeBtn.addEventListener('click', () => toggleLike(likeBtn));
+    }
+    
+    if (replyBtn) {
+        replyBtn.addEventListener('click', () => {
+            const commentId = commentElement.dataset.commentId;
+            showReplyInput(commentElement, commentId);
+        });
+    }
+}
+
+function attachReplyEventListeners(replyElement) {
+    const likeBtn = replyElement.querySelector('.like-btn');
+    
+    if (likeBtn) {
+        likeBtn.addEventListener('click', () => toggleLike(likeBtn));
+    }
+}
+
+// ========================================
+// RESPONSIVE DESIGN HANDLERS
+// ========================================
+
+function handleResize() {
+    const socialLayout = document.querySelector('.social-layout');
+    const trending = document.getElementById('trendingDesktop');
+    
+    if (window.innerWidth <= 1200) {
+        if (socialLayout) {
+            socialLayout.style.gridTemplateColumns = '1fr';
+        }
+        if (trending) {
+            trending.style.display = 'none';
+        }
+    } else if (currentSection === 'social') {
+        if (socialLayout) {
+            socialLayout.style.gridTemplateColumns = '2fr 1fr';
+        }
+        if (trending) {
+            trending.style.display = 'block';
+        }
+    }
+}
+
+// ========================================
+// ANIMATION & VISUAL EFFECTS
+// ========================================
+
+function initializeAnimations() {
+    // Pulse animation for stat cards every 10 seconds
+    setInterval(() => {
+        const stats = document.querySelectorAll('.stat-card');
+        stats.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.animation = 'pulse 0.6s ease';
+                setTimeout(() => {
+                    card.style.animation = '';
+                }, 600);
+            }, index * 200);
+        });
+    }, 10000);
+
+    // Update member counts every 30 seconds
+    setInterval(() => {
+        const memberCounts = document.querySelectorAll('.community-members');
+        memberCounts.forEach(count => {
+            const current = parseInt(count.textContent.replace(/[^\d]/g, ''));
+            const newCount = current + Math.floor(Math.random() * 5);
+            count.textContent = `${newCount.toLocaleString()} members`;
+        });
+    }, 30000);
+}
+
+// ========================================
+// EVENT LISTENERS SETUP
+// ========================================
+
+function setupEventListeners() {
+    // Window resize handler
+    window.addEventListener('resize', handleResize);
+    
+    // Keyboard event handlers
+    const messageInput = document.getElementById('messageInput');
+    if (messageInput) {
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    }
+    
+    const communityInput = document.getElementById('communityInput');
+    if (communityInput) {
+        communityInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendCommunityMessage();
+            }
+        });
+    }
+}
+
+// ========================================
+// INITIALIZATION FUNCTIONS
+// ========================================
+
+function initializeApp() {
+    console.log('Initializing Kadena Dashboard...');
+    
+    // Initialize market data
+    initializeMarketData();
+    
+    // Handle responsive design
+    handleResize();
+    
+    // Setup all event listeners
+    setupEventListeners();
+    
+    // Start animations
+    initializeAnimations();
+    
+    console.log('Dashboard initialized successfully');
+}
+
+function startDataUpdates() {
+    console.log('Starting data updates...');
+    
+    // Start all update intervals
+    simulateDataUpdates();
+    
+    console.log('Data updates started');
+}
+
+// ========================================
+// DOM READY INITIALIZATION
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing components...');
+    
+    // Initialize basic app functionality
+    initializeApp();
+    
+    // Initialize social section
+    initializeSocialSection();
+    
+    // Initialize charts after a short delay to ensure DOM is fully ready
+    setTimeout(() => {
+        console.log('Initializing charts...');
+        initCharts();
+        startDataUpdates();
+    }, 100);
+    
+    console.log('All components initialized');
+});
+
+
+function initializeAnimations() {
+  // Pulse animation for stat cards every 10 seconds
+  setInterval(() => {
+    const stats = document.querySelectorAll('.stat-card');
+    stats.forEach((card, index) => {
+      setTimeout(() => {
+        card.style.animation = 'pulse 0.6s ease';
+        setTimeout(() => {
+          card.style.animation = '';
+        }, 600);
+      }, index * 200);
+    });
+  }, 10000);
+
+  // Update member counts every 30 seconds
+  setInterval(() => {
+    const memberCounts = document.querySelectorAll('.community-members');
+    memberCounts.forEach(count => {
+      const current = parseInt(count.textContent.replace(/[^\d]/g, ''));
+      const newCount = current + Math.floor(Math.random() * 5);
+      count.textContent = `${newCount.toLocaleString()} members`;
+    });
+  }, 30000);
+
+  // Trigger entrance animation for visible elements on mobile
+  if (window.innerWidth <= 768) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animation = 'slideIn 0.5s ease forwards';
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll('.stat-card, .wallet-card, .post, .community-card').forEach(el => {
+      observer.observe(el);
+    });
+  }
+}
+
+// Toggle Sidebar and Overlay
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.getElementById('mainContent');
+  const overlay = document.getElementById('sidebarOverlay');
+
+  sidebar.classList.toggle('active');
+  mainContent.classList.toggle('sidebar-active');
+  if (overlay) {
+    overlay.classList.toggle('active');
+  }
+}
+
+// Updated setupEventListeners to Handle Overlay Click
+function setupEventListeners() {
+  // Existing event listeners (e.g., for nav links, wallet tabs, etc.) should remain
+  // Add this block to ensure overlay click closes sidebar
+  const overlay = document.getElementById('sidebarOverlay');
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) { // Only trigger when clicking the overlay, not the close button
+        toggleSidebar();
+      }
+    });
+  }
+
+  // Existing resize handler
+  window.addEventListener('resize', handleResize);
+
+  // Add any other existing event listeners here (e.g., for nav links, tabs, etc.)
+}
+
+function showSection(sectionId) {
+  // Hide all sections
+  document.querySelectorAll('.section').forEach(section => {
+    section.classList.remove('active');
+  });
+  
+  // Show selected section
+  document.getElementById(sectionId).classList.add('active');
+  
+  // Update navigation
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  currentSection = sectionId;
+  
+  // Close sidebar and overlay on mobile when selecting a section
+  if (window.innerWidth <= 768) {
+    toggleSidebar();
+  }
+  
+  // Handle responsive design for social section
+  if (sectionId === 'social') {
+    const trending = document.getElementById('trendingDesktop');
+    if (window.innerWidth > 1200) {
+      trending.style.display = 'block';
+      document.querySelector('.social-layout').style.gridTemplateColumns = '2fr 1fr';
+    }
+  }
+}
+
+function initializeAnimations() {
+  setInterval(() => {
+    const stats = document.querySelectorAll('.stat-card');
+    stats.forEach((card, index) => {
+      setTimeout(() => {
+        card.style.animation = 'pulse 0.6s ease';
+        setTimeout(() => {
+          card.style.animation = '';
+        }, 600);
+      }, index * 200);
+    });
+  }, 10000);
+  setInterval(() => {
+    const memberCounts = document.querySelectorAll('.community-members');
+    memberCounts.forEach(count => {
+      const current = parseInt(count.textContent.replace(/[^\d]/g, ''));
+      const newCount = current + Math.floor(Math.random() * 5);
+      count.textContent = `${newCount.toLocaleString()} members`;
+    });
+  }, 30000);
+  if (window.innerWidth <= 768) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animation = 'slideIn 0.5s ease forwards';
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.stat-card, .wallet-card, .post, .community-card, .p2p-offer').forEach(el => {
+      observer.observe(el);
+    });
+  }
+}
   </script>
   <script src="kan-community.js"></script>
-  <script src="kan-wallet.css"></script>
+  <script src="kan-wallet.js"></script>
   <script src="kan-finance.js"></script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
