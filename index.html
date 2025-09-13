@@ -458,7 +458,7 @@ body {
   display: flex;
   gap: 4px;
   padding: 8px;
-  margin-top: 6px;
+  margin: 8px;
 }
 
 .btn {
@@ -2486,6 +2486,9 @@ body {
                 <div class="stat-label">🚀 Max TPS</div>
             </div>
         </div>
+        <div class="action-buttons">
+                <button class="btn" onclick="trade('buy')">Deposit</button>
+        </div>
 
         <div class="chart-section">
             <div class="chart-header">📊 KDA/USD Live Chart</div>
@@ -2495,8 +2498,8 @@ body {
             
         </div>
         <div class="action-buttons">
-                <button class="btn" onclick="trade('buy')">Buy</button>
-                <button class="btn" onclick="trade('sell')">Sell</button>
+                <button class="btn" onclick="trade('buy')">Trade</button>
+                <button class="btn" onclick="trade('sell')">P2P</button>
                 <button class="btn" onclick="stake()">Stake</button>
                 <button class="btn" onclick="swap()">Swap</button>
         </div>
@@ -5199,6 +5202,7 @@ function initializeAnimations() {
   <script src="kan-finance.js"></script>
 </body>
 </html>
+
 
 
 
