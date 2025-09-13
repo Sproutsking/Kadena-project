@@ -32,6 +32,7 @@
   --border-color: rgba(255, 255, 255, 0.1);
   --button-gradient: linear-gradient(135deg, #050208 10%, #df02af 70%, purple 20%);
   --glow-pink: #ff0080;
+  --deposit-btn-border: linear-gradient(135deg, #050208 10%, #df02af 70%, purple 20%);
 }
 
 /* Reset and Base Styles */
@@ -472,12 +473,12 @@ body {
   width: 100px;
   margin: 10px;
   color: white;
-  padding: 8px 10px;
+  padding: 7px 10px;
   background: var(--deposit-btn-gradient);
   margin-bottom: 10px;
   margin-left: 20px;
   border-radius: 12px;
-  border: 1px solid goldenrod;
+  border: var(  --deposit-btn-border: linear-gradient(135deg, #050208 10%, #df02af 70%, purple 20%);
   box-shadow: 0 0 4px gold;
 }
 .action-buttons {
@@ -5227,6 +5228,7 @@ function initializeAnimations() {
   <script src="kan-finance.js"></script>
 </body>
 </html>
+
 
 
 
