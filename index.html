@@ -365,6 +365,16 @@ body {
   margin-bottom: 8px;
 }
 
+  balance-card {
+  background: black;
+  border-radius: 8px;
+  padding: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  min-height: 55px;
+  border: 1px solid var(--border);
+}
 .stat-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -453,7 +463,9 @@ body {
   height: 150px;
   margin: 6px 0;
 }
-
+.deposite-btn-div deposit-btn {
+  width: 100px;
+}
 .action-buttons {
   display: flex;
   gap: 4px;
@@ -2437,13 +2449,12 @@ body {
       </div>
 
       <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card">
+        <div class="balance-grid">
                 <div class="stat-change positive">+12.4%</div>
                 <div class="stat-value" id="balance">12,450.73 KDA</div>
                 <div class="stat-label">💰 Balance</div>
             </div>
-            
+        <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-change positive" id="priceChange">+24.7%</div>
                 <div class="stat-value" id="price">$0.4285</div>
@@ -2486,8 +2497,8 @@ body {
                 <div class="stat-label">🚀 Max TPS</div>
             </div>
         </div>
-        <div class="action-buttons">
-                <button class="btn" onclick="trade('buy')">Deposit</button>
+        <div class="action-buttons deposite-btn-div">
+                <button class="btn deposit-btn" onclick="trade('buy')">Deposit</button>
         </div>
 
         <div class="chart-section">
@@ -5202,6 +5213,7 @@ function initializeAnimations() {
   <script src="kan-finance.js"></script>
 </body>
 </html>
+
 
 
 
