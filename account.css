@@ -1,0 +1,101 @@
+/* ==========================================
+   ACCOUNT SECTION
+   ========================================== */
+#account {
+  position: relative;
+  overflow: hidden;
+}
+
+.account-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px;
+}
+
+.account-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  border: 1px solid #444444;
+}
+
+.account-card:hover {
+  transform: translateY(-5px);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(45deg, #ff00cc, #3333ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 600;
+  box-shadow: 0 0 20px rgba(255, 0, 204, 0.5);
+  animation: avatarPulse 2s infinite;
+}
+
+.profile-info h3 {
+  color: #fff;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.wallet-address {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.profile-status {
+  color: #00ffcc;
+  font-size: 0.9rem;
+}
+
+.security-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.security-label {
+  color: #fff;
+  font-size: 1rem;
+}
+
+.connected-account {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.account-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.account-icon {
+  font-size: 1.2rem;
+}
