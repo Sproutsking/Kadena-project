@@ -1,0 +1,681 @@
+/* ===== CSS VARIABLES ===== */
+        :root {
+            --primary: #ff0080;
+            --secondary: #7928ca;
+            --accent: #00ff88;
+            --bg: transparent;
+            --surface: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --text-dim: #888888;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --error: #ff4444;
+            --primary-gradient: linear-gradient(135deg, #ff0080, #7928ca, #ff0080);
+            --secondary-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f0f23);
+            --bg-card: #0a0a0a;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --button-gradient: linear-gradient(135deg, #050208 10%, #df02af 70%, purple 20%);
+            --glass-bg: rgba(10, 10, 10, 0.8);
+            --neon-glow: 0 0 20px var(--primary), 0 0 40px var(--primary), 0 0 60px var(--primary);
+        }
+
+        .builderthon-section {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .builderthon-container {
+            max-width: 100vw;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* ===== HEADER SECTION ===== */
+        .builderthon-header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(255, 0, 128, 0.05));
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .builderthon-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            animation: pulseGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 5px var(--primary); }
+            100% { box-shadow: var(--neon-glow); }
+        }
+
+        .builderthon-title {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .builderthon-mobile-menu {
+            display: none;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.75rem;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        /* ===== NAVIGATION TABS ===== */
+        .builderthon-nav {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 20px 20px;
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .builderthon-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .builderthon-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+        }
+
+        .builderthon-tab.active {
+            background: var(--button-gradient);
+            color: var(--text);
+            box-shadow: 0 0 30px rgba(255, 0, 128, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .builderthon-tab:not(.active):hover {
+            background: var(--surface);
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        /* ===== CONTENT WRAPPER ===== */
+        .builderthon-content-wrapper {
+            padding: 2rem;
+            padding-top: 0;
+        }
+
+        .builderthon-content {
+            display: none;
+        }
+
+        .builderthon-content.active {
+            padding-top: 10px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            overflow-y: auto;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== STATS SECTION ===== */
+        .builderthon-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .builderthon-stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .builderthon-stat-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--primary-gradient);
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .builderthon-stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-card);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .builderthon-stat-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 0, 128, 0.2);
+        }
+
+        .builderthon-stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .builderthon-stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .builderthon-stat-label {
+            color: var(--text-dim);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        /* ===== COMPETITION CARDS ===== */
+        .builderthon-competitions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .builderthon-competition-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .builderthon-competition-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 0, 128, 0.1) 0%, 
+                rgba(121, 40, 202, 0.1) 50%, 
+                rgba(0, 255, 136, 0.1) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .builderthon-competition-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 0 35px 70px rgba(255, 0, 128, 0.25);
+            border-color: var(--primary);
+        }
+
+        .builderthon-competition-card:hover::before {
+            opacity: 1;
+        }
+
+        .builderthon-card-header {
+            background: var(--secondary-gradient);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .builderthon-card-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+        }
+
+        .builderthon-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+        }
+
+        .builderthon-status-active { 
+            background: rgba(0, 255, 136, 0.2); 
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .builderthon-status-upcoming { 
+            background: rgba(255, 170, 0, 0.2); 
+            border: 1px solid var(--warning);
+            color: var(--warning);
+        }
+
+        .builderthon-competition-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .builderthon-competition-date {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .builderthon-card-body {
+            padding: 2rem;
+        }
+
+        .builderthon-prize {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .builderthon-participants {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .builderthon-participant-stat {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .builderthon-participant-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .builderthon-participant-label {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .builderthon-description {
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .builderthon-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .builderthon-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .builderthon-btn-primary {
+            background: var(--button-gradient);
+            color: var(--text);
+            border: 1px solid var(--primary);
+        }
+
+        .builderthon-btn-secondary {
+            background: var(--glass-bg);
+            color: var(--text);
+            border: 1px solid var(--border-color);
+        }
+
+        .builderthon-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 0, 128, 0.3);
+        }
+
+        /* ===== LEADERBOARD ===== */
+        .builderthon-leaderboard {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .builderthon-leaderboard-header {
+            background: var(--secondary-gradient);
+            padding: 1.5rem 2rem;
+            display: grid;
+            grid-template-columns: auto 1fr repeat(4, auto);
+            gap: 1rem;
+            align-items: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        .builderthon-leaderboard-item {
+            display: grid;
+            grid-template-columns: auto 1fr repeat(4, auto);
+            gap: 1rem;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .builderthon-leaderboard-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            background: var(--primary-gradient);
+            transition: width 0.5s ease;
+        }
+
+        .builderthon-leaderboard-item:hover {
+            background: var(--surface);
+            transform: translateX(10px);
+        }
+
+        .builderthon-leaderboard-item:hover::before {
+            width: 4px;
+        }
+
+        .builderthon-rank {
+            font-size: 1.5rem;
+            font-weight: 900;
+            min-width: 3rem;
+            text-align: center;
+        }
+
+        .builderthon-rank-first { 
+            color: #FFD700;
+            text-shadow: 0 0 20px #FFD700;
+        }
+
+        .builderthon-rank-second { 
+            color: #C0C0C0;
+            text-shadow: 0 0 20px #C0C0C0;
+        }
+
+        .builderthon-rank-third { 
+            color: #CD7F32;
+            text-shadow: 0 0 20px #CD7F32;
+        }
+
+        .builderthon-project-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .builderthon-project-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .builderthon-project-name {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .builderthon-builder-name {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        .builderthon-score {
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .builderthon-score-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: block;
+        }
+
+        .builderthon-score-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .builderthon-total-score {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--accent);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .builderthon-mobile-menu {
+                display: block;
+            }
+
+            .builderthon-header {
+                padding: 1rem 1.5rem;
+            }
+
+            .builderthon-title {
+                font-size: 1.5rem;
+            }
+
+            .builderthon-nav {
+                padding: 0.75rem 1rem;
+                gap: 0.25rem;
+            }
+
+            .builderthon-tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .builderthon-content-wrapper {
+                padding: 1rem;
+                padding-top: 0;
+            }
+
+            .builderthon-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .builderthon-stat-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .builderthon-stat-number {
+                font-size: 2.2rem;
+            }
+
+            .builderthon-competitions {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .builderthon-competition-card:hover {
+                transform: translateY(-5px) scale(1.02);
+            }
+
+            .builderthon-card-header,
+            .builderthon-card-body {
+                padding: 1.5rem;
+            }
+
+            .builderthon-prize {
+                font-size: 2rem;
+            }
+
+            .builderthon-actions {
+                gap: 0.5rem;
+            }
+
+            .builderthon-btn {
+                padding: 0.75rem 1rem;
+                font-size: 0.8rem;
+                min-width: 0;
+                flex: 1;
+            }
+
+            .builderthon-leaderboard-header,
+            .builderthon-leaderboard-item {
+                grid-template-columns: auto 1fr auto;
+                padding: 1rem;
+                gap: 0.75rem;
+            }
+
+            .builderthon-score:not(.builderthon-total-score) {
+                display: none;
+            }
+
+            .builderthon-project-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+
+            .builderthon-rank {
+                font-size: 1.2rem;
+                min-width: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .builderthon-content-wrapper {
+                padding: 0.75rem;
+                padding-top: 0;
+            }
+
+            .builderthon-header {
+                padding: 0.75rem 1rem;
+            }
+
+            .builderthon-nav {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .builderthon-stats {
+                gap: 0.75rem;
+            }
+
+            .builderthon-stat-card {
+                padding: 1rem 0.75rem;
+            }
+
+            .builderthon-stat-number {
+                font-size: 1.8rem;
+            }
+
+            .builderthon-card-header,
+            .builderthon-card-body {
+                padding: 1rem;
+            }
+
+            .builderthon-prize {
+                font-size: 1.5rem;
+            }
+        }
