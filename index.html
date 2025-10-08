@@ -202,10 +202,10 @@
           </div>
         </div>
         <div class="action-buttons">
-          <button class="btn" onclick="trade('buy')">Trade</button>
-          <button class="btn" onclick="trade('sell')">P2P</button>
-          <button class="btn" onclick="stake()">Stake</button>
-          <button class="btn" onclick="swap()">Swap</button>
+          <button class="action-btn" onclick="trade('buy')">Trade</button>
+          <button class="action-btn" onclick="trade('sell')">P2P</button>
+          <button class="action-btn" onclick="stake()">Stake</button>
+          <button class="action-btn" onclick="swap()">Swap</button>
         </div>
         <div class="features">
           <h3>🌟 Why Kadena Dominates</h3>
@@ -4475,8 +4475,8 @@
               </div>
             </div>
             <div class="profile-actions">
-              <button class="btn">Edit Profile</button>
-              <button class="btn btn-secondary">Share Profile</button>
+              <button class="account-btn">Edit Profile</button>
+              <button class="account-btn">Share Profile</button>
             </div>
           </div>
         </div>
@@ -4506,7 +4506,7 @@
             <span class="info-label">Network</span>
             <span class="info-value">Kadena Chain 1</span>
           </div>
-          <button class="btn" style="width: 100%; margin-top: 1rem;">View Full Wallet</button>
+          <button class="view-detail-btn">View Full Wallet</button>
         </div>
 
         <!-- Portfolio Overview -->
@@ -4531,7 +4531,7 @@
             <span class="info-label">24h Change</span>
             <span class="info-value" style="color: #00ff88;">+12.4%</span>
           </div>
-          <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">View Details</button>
+          <button class="view-detail-btn">View Details</button>
         </div>
 
         <!-- Activity Stats -->
@@ -4556,7 +4556,7 @@
             <span class="info-label">Reputation</span>
             <span class="info-value">⭐⭐⭐⭐⭐</span>
           </div>
-          <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">View Achievements</button>
+          <button class="view-detail-btn">View Achievements</button>
         </div>
 
         <!-- Membership -->
@@ -4581,7 +4581,7 @@
             <span class="info-label">Benefits Active</span>
             <span class="info-value">All</span>
           </div>
-          <button class="btn" style="width: 100%; margin-top: 1rem;">Upgrade Tier</button>
+          <button class="view-detail-btn">Upgrade Tier</button>
         </div>
 
         <!-- Social Stats -->
@@ -4606,7 +4606,7 @@
             <span class="info-label">Groups</span>
             <span class="info-value">12 Active</span>
           </div>
-          <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">Open Messages</button>
+          <button class="view-detail-btn">Open Messages</button>
         </div>
 
         <!-- Transactions -->
@@ -4631,7 +4631,7 @@
             <span class="info-label">Gas Fees Paid</span>
             <span class="info-value">12.4 KDA</span>
           </div>
-          <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">Transaction History</button>
+          <button class="view-detail-btn">Transaction History</button>
         </div>
       </div>
     </div>
@@ -4662,7 +4662,7 @@
               <label class="form-label">Bio</label>
               <input type="text" class="form-input" placeholder="Tell us about yourself">
             </div>
-            <button type="submit" class="btn" style="width: 100%;">Save Changes</button>
+            <button type="submit" class="view-detail-btn">Save Changes</button>
           </form>
         </div>
 
@@ -4690,11 +4690,11 @@
           </div>
           <div class="form-group" style="margin-top: 1rem;">
             <label class="form-label">Change Password</label>
-            <button class="btn btn-secondary" style="width: 100%;">Update Password</button>
+            <button class="update-detail-btn">Update Password</button>
           </div>
           <div class="form-group">
             <label class="form-label">Backup Codes</label>
-            <button class="btn btn-secondary" style="width: 100%;">Generate Codes</button>
+            <button class="code-gen-btn">Generate Codes</button>
           </div>
         </div>
 
@@ -4724,7 +4724,7 @@
               <div class="toggle-slider"></div>
             </div>
           </div>
-          <button class="btn" style="width: 100%; margin-top: 1rem;">Add New Wallet</button>
+          <button class="btn">Add New Wallet</button>
         </div>
 
         <!-- Payment Methods -->
@@ -4750,7 +4750,7 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-secondary" style="width: 100%;">Add Payment Method</button>
+          <button class="btn">Add Payment Method</button>
         </div>
 
         <!-- Connected Services -->
@@ -4767,7 +4767,7 @@
                 <div class="service-status status-connected">Connected</div>
               </div>
             </div>
-            <button class="btn btn-danger btn-icon" style="padding: 0.5rem 1rem;">
+            <button class="btn">
               Disconnect
             </button>
           </div>
@@ -4779,7 +4779,7 @@
                 <div class="service-status status-connected">Connected</div>
               </div>
             </div>
-            <button class="btn btn-danger btn-icon" style="padding: 0.5rem 1rem;">
+            <button class="btn btn-danger btn-icon">
               Disconnect
             </button>
           </div>
@@ -4791,7 +4791,7 @@
                 <div class="service-status status-disconnected">Not Connected</div>
               </div>
             </div>
-            <button class="btn btn-success btn-icon" style="padding: 0.5rem 1rem;">
+            <button class="btn btn-success btn-icon">
               Connect
             </button>
           </div>
@@ -4803,7 +4803,7 @@
                 <div class="service-status status-disconnected">Not Connected</div>
               </div>
             </div>
-            <button class="btn btn-success btn-icon" style="padding: 0.5rem 1rem;">
+            <button class="btn btn-success btn-icon">
               Connect
             </button>
           </div>
