@@ -1,101 +1,634 @@
-/* ==========================================
-   ACCOUNT SECTION
-   ========================================== */
-#account {
-  position: relative;
-  overflow: hidden;
-}
+    /* Tab Navigation */
+    .account-tabs {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      max-width: 1400px;
+      margin: 0 auto 2rem;
+      padding: 4px 1rem;
+      flex-wrap: wrap;
+      background-color: black;
+      border-bottom: 1px solid #ff00cc;
+    }
 
-.account-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 12px;
-}
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #aaa;
+      padding: 6px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
 
-.account-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  border: 1px solid #444444;
-}
+    .tab-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
 
-.account-card:hover {
-  transform: translateY(-5px);
-}
+    .tab-btn:hover::before {
+      left: 100%;
+    }
 
-.profile-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
+    .tab-btn:hover {
+      border-color: rgba(255, 0, 204, 0.5);
+      color: #fff;
+    }
 
-.profile-avatar {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(45deg, #ff00cc, #3333ff);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 2rem;
-  font-weight: 600;
-  box-shadow: 0 0 20px rgba(255, 0, 204, 0.5);
-  animation: avatarPulse 2s infinite;
-}
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(255, 0, 204, 0.2), rgba(51, 51, 255, 0.2));
+      border-color: #ff00cc;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255, 0, 204, 0.3);
+    }
 
-.profile-info h3 {
-  color: #fff;
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-}
+    /* Tab Content */
+    .tab-content {
+      display: none;
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
 
-.wallet-address {
-  color: #aaa;
-  font-size: 0.9rem;
-}
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
 
-.profile-status {
-  color: #00ffcc;
-  font-size: 0.9rem;
-}
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
 
-.security-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-.security-label {
-  color: #fff;
-  font-size: 1rem;
-}
+    /* Profile Section */
+    .profile-hero {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
 
-.connected-account {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
+    .profile-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 0, 204, 0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
 
-.account-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
 
-.account-icon {
-  font-size: 1.2rem;
-}
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .profile-header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-avatar-container {
+      position: relative;
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(45deg, #ff00cc, #3333ff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 3rem;
+      font-weight: 600;
+      box-shadow: 0 0 30px rgba(255, 0, 204, 0.5);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .avatar-badge {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #00ff88, #00cc66);
+      border-radius: 50%;
+      border: 3px solid #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    .profile-main-info {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #00ff88, #00cc66);
+      border-radius: 50%;
+      font-size: 0.8rem;
+    }
+
+    .profile-username {
+      color: #aaa;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .profile-stats {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ff00cc;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: #aaa;
+      text-transform: uppercase;
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Account Grid */
+    .account-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .account-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .account-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ff00cc, #3333ff);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .account-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 0, 204, 0.3);
+      box-shadow: 0 10px 40px rgba(255, 0, 204, 0.2);
+    }
+
+    .account-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #ff00cc, #3333ff);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    .info-value {
+      color: #fff;
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .wallet-address-display {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: #00ffcc;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #ff00cc;
+      box-shadow: 0 0 10px rgba(255, 0, 204, 0.3);
+    }
+
+    .form-input:read-only {
+      color: #666;
+      cursor: not-allowed;
+    }
+
+    .form-select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .form-select:focus {
+      outline: none;
+      border-color: #ff00cc;
+      box-shadow: 0 0 10px rgba(255, 0, 204, 0.3);
+    }
+
+    /* Buttons */
+    .btn {
+      background: linear-gradient(135deg, #ff00cc, #3333ff);
+      border: none;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(255, 0, 204, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 5px 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ff0066, #cc0033);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #00ff88, #00cc66);
+    }
+
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Connected Services */
+    .service-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      transition: all 0.3s ease;
+    }
+
+    .service-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateX(5px);
+    }
+
+    .service-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .service-icon {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 1.2rem;
+    }
+
+    .service-name {
+      font-weight: 600;
+    }
+
+    .service-status {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+
+    .status-connected {
+      color: #00ff88;
+    }
+
+    .status-disconnected {
+      color: #ff6666;
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 13px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .toggle-switch.active {
+      background: linear-gradient(135deg, #00ff88, #00cc66);
+    }
+
+    .toggle-slider {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-switch.active .toggle-slider {
+      transform: translateX(24px);
+    }
+
+    /* Payment Cards */
+    .payment-card {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .payment-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 0, 204, 0.2) 0%, transparent 70%);
+    }
+
+    .card-brand {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .card-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ff00cc;
+    }
+
+    .card-type {
+      font-size: 0.8rem;
+      color: #aaa;
+      text-transform: uppercase;
+    }
+
+    .card-number {
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .card-info-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-info-label {
+      font-size: 0.7rem;
+      color: #aaa;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-info-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .account-tabs {
+        margin: 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        border: none;
+        padding: 5px 16px;
+        border-top: 1px solid #444444;
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .account-tabs .tab-btn {
+        flex: 1;
+        gap: 20px;
+        display: flex;
+        padding: 12px 0;
+        font-size: 0.9rem;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 6px;
+      }
+
+      .account-grid {
+        margin-bottom: 76px;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .tab-content {
+        padding: 12px;
+      }
+
+      .profile-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .profile-stats {
+        justify-content: center;
+      }
+
+      .profile-actions {
+        justify-content: center;
+      }
+    }
