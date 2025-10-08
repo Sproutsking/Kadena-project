@@ -1,248 +1,259 @@
-/* Blockchain Animated Background Styles for All Sections */
-
-/* Apply to all sections */
-.section {
-    position: relative;
-    background: linear-gradient(135deg, #000000 0%, #1a0d1a 50%, #000000 100%);
-}
-
-/* Blockchain background container */
-.blockchain-bg {
+/* Animated Grid System */
+.neural-grid {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 1;
+    background-image:
+        linear-gradient(rgba(168, 85, 247, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridPulse 8s ease-in-out infinite;
+    transform: perspective(500px) rotateX(60deg) scale(2);
+    transform-origin: center center;
 }
 
-/* Ensure content stays above background */
-.section > *:not(.blockchain-bg) {
-    position: relative;
-    z-index: 10;
-}
+@keyframes gridPulse {
 
-/* Floating Particles */
-.particle {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    background: #e91e63;
-    border-radius: 50%;
-    animation: float 15s infinite linear;
-    box-shadow: 0 0 10px rgba(233, 30, 99, 0.8);
-}
-
-@keyframes float {
-    0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
+    0%,
     100% {
-        transform: translateY(-100px) rotate(360deg);
-        opacity: 0;
+        opacity: 0.3;
     }
-}
 
-/* Network Grid Lines */
-.grid-line {
-    position: absolute;
-    background: linear-gradient(90deg, transparent 0%, rgba(233, 30, 99, 0.3) 50%, transparent 100%);
-    animation: pulse 4s infinite ease-in-out;
-}
-
-.grid-line.horizontal {
-    width: 100%;
-    height: 1px;
-    left: 0;
-}
-
-.grid-line.vertical {
-    width: 1px;
-    height: 100%;
-    top: 0;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 0.2;
-        transform: scale(1);
-    }
     50% {
-        opacity: 0.8;
-        transform: scale(1.02);
-    }
-}
-
-/* Hexagonal Blockchain Nodes */
-.blockchain-node {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border: 2px solid rgba(233, 30, 99, 0.6);
-    background: rgba(233, 30, 99, 0.1);
-    transform: rotate(45deg);
-    border-radius: 8px;
-    animation: nodeGlow 3s infinite alternate;
-}
-
-.blockchain-node::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    background: #e91e63;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    animation: innerPulse 2s infinite;
-}
-
-@keyframes nodeGlow {
-    0% {
-        box-shadow: 0 0 20px rgba(233, 30, 99, 0.4);
-        border-color: rgba(233, 30, 99, 0.6);
-    }
-    100% {
-        box-shadow: 0 0 40px rgba(233, 30, 99, 0.8);
-        border-color: rgba(233, 30, 99, 1);
-    }
-}
-
-@keyframes innerPulse {
-    0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.5);
         opacity: 0.6;
     }
 }
 
-/* Connecting Lines Between Nodes */
-.connection-line {
+/* Particle Canvas */
+#particleCanvas {
     position: absolute;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(233, 30, 99, 0), rgba(233, 30, 99, 0.8), rgba(233, 30, 99, 0));
-    animation: dataFlow 2s infinite;
-    transform-origin: left center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
-@keyframes dataFlow {
-    0% {
-        transform: scaleX(0);
-        opacity: 0;
-    }
-    50% {
-        transform: scaleX(1);
-        opacity: 1;
-    }
+/* Floating Data Blocks */
+/* .data-block {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            background: rgba(10, 0, 21, 0.5);
+            backdrop-filter: blur(10px);
+            animation: floatBlock 20s infinite ease-in-out;
+            z-index: 1;
+        }
+
+        .data-block::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(45deg, transparent, rgba(169, 4, 175, 0.5), transparent);
+            animation: borderRotate 3s linear infinite;
+            z-index: -1;
+        }
+
+        .data-block::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(175, 4, 147, 0.5);
+        } */
+
+/* @keyframes floatBlock {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(-15px) rotate(240deg); }
+        }
+
+        @keyframes borderRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        } */
+
+/* Hexagon Network */
+.hex-network {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hexagon {
+    position: absolute;
+    width: 80px;
+    height: 46px;
+    background: rgba(168, 85, 247, 0.05);
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    animation: hexPulse 4s ease-in-out infinite;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+@keyframes hexPulse {
+
+    0%,
     100% {
-        transform: scaleX(0);
-        opacity: 0;
+        opacity: 0.3;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+}
+
+/* Glowing Orbs */
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: orbFloat 15s ease-in-out infinite;
+    z-index: 1;
+}
+
+.orb-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.4), transparent);
+    top: 10%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(219, 39, 119, 0.3), transparent);
+    bottom: 20%;
+    right: 15%;
+    animation-delay: 3s;
+}
+
+.orb-3 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.35), transparent);
+    top: 50%;
+    left: 50%;
+    animation-delay: 6s;
+}
+
+@keyframes orbFloat {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    33% {
+        transform: translate(50px, -50px);
+    }
+
+    66% {
+        transform: translate(-30px, 30px);
     }
 }
 
 /* Digital Rain Effect */
 .digital-rain {
     position: absolute;
-    top: -100px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.rain-column {
+    position: absolute;
+    top: -100%;
     width: 2px;
     height: 100px;
-    background: linear-gradient(180deg, transparent, rgba(233, 30, 99, 0.8), transparent);
-    animation: rain 8s infinite linear;
+    background: linear-gradient(to bottom, transparent, rgba(168, 85, 247, 0.8), transparent);
+    animation: rainFall linear infinite;
 }
 
-@keyframes rain {
-    0% {
-        transform: translateY(-100px);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
+@keyframes rainFall {
+    to {
         transform: translateY(calc(100vh + 100px));
+    }
+}
+
+/* Circuit Paths */
+.circuit-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.circuit-path {
+    stroke: rgba(168, 85, 247, 0.3);
+    stroke-width: 1;
+    fill: none;
+    stroke-dasharray: 5 5;
+    animation: circuitFlow 3s linear infinite;
+}
+
+@keyframes circuitFlow {
+    to {
+        stroke-dashoffset: -20;
+    }
+}
+
+/* Central Node */
+.central-node {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    z-index: 1;
+}
+
+.node-core {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(168, 85, 247, 0.6);
+    animation: nodePulse 2s ease-in-out infinite;
+}
+
+.node-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    animation: ringExpand 3s ease-out infinite;
+}
+
+@keyframes nodePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+    }
+
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
+    }
+}
+
+@keyframes ringExpand {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(3);
         opacity: 0;
     }
-}
-
-/* Geometric Shapes */
-.geo-shape {
-    position: absolute;
-    border: 1px solid rgba(233, 30, 99, 0.4);
-    background: rgba(233, 30, 99, 0.05);
-    animation: rotate 20s infinite linear;
-}
-
-.geo-shape.triangle {
-    width: 0;
-    height: 0;
-    border: none;
-    border-left: 25px solid transparent;
-    border-right: 25px solid transparent;
-    border-bottom: 40px solid rgba(233, 30, 99, 0.2);
-    background: none;
-}
-
-.geo-shape.circle {
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-}
-
-.geo-shape.square {
-    width: 40px;
-    height: 40px;
-}
-
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg) translateX(50px) rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg) translateX(50px) rotate(-360deg);
-    }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .particle {
-        width: 2px;
-        height: 2px;
-    }
-    
-    .blockchain-node {
-        width: 30px;
-        height: 30px;
-    }
-    
-    .geo-shape.circle {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .geo-shape.square {
-        width: 30px;
-        height: 30px;
-    }
-}
-
-/* Performance optimization for animations */
-.blockchain-bg * {
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
 }
