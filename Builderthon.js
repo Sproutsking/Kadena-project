@@ -1,198 +1,248 @@
-// Main tab functionality
-        document.querySelectorAll('.main-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.main-content').forEach(c => c.classList.remove('active'));
-                
-                tab.classList.add('active');
-                const tabId = tab.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-            });
+(function () {
+    // Navigation - Desktop & Mobile
+    function bthSwitchView(viewName) {
+        document.querySelectorAll('.bth-nav-item, .bth-bottom-nav-item').forEach(item => {
+            item.classList.remove('bth-active');
+        });
+        document.querySelectorAll('.bth-view').forEach(view => {
+            view.classList.remove('bth-active');
         });
 
-        // Competition detail view
-        document.querySelectorAll('.view-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                document.querySelector('.competitions-grid').style.display = 'none';
-                document.querySelector('.stats').style.display = 'none';
-                document.getElementById('competition-detail').style.display = 'block';
-                
-                // Load submissions for detail view
-                loadSubmissions();
-            });
+        document.querySelectorAll(`[data-view="${viewName}"]`).forEach(item => {
+            item.classList.add('bth-active');
         });
 
-        // Back to competitions
-        document.querySelector('.back-btn').addEventListener('click', () => {
-            document.querySelector('.competitions-grid').style.display = 'grid';
-            document.querySelector('.stats').style.display = 'grid';
-            document.getElementById('competition-detail').style.display = 'none';
-        });
+        document.getElementById(`bth-${viewName}`).classList.add('bth-active');
+    }
 
-        // Detail tabs
-        document.querySelectorAll('.detail-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.detail-section').forEach(s => s.classList.remove('active'));
-                
-                tab.classList.add('active');
-                const tabId = tab.getAttribute('data-detail-tab');
-                document.getElementById(tabId).classList.add('active');
-            });
+    // Desktop navigation
+    document.querySelectorAll('.bth-nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const view = item.getAttribute('data-view');
+            bthSwitchView(view);
         });
+    });
 
-        // Submit project modal
-        document.querySelectorAll('.submit-project-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('submit-modal').classList.add('active');
-            });
+    // Mobile bottom navigation
+    document.querySelectorAll('.bth-bottom-nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const view = item.getAttribute('data-view');
+            bthSwitchView(view);
         });
+    });
 
-        // Create competition modal
-        document.querySelectorAll('.create-competition-btn, .create-comp-modal-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('create-competition-modal').classList.add('active');
-            });
+    // Profile navigation
+    window.bthOpenProfile = function () {
+        bthSwitchView('profile');
+    };
+
+    // Profile tabs
+    document.querySelectorAll('.bth-profile-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const section = tab.getAttribute('data-profile-section');
+
+            document.querySelectorAll('.bth-profile-tab').forEach(t => t.classList.remove('bth-active'));
+            document.querySelectorAll('.bth-profile-section').forEach(s => s.classList.remove('bth-active'));
+
+            tab.classList.add('bth-active');
+            document.getElementById(`bth-${section}`).classList.add('bth-active');
         });
+    });
 
-        // Close modals
-        document.querySelectorAll('.close-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.form-modal').forEach(modal => {
-                    modal.classList.remove('active');
-                });
-            });
+    // Toggle switches
+    document.querySelectorAll('.bth-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            toggle.classList.toggle('bth-active');
         });
+    });
 
-        // Close modal on outside click
-        document.querySelectorAll('.form-modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.remove('active');
+    // Filter functionality
+    document.querySelectorAll('.bth-filter-item').forEach(filter => {
+        filter.addEventListener('click', () => {
+            const filterValue = filter.getAttribute('data-filter');
+
+            document.querySelectorAll('.bth-filter-item').forEach(f => f.classList.remove('bth-active'));
+            filter.classList.add('bth-active');
+
+            document.querySelectorAll('.bth-comp-card').forEach(card => {
+                const category = card.getAttribute('data-category');
+                const status = card.getAttribute('data-status');
+
+                if (filterValue === 'all') {
+                    card.style.display = 'block';
+                } else if (filterValue === 'live' && status === 'live') {
+                    card.style.display = 'block';
+                } else if (filterValue === 'upcoming' && status === 'upcoming') {
+                    card.style.display = 'block';
+                } else if (filterValue === 'ended' && status === 'ended') {
+                    card.style.display = 'block';
+                } else if (filterValue === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
                 }
             });
         });
+    });
 
-        // Form submissions
-        document.getElementById('submit-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Project submitted successfully! 🎉');
-            document.getElementById('submit-modal').classList.remove('active');
-        });
+    // Modal functions
+    window.bthOpenModal = function (modalId) {
+        document.getElementById(modalId).classList.add('bth-active');
+    };
 
-        document.getElementById('create-competition-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Competition created successfully! 🚀');
-            document.getElementById('create-competition-modal').classList.remove('active');
-        });
+    window.bthCloseModal = function (modalId) {
+        document.getElementById(modalId).classList.remove('bth-active');
+    };
 
-        // Join competition
-        document.querySelectorAll('.join-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                alert('Welcome to the competition! 🚀');
-            });
-        });
-
-        // Vote functionality
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('vote-btn')) {
-                const currentVotes = parseInt(e.target.textContent.match(/\d+/)[0]);
-                e.target.textContent = `👍 Vote (${currentVotes + 1})`;
-                e.target.style.background = 'var(--accent)';
-                e.target.disabled = true;
-                
-                setTimeout(() => {
-                    e.target.style.background = 'var(--success)';
-                }, 300);
+    // Close modal on backdrop click
+    document.querySelectorAll('.bth-modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('bth-active');
             }
         });
+    });
 
-        // Load submissions function
-        function loadSubmissions() {
-            const submissionsContainer = document.getElementById('submissions');
-            submissionsContainer.innerHTML = `
-                <div class="submissions-list">
-                    <div class="submission-card">
-                        <div class="submission-header">
-                            <div class="builder-info">
-                                <div class="builder-avatar">AK</div>
-                                <div>
-                                    <div class="project-name">KadenaSwap Pro</div>
-                                    <div class="builder-name">@alexkadena</div>
-                                </div>
-                            </div>
-                            <button class="vote-btn">👍 Vote (42)</button>
-                        </div>
-                        <p style="color: var(--text-dim); margin-bottom: 1rem;">
-                            Advanced DEX with cross-chain capabilities and yield farming features.
-                        </p>
-                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <span style="background: var(--primary); padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">#DeFi</span>
-                            <span style="background: var(--secondary); padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">#DEX</span>
-                        </div>
-                    </div>
+    // Form submissions
+    document.getElementById('submit-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Project submitted successfully!');
+        bthCloseModal('submit-modal');
+        e.target.reset();
+    });
 
-                    <div class="submission-card">
-                        <div class="submission-header">
-                            <div class="builder-info">
-                                <div class="builder-avatar">MR</div>
-                                <div>
-                                    <div class="project-name">Yield Optimizer</div>
-                                    <div class="builder-name">@maria_dev</div>
-                                </div>
-                            </div>
-                            <button class="vote-btn">👍 Vote (38)</button>
-                        </div>
-                        <p style="color: var(--text-dim); margin-bottom: 1rem;">
-                            Automated yield farming strategy optimizer with risk management.
-                        </p>
-                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <span style="background: var(--accent); color: black; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">#Yield</span>
-                            <span style="background: var(--warning); color: black; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">#Automation</span>
-                        </div>
-                    </div>
+    document.getElementById('create-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Competition created successfully!');
+        bthCloseModal('create-modal');
+        e.target.reset();
+    });
 
-                    <div class="submission-card">
-                        <div class="submission-header">
-                            <div class="builder-info">
-                                <div class="builder-avatar">JD</div>
-                                <div>
-                                    <div class="project-name">Cross-Chain Bridge</div>
-                                    <div class="builder-name">@john_dev</div>
-                                </div>
-                            </div>
-                            <button class="vote-btn">👍 Vote (51)</button>
-                        </div>
-                        <p style="color: var(--text-dim); margin-bottom: 1rem;">
-                            Secure cross-chain bridge enabling seamless asset transfers.
-                        </p>
-                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <span style="background: var(--secondary); padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">#Bridge</span>
-                            <span style="background: var(--primary); padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">#CrossChain</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Animate stats on load
-        document.addEventListener('DOMContentLoaded', () => {
-            const stats = document.querySelectorAll('.stat-number');
-            stats.forEach(stat => {
-                const target = parseInt(stat.textContent.replace(/\D/g, ''));
-                let current = 0;
-                const increment = target / 50;
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        stat.textContent = stat.textContent.includes('K') ? `${target}K` : target;
-                        clearInterval(timer);
-                    } else {
-                        const display = Math.floor(current);
-                        stat.textContent = stat.textContent.includes('K') ? `${display}K` : display;
-                    }
-                }, 30);
+    // Search functionality
+    const searchInput = document.querySelector('.bth-search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.bth-comp-card').forEach(card => {
+                const title = card.querySelector('.bth-comp-title').textContent.toLowerCase();
+                const desc = card.querySelector('.bth-comp-desc').textContent.toLowerCase();
+                if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         });
+    }
+
+    // Animate stats on load
+    document.querySelectorAll('.bth-stat-value').forEach(stat => {
+        const text = stat.textContent;
+        const hasK = text.includes('K');
+        const hasDollar = text.includes('$');
+        const target = parseInt(text.replace(/\D/g, ''));
+        let current = 0;
+        const increment = target / 50;
+
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                let display = target;
+                if (hasDollar) display = '$' + display + (hasK ? 'K' : '');
+                else if (hasK) display = display + 'K';
+                stat.textContent = display;
+                clearInterval(timer);
+            } else {
+                let display = Math.floor(current);
+                if (hasDollar) display = '$' + display + (hasK ? 'K' : '');
+                else if (hasK) display = display + 'K';
+                stat.textContent = display;
+            }
+        }, 30);
+    });
+
+    // Join/Register button handlers
+    document.querySelectorAll('.bth-btn-primary').forEach(btn => {
+        if (btn.textContent.includes('Join') || btn.textContent.includes('Register')) {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = e.target.closest('.bth-comp-card');
+                if (card) {
+                    const compTitle = card.querySelector('.bth-comp-title').textContent;
+                    alert(`Successfully joined: ${compTitle}`);
+                }
+            });
+        }
+    });
+
+    // Details button handlers
+    document.querySelectorAll('.bth-btn-secondary').forEach(btn => {
+        if (btn.textContent.includes('Details') || btn.textContent.includes('Learn More')) {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                bthOpenModal('submit-modal');
+            });
+        }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.bth-modal').forEach(modal => {
+                modal.classList.remove('bth-active');
+            });
+        }
+    });
+
+    // Auto-hide header on scroll (desktop only)
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        if (window.innerWidth > 768) {
+            const currentScroll = window.pageYOffset;
+            const header = document.querySelector('.bth-header');
+            const nav = document.querySelector('.bth-nav-wrapper');
+
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.style.transform = 'translateY(-100%)';
+                nav.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+                nav.style.transform = 'translateY(0)';
+            }
+
+            lastScroll = currentScroll;
+        }
+    });
+
+    // Clear validation on input
+    document.querySelectorAll('.bth-form-input, .bth-form-textarea, .bth-form-select').forEach(input => {
+        input.addEventListener('input', () => {
+            input.style.borderColor = 'var(--bth-border)';
+        });
+    });
+
+    // Lazy load cards
+    const observerOptions = {
+        root: null,
+        rootMargin: '50px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.bth-comp-card, .bth-project-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(card);
+    });
+
+    console.log('Builderthon Platform Initialized');
+})();
