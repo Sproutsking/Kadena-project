@@ -1054,7 +1054,7 @@
 /* Responsive */
 @media (max-width: 768px) {
     .bth-main-wrapper {
-        padding-bottom: 70px;
+        margin-bottom: 20px;
     }
 
     .bth-nav-wrapper {
