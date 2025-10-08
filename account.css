@@ -232,6 +232,8 @@
     }
 
     .account-card {
+      display: flex;
+      flex-direction: column;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(10px);
       border-radius: 16px;
@@ -240,6 +242,8 @@
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      align-items: center;
+      justify-content: center;
     }
 
     .account-card::before {
@@ -265,11 +269,14 @@
     }
 
     .card-header {
+      width: 100%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 1rem;
       margin-bottom: 1.5rem;
       padding-bottom: 1rem;
+      justify-content: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
@@ -285,11 +292,12 @@
     }
 
     .card-title {
-      font-size: 1.3rem;
+      font-size: 16px;
       font-weight: 600;
     }
 
     .info-row {
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -372,11 +380,24 @@
     }
 
     /* Buttons */
-    .btn {
+     button .update-detail-btn, .code-gen-btn, .view-detail-btn {
+      width: fit-content;
+      padding: 0 20px;
+      height: 40px;
+      color: #ff00cc;
+      font-weight: 600;
+      align-items: center;
+      justify-content: center;
+      background: black;
+      border: 1px solid #ff00cc;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    .account-btn {
       background: linear-gradient(135deg, #ff00cc, #3333ff);
       border: none;
       color: #fff;
-      padding: 0.75rem 1.5rem;
+      padding: 6px 10px;
       border-radius: 8px;
       cursor: pointer;
       font-size: 1rem;
@@ -407,16 +428,6 @@
     .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 5px 20px rgba(255, 0, 204, 0.4);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 5px 20px rgba(255, 255, 255, 0.1);
     }
 
     .btn-danger {
