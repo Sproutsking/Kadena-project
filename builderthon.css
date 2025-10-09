@@ -9,7 +9,7 @@
     --bth-secondary: #7928ca;
     --bth-accent: #00ff88;
     --bth-bg: #000000;
-    --bth-surface: rgba(255, 255, 255, 0.03);
+    --bth-surface:#0a0a0a;
     --bth-border: rgba(255, 255, 255, 0.06);
     --bth-text: #ffffff;
     --bth-text-dim: #888888;
@@ -19,7 +19,7 @@
     --bth-error: #ff4444;
     --bth-gradient-primary: linear-gradient(135deg, #ff0080, #7928ca);
     --bth-gradient-card: linear-gradient(135deg, rgba(255, 0, 128, 0.05), rgba(121, 40, 202, 0.05));
-    --bth-glass: rgba(10, 10, 10, 0.85);
+    --bth-glass: #0a0a0a;
     --bth-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
