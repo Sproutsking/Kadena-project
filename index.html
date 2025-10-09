@@ -7,8 +7,16 @@
   <title>Novarex app</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.css">
+  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css"/>
 
   <link rel="stylesheet" href="social.css">
+  <link rel="stylesheet" href="cd.css">
   <link rel="stylesheet" href="background.css">
   <link rel="stylesheet" href="builderthon.css">
   <link rel="stylesheet" href="message.css">
@@ -301,10 +309,11 @@
     <section class="section" id="social">
       <div class="blockchain-bg"></div>
       <div class="section-header">
-        <h1 class="section-title">Social Hub</h1>
-        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+          <button id="meBtn" class="section-header-btn" onclick="openCreatorDashboard()">👤 Me</button>
+          <h1 class="section-title">Social Hub</h1>
+          <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
       </div>
-      <div class="content-section">
+      <div class="content-section active" id="socialSection">
         <div class="social-platform">
           <div class="social-header">
             <div class="social-nav">
@@ -1260,6 +1269,200 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- CREATOR DASHBOARD SECTION -->
+      <div class="creator-dashboard" id="creatorDashboard">
+        <div class="cd-nav-tabs-mobile">
+          <button class="cd-tab-btn cd-active" onclick="cdSwitchTab('lab')">
+            <i class="fa-solid fa-flask"></i> <span>Lab</span>
+          </button>
+          <button class="cd-tab-btn" onclick="cdSwitchTab('manager')">
+            <i class="fa-solid fa-chart-line"></i> <span>Manager</span>
+          </button>
+          <button class="cd-tab-btn" onclick="cdSwitchTab('profile')">
+            <i class="fa-solid fa-user"></i> <span>Profile</span>
+          </button>
+          <button class="cd-tab-btn" onclick="cdSwitchTab('earnings')">
+            <i class="fa-solid fa-coins"></i> <span>Earnings</span>
+          </button>
+        </div>
+
+        <div class="cd-container">
+              <header class="cd-header">
+                <button class="dc-back-btn" onclick="backToSocial()">⬅ Back</button>
+                <div class="cd-nav-tabs">
+                  <button class="cd-tab-btn cd-active" onclick="cdSwitchTab('lab')">🔬 Lab</button>
+                  <button class="cd-tab-btn" onclick="cdSwitchTab('manager')">📊 Manager</button>
+                  <button class="cd-tab-btn" onclick="cdSwitchTab('profile')">👤 Profile</button>
+                  <button class="cd-tab-btn" onclick="cdSwitchTab('earnings')">💰 Earnings</button>
+                </div>
+              </header>
+
+            <!-- CREATORS LAB TAB -->
+            <div id="cd-lab-tab" class="cd-tab-content cd-active">
+                <div class="cd-creators-lab">
+                    <div class="cd-creation-card" onclick="cdOpenCreationModal('video')">
+                        <div class="cd-creation-icon">🎥</div>
+                        <h3>Create Video</h3>
+                        <p>Upload with blockchain verification</p>
+                    </div>
+
+                    <div class="cd-creation-card" onclick="cdOpenCreationModal('audio')">
+                        <div class="cd-creation-icon">🎵</div>
+                        <h3>Create Audio</h3>
+                        <p>Set royalty and earn automatically</p>
+                    </div>
+
+                    <div class="cd-creation-card" onclick="cdOpenCreationModal('story')">
+                        <div class="cd-creation-icon">📖</div>
+                        <h3>Write Story</h3>
+                        <p>Serialized story monetization</p>
+                    </div>
+
+                    <div class="cd-creation-card" onclick="cdOpenCreationModal('book')">
+                        <div class="cd-creation-icon">📚</div>
+                        <h3>Write Book</h3>
+                        <p>Full-length blockchain verified</p>
+                    </div>
+
+                    <div class="cd-creation-card" onclick="cdOpenCreationModal('status')">
+                        <div class="cd-creation-icon">💬</div>
+                        <h3>Status Post</h3>
+                        <p>Mintable collectible updates</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENT MANAGER TAB -->
+            <div id="cd-manager-tab" class="cd-tab-content">
+                <div class="cd-content-grid" id="cd-content-library"></div>
+            </div>
+
+            <!-- PROFILE TAB -->
+            <div id="cd-profile-tab" class="cd-tab-content">
+                <div class="cd-profile-section">
+                    <div class="cd-profile-header">
+                        <div class="cd-profile-avatar">👤</div>
+                        <div>
+                            <h2>Creator Profile <span class="cd-premium-badge">✓</span></h2>
+                            <p style="color: var(--cd-text-secondary);">Manage your presence</p>
+                        </div>
+                    </div>
+
+                    <div class="cd-profile-stats">
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-value" id="cd-stat-followers">5K</div>
+                            <div class="cd-stat-label">Followers</div>
+                        </div>
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-value" id="cd-stat-views">800</div>
+                            <div class="cd-stat-label">Daily Views</div>
+                        </div>
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-value" id="cd-stat-premium">50</div>
+                            <div class="cd-stat-label">Premium Subs</div>
+                        </div>
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-value" id="cd-stat-premium-plus">10</div>
+                            <div class="cd-stat-label">Premium Plus</div>
+                        </div>
+                    </div>
+
+                    <div class="cd-token-creation-card">
+                        <h3>🪙 Create Your Own Token</h3>
+                        <p>Launch your personal creator token</p>
+                        <button class="cd-btn-primary" onclick="cdCheckTokenEligibility()" style="max-width: 300px; margin: 0 auto;">Check Eligibility</button>
+                        <div class="cd-token-requirement">
+                            Requirements: 10K+ followers, 1K+ daily views, 100+ premium subs
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <h3 style="margin-bottom: 12px; font-size: 16px;">Account Settings</h3>
+                        <div class="cd-form-group">
+                            <label>Display Name</label>
+                            <input type="text" value="Creator Name" />
+                        </div>
+                        <div class="cd-form-group">
+                            <label>Bio</label>
+                            <textarea placeholder="Tell your audience about yourself..."></textarea>
+                        </div>
+                        <div class="cd-form-group">
+                            <label>Content Categories</label>
+                            <select>
+                                <option>Entertainment</option>
+                                <option>Education</option>
+                                <option>Technology</option>
+                                <option>Arts & Culture</option>
+                                <option>Business</option>
+                            </select>
+                        </div>
+                        <button class="cd-btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EARNINGS TAB -->
+            <div id="cd-earnings-tab" class="cd-tab-content">
+                <div class="cd-profile-section">
+                    <h2 style="margin-bottom: 16px; font-size: 18px;">💰 Earnings Dashboard</h2>
+                    <div class="cd-profile-stats">
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-value">$0.00</div>
+                            <div class="cd-stat-label">Total Earnings</div>
+                        </div>
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-value">$0.00</div>
+                            <div class="cd-stat-label">Royalty Income</div>
+                        </div>
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-value">$0.00</div>
+                            <div class="cd-stat-label">Content Sales</div>
+                        </div>
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-value">$0.00</div>
+                            <div class="cd-stat-label">Token Value</div>
+                        </div>
+                    </div>
+                    <p style="color: var(--cd-text-secondary); font-size: 12px;">Create and publish content to start earning! All transactions are transparent and tracked on the blockchain.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODALS -->
+        <div id="cd-creation-modal" class="cd-modal">
+            <div class="cd-modal-content">
+                <button class="cd-close-modal" onclick="cdCloseModal('cd-creation-modal')">&times;</button>
+                <div id="cd-modal-body"></div>
+            </div>
+        </div>
+
+        <div id="cd-payment-modal" class="cd-modal">
+            <div class="cd-modal-content cd-payment-modal">
+                <button class="cd-close-modal" onclick="cdCloseModal('cd-payment-modal')">&times;</button>
+                <h2>🔐 Content Locked</h2>
+                <div class="cd-token-icon">🪙</div>
+                <p>This content requires payment to access</p>
+                <div class="cd-payment-amount" id="cd-payment-amount">$0.00</div>
+                <p style="color: var(--cd-text-secondary); margin-bottom: 20px;">Transaction will be processed via blockchain smart contract</p>
+                <button class="cd-btn-primary" onclick="cdProcessPayment()">Pay & Unlock Content</button>
+            </div>
+        </div>
+
+        <!-- STORY READER -->
+        <div id="cd-story-reader" class="cd-story-reader">
+            <div class="cd-story-header">
+                <h3 id="cd-story-title">Story Title</h3>
+                <button class="cd-story-close" onclick="cdCloseStoryReader()">✕</button>
+            </div>
+            <div class="cd-story-content">
+                <button class="cd-story-nav cd-prev" onclick="cdPreviousPage()">‹</button>
+                <div id="cd-story-pages-container"></div>
+                <button class="cd-story-nav cd-next" onclick="cdNextPage()">›</button>
+            </div>
+            <div class="cd-story-pagination" id="cd-story-pagination"></div>
         </div>
       </div>
     </section>
@@ -4421,680 +4624,682 @@
     </section>
 
     <!-- Account Section -->
-  <section class="section" id="account">
-    <div class="blockchain-bg"></div>
-    
-    <div class="section-header">
-      <h1 class="section-title">My Account</h1>
-      <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
-    </div>
+    <section class="section" id="account">
+      <div class="blockchain-bg"></div>
 
-    <!-- Tab Navigation -->
-    <div class="account-tabs">
-      <button class="tab-btn active" onclick="switchTab('profile')">
-        👤   Profile
-      </button>
-      <button class="tab-btn" onclick="switchTab('settings')">
-        ⚙️   Settings
-      </button>
-    </div>
+      <div class="section-header">
+        <h1 class="section-title">My Account</h1>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      </div>
 
-    <!-- Profile Tab -->
-    <div class="tab-content active" id="profile-tab">
-      <!-- Profile Hero -->
-      <div class="profile-hero">
-        <div class="profile-header">
-          <div class="profile-avatar-container">
-            <div class="profile-avatar">
-              E
-              <div class="avatar-badge">✓</div>
+      <!-- Tab Navigation -->
+      <div class="account-tabs">
+        <button class="tab-btn active" onclick="switchTab('profile')">
+          👤 Profile
+        </button>
+        <button class="tab-btn" onclick="switchTab('settings')">
+          ⚙️ Settings
+        </button>
+      </div>
+
+      <!-- Profile Tab -->
+      <div class="tab-content active" id="profile-tab">
+        <!-- Profile Hero -->
+        <div class="profile-hero">
+          <div class="profile-header">
+            <div class="profile-avatar-container">
+              <div class="profile-avatar">
+                E
+                <div class="avatar-badge">✓</div>
+              </div>
+            </div>
+            <div class="profile-main-info">
+              <div class="profile-name">
+                Emmanuel Okonkwo
+                <span class="verified-badge">✓</span>
+              </div>
+              <div class="profile-username">@emmanuel_crypto</div>
+              <div class="profile-stats">
+                <div class="stat-item">
+                  <div class="stat-value">12.5K</div>
+                  <div class="stat-label">Followers</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">847</div>
+                  <div class="stat-label">Following</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">3.2K</div>
+                  <div class="stat-label">Posts</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">24</div>
+                  <div class="stat-label">NFTs</div>
+                </div>
+              </div>
+              <div class="profile-actions">
+                <button class="account-btn">Edit Profile</button>
+                <button class="account-btn">Share Profile</button>
+              </div>
             </div>
           </div>
-          <div class="profile-main-info">
-            <div class="profile-name">
-              Emmanuel Okonkwo
-              <span class="verified-badge">✓</span>
+        </div>
+
+        <!-- Account Grid -->
+        <div class="account-grid">
+          <!-- Wallet Info -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">💼</div>
+              <h3 class="card-title">Wallet Info</h3>
             </div>
-            <div class="profile-username">@emmanuel_crypto</div>
-            <div class="profile-stats">
-              <div class="stat-item">
-                <div class="stat-value">12.5K</div>
-                <div class="stat-label">Followers</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">847</div>
-                <div class="stat-label">Following</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">3.2K</div>
-                <div class="stat-label">Posts</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">24</div>
-                <div class="stat-label">NFTs</div>
-              </div>
+            <div class="info-row">
+              <span class="info-label">Wallet Address</span>
+              <span class="info-value wallet-address-display">k:abc...xyz789</span>
             </div>
-            <div class="profile-actions">
-              <button class="account-btn">Edit Profile</button>
-              <button class="account-btn">Share Profile</button>
+            <div class="info-row">
+              <span class="info-label">Balance (KDA)</span>
+              <span class="info-value">15,247.83</span>
             </div>
+            <div class="info-row">
+              <span class="info-label">USD Value</span>
+              <span class="info-value">$42,693.89</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Network</span>
+              <span class="info-value">Kadena Chain 1</span>
+            </div>
+            <button class="view-detail-btn">View Full Wallet</button>
+          </div>
+
+          <!-- Portfolio Overview -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">📊</div>
+              <h3 class="card-title">Portfolio</h3>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Total Value</span>
+              <span class="info-value">$58,432.12</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">NFTs Owned</span>
+              <span class="info-value">24</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Tokens</span>
+              <span class="info-value">8 Types</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">24h Change</span>
+              <span class="info-value" style="color: #00ff88;">+12.4%</span>
+            </div>
+            <button class="view-detail-btn">View Details</button>
+          </div>
+
+          <!-- Activity Stats -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">⚡</div>
+              <h3 class="card-title">Activity</h3>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Hackathons Joined</span>
+              <span class="info-value">7</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Wins</span>
+              <span class="info-value">3</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Total Earned</span>
+              <span class="info-value">$12,500</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Reputation</span>
+              <span class="info-value">⭐⭐⭐⭐⭐</span>
+            </div>
+            <button class="view-detail-btn">View Achievements</button>
+          </div>
+
+          <!-- Membership -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">👑</div>
+              <h3 class="card-title">Membership</h3>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Tier</span>
+              <span class="info-value" style="color: #ffd700;">Premium Gold</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Member Since</span>
+              <span class="info-value">Jan 2024</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Renewal Date</span>
+              <span class="info-value">Jan 2026</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Benefits Active</span>
+              <span class="info-value">All</span>
+            </div>
+            <button class="view-detail-btn">Upgrade Tier</button>
+          </div>
+
+          <!-- Social Stats -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">🌐</div>
+              <h3 class="card-title">Social</h3>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Messages</span>
+              <span class="info-value">127 Unread</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Notifications</span>
+              <span class="info-value">43 New</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Friend Requests</span>
+              <span class="info-value">8 Pending</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Groups</span>
+              <span class="info-value">12 Active</span>
+            </div>
+            <button class="view-detail-btn">Open Messages</button>
+          </div>
+
+          <!-- Transactions -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">💳</div>
+              <h3 class="card-title">Recent Transactions</h3>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Last Transaction</span>
+              <span class="info-value">2 hours ago</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Total Sent</span>
+              <span class="info-value">2,847 KDA</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Total Received</span>
+              <span class="info-value">18,394 KDA</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Gas Fees Paid</span>
+              <span class="info-value">12.4 KDA</span>
+            </div>
+            <button class="view-detail-btn">Transaction History</button>
           </div>
         </div>
       </div>
 
-      <!-- Account Grid -->
-      <div class="account-grid">
-        <!-- Wallet Info -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">💼</div>
-            <h3 class="card-title">Wallet Info</h3>
+      <!-- Settings Tab -->
+      <div class="tab-content" id="settings-tab">
+        <div class="account-grid">
+          <!-- Profile Settings -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">👤</div>
+              <h3 class="card-title">Profile Settings</h3>
+            </div>
+            <form>
+              <div class="form-group">
+                <label class="form-label">Display Name</label>
+                <input type="text" class="form-input" value="Emmanuel Okonkwo">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-input" value="emmanuel_crypto">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" value="emmanuel@example.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Bio</label>
+                <input type="text" class="form-input" placeholder="Tell us about yourself">
+              </div>
+              <button type="submit" class="view-detail-btn">Save Changes</button>
+            </form>
           </div>
-          <div class="info-row">
-            <span class="info-label">Wallet Address</span>
-            <span class="info-value wallet-address-display">k:abc...xyz789</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Balance (KDA)</span>
-            <span class="info-value">15,247.83</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">USD Value</span>
-            <span class="info-value">$42,693.89</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Network</span>
-            <span class="info-value">Kadena Chain 1</span>
-          </div>
-          <button class="view-detail-btn">View Full Wallet</button>
-        </div>
 
-        <!-- Portfolio Overview -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">📊</div>
-            <h3 class="card-title">Portfolio</h3>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Total Value</span>
-            <span class="info-value">$58,432.12</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">NFTs Owned</span>
-            <span class="info-value">24</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Tokens</span>
-            <span class="info-value">8 Types</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">24h Change</span>
-            <span class="info-value" style="color: #00ff88;">+12.4%</span>
-          </div>
-          <button class="view-detail-btn">View Details</button>
-        </div>
-
-        <!-- Activity Stats -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">⚡</div>
-            <h3 class="card-title">Activity</h3>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Hackathons Joined</span>
-            <span class="info-value">7</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Wins</span>
-            <span class="info-value">3</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Total Earned</span>
-            <span class="info-value">$12,500</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Reputation</span>
-            <span class="info-value">⭐⭐⭐⭐⭐</span>
-          </div>
-          <button class="view-detail-btn">View Achievements</button>
-        </div>
-
-        <!-- Membership -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">👑</div>
-            <h3 class="card-title">Membership</h3>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Tier</span>
-            <span class="info-value" style="color: #ffd700;">Premium Gold</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Member Since</span>
-            <span class="info-value">Jan 2024</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Renewal Date</span>
-            <span class="info-value">Jan 2026</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Benefits Active</span>
-            <span class="info-value">All</span>
-          </div>
-          <button class="view-detail-btn">Upgrade Tier</button>
-        </div>
-
-        <!-- Social Stats -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">🌐</div>
-            <h3 class="card-title">Social</h3>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Messages</span>
-            <span class="info-value">127 Unread</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Notifications</span>
-            <span class="info-value">43 New</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Friend Requests</span>
-            <span class="info-value">8 Pending</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Groups</span>
-            <span class="info-value">12 Active</span>
-          </div>
-          <button class="view-detail-btn">Open Messages</button>
-        </div>
-
-        <!-- Transactions -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">💳</div>
-            <h3 class="card-title">Recent Transactions</h3>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Last Transaction</span>
-            <span class="info-value">2 hours ago</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Total Sent</span>
-            <span class="info-value">2,847 KDA</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Total Received</span>
-            <span class="info-value">18,394 KDA</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Gas Fees Paid</span>
-            <span class="info-value">12.4 KDA</span>
-          </div>
-          <button class="view-detail-btn">Transaction History</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Settings Tab -->
-    <div class="tab-content" id="settings-tab">
-      <div class="account-grid">
-        <!-- Profile Settings -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">👤</div>
-            <h3 class="card-title">Profile Settings</h3>
-          </div>
-          <form>
-            <div class="form-group">
-              <label class="form-label">Display Name</label>
-              <input type="text" class="form-input" value="Emmanuel Okonkwo">
+          <!-- Security Settings -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">🔒</div>
+              <h3 class="card-title">Security</h3>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Two-Factor Authentication</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Email Verification</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: 1rem;">
+              <label class="form-label">Change Password</label>
+              <button class="update-detail-btn">Update Password</button>
             </div>
             <div class="form-group">
-              <label class="form-label">Username</label>
-              <input type="text" class="form-input" value="emmanuel_crypto">
+              <label class="form-label">Backup Codes</label>
+              <button class="code-gen-btn">Generate Codes</button>
+            </div>
+          </div>
+
+          <!-- Wallet Settings -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">💼</div>
+              <h3 class="card-title">Wallet Settings</h3>
             </div>
             <div class="form-group">
-              <label class="form-label">Email Address</label>
-              <input type="email" class="form-input" value="emmanuel@example.com">
+              <label class="form-label">Primary Wallet</label>
+              <input type="text" class="form-input" value="k:abc...xyz789" readonly>
             </div>
             <div class="form-group">
-              <label class="form-label">Bio</label>
-              <input type="text" class="form-input" placeholder="Tell us about yourself">
+              <label class="form-label">Default Chain</label>
+              <select class="form-select">
+                <option>Kadena Chain 1</option>
+                <option>Kadena Chain 2</option>
+                <option>Kadena Chain 3</option>
+              </select>
             </div>
-            <button type="submit" class="view-detail-btn">Save Changes</button>
-          </form>
-        </div>
-
-        <!-- Security Settings -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">🔒</div>
-            <h3 class="card-title">Security</h3>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Two-Factor Authentication</span>
-            </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
-            </div>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Email Verification</span>
-            </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
-            </div>
-          </div>
-          <div class="form-group" style="margin-top: 1rem;">
-            <label class="form-label">Change Password</label>
-            <button class="update-detail-btn">Update Password</button>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Backup Codes</label>
-            <button class="code-gen-btn">Generate Codes</button>
-          </div>
-        </div>
-
-        <!-- Wallet Settings -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">💼</div>
-            <h3 class="card-title">Wallet Settings</h3>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Primary Wallet</label>
-            <input type="text" class="form-input" value="k:abc...xyz789" readonly>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Default Chain</label>
-            <select class="form-select">
-              <option>Kadena Chain 1</option>
-              <option>Kadena Chain 2</option>
-              <option>Kadena Chain 3</option>
-            </select>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Transaction Notifications</span>
-            </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
-            </div>
-          </div>
-          <button class="btn">Add New Wallet</button>
-        </div>
-
-        <!-- Payment Methods -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">💳</div>
-            <h3 class="card-title">Payment Methods</h3>
-          </div>
-          <div class="payment-card">
-            <div class="card-brand">
-              <span class="card-logo">VISA</span>
-              <span class="card-type">Credit</span>
-            </div>
-            <div class="card-number">•••• •••• •••• 4532</div>
-            <div class="card-footer">
-              <div class="card-info-item">
-                <span class="card-info-label">Card Holder</span>
-                <span class="card-info-value">Emmanuel Okonkwo</span>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Transaction Notifications</span>
               </div>
-              <div class="card-info-item">
-                <span class="card-info-label">Expires</span>
-                <span class="card-info-value">12/26</span>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
               </div>
             </div>
+            <button class="btn">Add New Wallet</button>
           </div>
-          <button class="btn">Add Payment Method</button>
-        </div>
 
-        <!-- Connected Services -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">🔗</div>
-            <h3 class="card-title">Connected Services</h3>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <div class="service-icon" style="background: #1DA1F2;">🐦</div>
-              <div>
-                <div class="service-name">Twitter</div>
-                <div class="service-status status-connected">Connected</div>
+          <!-- Payment Methods -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">💳</div>
+              <h3 class="card-title">Payment Methods</h3>
+            </div>
+            <div class="payment-card">
+              <div class="card-brand">
+                <span class="card-logo">VISA</span>
+                <span class="card-type">Credit</span>
+              </div>
+              <div class="card-number">•••• •••• •••• 4532</div>
+              <div class="card-footer">
+                <div class="card-info-item">
+                  <span class="card-info-label">Card Holder</span>
+                  <span class="card-info-value">Emmanuel Okonkwo</span>
+                </div>
+                <div class="card-info-item">
+                  <span class="card-info-label">Expires</span>
+                  <span class="card-info-value">12/26</span>
+                </div>
               </div>
             </div>
-            <button class="btn">
-              Disconnect
-            </button>
+            <button class="btn">Add Payment Method</button>
           </div>
-          <div class="service-item">
-            <div class="service-info">
-              <div class="service-icon" style="background: #5865F2;">💬</div>
-              <div>
-                <div class="service-name">Discord</div>
-                <div class="service-status status-connected">Connected</div>
+
+          <!-- Connected Services -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">🔗</div>
+              <h3 class="card-title">Connected Services</h3>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <div class="service-icon" style="background: #1DA1F2;">🐦</div>
+                <div>
+                  <div class="service-name">Twitter</div>
+                  <div class="service-status status-connected">Connected</div>
+                </div>
+              </div>
+              <button class="btn">
+                Disconnect
+              </button>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <div class="service-icon" style="background: #5865F2;">💬</div>
+                <div>
+                  <div class="service-name">Discord</div>
+                  <div class="service-status status-connected">Connected</div>
+                </div>
+              </div>
+              <button class="btn btn-danger btn-icon">
+                Disconnect
+              </button>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <div class="service-icon" style="background: #25D366;">📱</div>
+                <div>
+                  <div class="service-name">Telegram</div>
+                  <div class="service-status status-disconnected">Not Connected</div>
+                </div>
+              </div>
+              <button class="btn btn-success btn-icon">
+                Connect
+              </button>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <div class="service-icon"
+                  style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);">📷</div>
+                <div>
+                  <div class="service-name">Instagram</div>
+                  <div class="service-status status-disconnected">Not Connected</div>
+                </div>
+              </div>
+              <button class="btn btn-success btn-icon">
+                Connect
+              </button>
+            </div>
+          </div>
+
+          <!-- Notification Preferences -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">🔔</div>
+              <h3 class="card-title">Notifications</h3>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Email Notifications</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
               </div>
             </div>
-            <button class="btn btn-danger btn-icon">
-              Disconnect
-            </button>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <div class="service-icon" style="background: #25D366;">📱</div>
-              <div>
-                <div class="service-name">Telegram</div>
-                <div class="service-status status-disconnected">Not Connected</div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Push Notifications</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
               </div>
             </div>
-            <button class="btn btn-success btn-icon">
-              Connect
-            </button>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <div class="service-icon" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);">📷</div>
-              <div>
-                <div class="service-name">Instagram</div>
-                <div class="service-status status-disconnected">Not Connected</div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">SMS Alerts</span>
+              </div>
+              <div class="toggle-switch" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
               </div>
             </div>
-            <button class="btn btn-success btn-icon">
-              Connect
-            </button>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Trade Alerts</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">NFT Activity</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Social Updates</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- Notification Preferences -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">🔔</div>
-            <h3 class="card-title">Notifications</h3>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Email Notifications</span>
+          <!-- Privacy Settings -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">🛡️</div>
+              <h3 class="card-title">Privacy</h3>
             </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
+            <div class="form-group">
+              <label class="form-label">Profile Visibility</label>
+              <select class="form-select">
+                <option>Public</option>
+                <option>Friends Only</option>
+                <option>Private</option>
+              </select>
             </div>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Push Notifications</span>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Show Wallet Balance</span>
+              </div>
+              <div class="toggle-switch" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
             </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Show NFT Collection</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
             </div>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">SMS Alerts</span>
-            </div>
-            <div class="toggle-switch" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
-            </div>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Trade Alerts</span>
-            </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
-            </div>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">NFT Activity</span>
-            </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Show Activity</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
             </div>
           </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Social Updates</span>
-            </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
-            </div>
-          </div>
-        </div>
 
-        <!-- Privacy Settings -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">🛡️</div>
-            <h3 class="card-title">Privacy</h3>
+          <!-- Billing & Subscriptions -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">💰</div>
+              <h3 class="card-title">Billing</h3>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Current Plan</span>
+              <span class="info-value">Premium Gold</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Monthly Cost</span>
+              <span class="info-value">$29.99</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Next Billing</span>
+              <span class="info-value">Nov 7, 2025</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Payment Method</span>
+              <span class="info-value">Visa •••• 4532</span>
+            </div>
+            <button class="btn" style="width: 100%; margin-top: 1rem;">Manage Subscription</button>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;">View Billing History</button>
           </div>
-          <div class="form-group">
-            <label class="form-label">Profile Visibility</label>
-            <select class="form-select">
-              <option>Public</option>
-              <option>Friends Only</option>
-              <option>Private</option>
-            </select>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Show Wallet Balance</span>
-            </div>
-            <div class="toggle-switch" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
-            </div>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Show NFT Collection</span>
-            </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
-            </div>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Show Activity</span>
-            </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
-            </div>
-          </div>
-        </div>
 
-        <!-- Billing & Subscriptions -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">💰</div>
-            <h3 class="card-title">Billing</h3>
+          <!-- Bill Payment -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">📄</div>
+              <h3 class="card-title">Pay Bills</h3>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Bill Type</label>
+              <select class="form-select">
+                <option>Select Bill Type</option>
+                <option>Electricity</option>
+                <option>Water</option>
+                <option>Internet</option>
+                <option>Cable TV</option>
+                <option>Mobile Recharge</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Provider</label>
+              <select class="form-select">
+                <option>Select Provider</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Account Number</label>
+              <input type="text" class="form-input" placeholder="Enter account number">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Amount</label>
+              <input type="number" class="form-input" placeholder="0.00">
+            </div>
+            <button class="btn" style="width: 100%;">Pay Bill</button>
           </div>
-          <div class="info-row">
-            <span class="info-label">Current Plan</span>
-            <span class="info-value">Premium Gold</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Monthly Cost</span>
-            <span class="info-value">$29.99</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Next Billing</span>
-            <span class="info-value">Nov 7, 2025</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Payment Method</span>
-            <span class="info-value">Visa •••• 4532</span>
-          </div>
-          <button class="btn" style="width: 100%; margin-top: 1rem;">Manage Subscription</button>
-          <button class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;">View Billing History</button>
-        </div>
 
-        <!-- Bill Payment -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">📄</div>
-            <h3 class="card-title">Pay Bills</h3>
+          <!-- Finance Management -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">📈</div>
+              <h3 class="card-title">Finance Manager</h3>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Monthly Income</span>
+              <span class="info-value">$8,420.00</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Monthly Expenses</span>
+              <span class="info-value">$3,840.50</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Savings</span>
+              <span class="info-value">$4,579.50</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Budget Status</span>
+              <span class="info-value" style="color: #00ff88;">On Track</span>
+            </div>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">View Full Report</button>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;">Set Budget Goals</button>
           </div>
-          <div class="form-group">
-            <label class="form-label">Bill Type</label>
-            <select class="form-select">
-              <option>Select Bill Type</option>
-              <option>Electricity</option>
-              <option>Water</option>
-              <option>Internet</option>
-              <option>Cable TV</option>
-              <option>Mobile Recharge</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Provider</label>
-            <select class="form-select">
-              <option>Select Provider</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Account Number</label>
-            <input type="text" class="form-input" placeholder="Enter account number">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Amount</label>
-            <input type="number" class="form-input" placeholder="0.00">
-          </div>
-          <button class="btn" style="width: 100%;">Pay Bill</button>
-        </div>
 
-        <!-- Finance Management -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">📈</div>
-            <h3 class="card-title">Finance Manager</h3>
+          <!-- Language & Region -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">🌍</div>
+              <h3 class="card-title">Language & Region</h3>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Language</label>
+              <select class="form-select">
+                <option>English</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+                <option>Chinese</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Timezone</label>
+              <select class="form-select">
+                <option>UTC +1 (Lagos)</option>
+                <option>UTC +0 (London)</option>
+                <option>UTC -5 (New York)</option>
+                <option>UTC +8 (Singapore)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Currency Display</label>
+              <select class="form-select">
+                <option>USD ($)</option>
+                <option>EUR (€)</option>
+                <option>GBP (£)</option>
+                <option>NGN (₦)</option>
+              </select>
+            </div>
+            <button class="btn" style="width: 100%;">Save Preferences</button>
           </div>
-          <div class="info-row">
-            <span class="info-label">Monthly Income</span>
-            <span class="info-value">$8,420.00</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Monthly Expenses</span>
-            <span class="info-value">$3,840.50</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Savings</span>
-            <span class="info-value">$4,579.50</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Budget Status</span>
-            <span class="info-value" style="color: #00ff88;">On Track</span>
-          </div>
-          <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">View Full Report</button>
-          <button class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;">Set Budget Goals</button>
-        </div>
 
-        <!-- Language & Region -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">🌍</div>
-            <h3 class="card-title">Language & Region</h3>
+          <!-- App Settings -->
+          <div class="account-card">
+            <div class="card-header">
+              <div class="card-icon">⚙️</div>
+              <h3 class="card-title">App Settings</h3>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Dark Mode</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Auto-Play Videos</span>
+              </div>
+              <div class="toggle-switch" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+            <div class="service-item">
+              <div class="service-info">
+                <span class="service-name">Sound Effects</span>
+              </div>
+              <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: 1rem;">
+              <label class="form-label">Data Usage</label>
+              <select class="form-select">
+                <option>Normal Quality</option>
+                <option>High Quality</option>
+                <option>Data Saver</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Language</label>
-            <select class="form-select">
-              <option>English</option>
-              <option>Spanish</option>
-              <option>French</option>
-              <option>German</option>
-              <option>Chinese</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Timezone</label>
-            <select class="form-select">
-              <option>UTC +1 (Lagos)</option>
-              <option>UTC +0 (London)</option>
-              <option>UTC -5 (New York)</option>
-              <option>UTC +8 (Singapore)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Currency Display</label>
-            <select class="form-select">
-              <option>USD ($)</option>
-              <option>EUR (€)</option>
-              <option>GBP (£)</option>
-              <option>NGN (₦)</option>
-            </select>
-          </div>
-          <button class="btn" style="width: 100%;">Save Preferences</button>
-        </div>
 
-        <!-- App Settings -->
-        <div class="account-card">
-          <div class="card-header">
-            <div class="card-icon">⚙️</div>
-            <h3 class="card-title">App Settings</h3>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Dark Mode</span>
+          <!-- Danger Zone -->
+          <div class="account-card" style="border-color: rgba(255, 0, 0, 0.3);">
+            <div class="card-header">
+              <div class="card-icon" style="background: linear-gradient(135deg, #ff0066, #cc0033);">⚠️</div>
+              <h3 class="card-title">Danger Zone</h3>
             </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
+            <div class="form-group">
+              <label class="form-label">Export Account Data</label>
+              <button class="btn btn-secondary" style="width: 100%;">Download Data</button>
             </div>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Auto-Play Videos</span>
+            <div class="form-group">
+              <label class="form-label">Deactivate Account</label>
+              <button class="btn btn-secondary" style="width: 100%;">Deactivate</button>
             </div>
-            <div class="toggle-switch" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
+            <div class="form-group">
+              <label class="form-label">Delete Account</label>
+              <button class="btn btn-danger" style="width: 100%;">Delete Account</button>
             </div>
-          </div>
-          <div class="service-item">
-            <div class="service-info">
-              <span class="service-name">Sound Effects</span>
-            </div>
-            <div class="toggle-switch active" onclick="toggleSwitch(this)">
-              <div class="toggle-slider"></div>
-            </div>
-          </div>
-          <div class="form-group" style="margin-top: 1rem;">
-            <label class="form-label">Data Usage</label>
-            <select class="form-select">
-              <option>Normal Quality</option>
-              <option>High Quality</option>
-              <option>Data Saver</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Danger Zone -->
-        <div class="account-card" style="border-color: rgba(255, 0, 0, 0.3);">
-          <div class="card-header">
-            <div class="card-icon" style="background: linear-gradient(135deg, #ff0066, #cc0033);">⚠️</div>
-            <h3 class="card-title">Danger Zone</h3>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Export Account Data</label>
-            <button class="btn btn-secondary" style="width: 100%;">Download Data</button>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Deactivate Account</label>
-            <button class="btn btn-secondary" style="width: 100%;">Deactivate</button>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Delete Account</label>
-            <button class="btn btn-danger" style="width: 100%;">Delete Account</button>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
     <script src="main.js"></script>
     <script src="kan-community.js"></script>
     <script src="kan-wallet.js"></script>
     <script src="social.js"></script>
+    <script src="cd.js"></script>
     <script src="background.js"></script>
     <script src="Builderthon.js"></script>
     <script src="message.js"></script>
@@ -5102,6 +5307,6 @@
     <script src="account.js"></script>
     <script src="market.js"></script>
     <script src="kan-finance.js"></script>
-</body>
+  </body>
 
 </html>
