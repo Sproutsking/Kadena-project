@@ -15,11 +15,11 @@
   /* Background Colors */
   --bg: #000000;
   --bg-primary: #0a0a0a;
-  --bg-secondary: rgba(255, 255, 255, 0.03);
-  --bg-card: rgba(255, 255, 255, 0.05);
+  --bg-secondary: #0a0a0a;
+  --bg-card: #0a0a0a;
 
   /* Surface & Border Colors */
-  --surface: rgba(255, 255, 255, 0.04);
+  --surface: #0a0a0a;
   --border: rgba(255, 255, 255, 0.08);
   --border-color: rgba(255, 255, 255, 0.1);
 
