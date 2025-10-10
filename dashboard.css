@@ -1,6 +1,6 @@
 .kda-chart-section {
       max-width: 1400px;
-      height: 60vh;
+      height: 80vh;
       margin: 10px;
       background: var(--bg-secondary);
       backdrop-filter: blur(10px);
@@ -12,13 +12,13 @@
 
     .kda-chart-header {
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      padding: 25px 30px;
-      font-size: 28px;
+      padding: 12px 30px;
+      font-size: 22px;
       font-weight: 700;
       color: white;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       box-shadow: 0 4px 12px rgba(255, 0, 128, 0.3);
       position: relative;
       overflow: hidden;
@@ -43,7 +43,7 @@
     .kda-price-info {
       display: flex;
       gap: 8px;
-      padding: 12px 15px;
+      padding: 8px 15px;
       background: var(--bg-primary);
       border-bottom: 1px solid var(--bg-card);
       overflow-x: auto;
@@ -60,7 +60,7 @@
       flex-direction: column;
       gap: 3px;
       position: relative;
-      padding: 6px 10px;
+      padding: 5px 10px;
       border-radius: 8px;
       transition: all 0.3s ease;
       flex-shrink: 0;
@@ -73,7 +73,7 @@
     }
 
     .kda-price-label {
-      font-size: 10px;
+      font-size: 9px;
       color: rgba(255, 255, 255, 0.6);
       text-transform: uppercase;
       letter-spacing: 0.3px;
