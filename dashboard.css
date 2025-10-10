@@ -1,6 +1,6 @@
 .kda-chart-section {
       max-width: 1400px;
-      margin: 0 auto;
+      margin: 10px;
       background: var(--bg-secondary);
       backdrop-filter: blur(10px);
       border-radius: 20px;
