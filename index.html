@@ -8,12 +8,12 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.css">
-  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css" />
 
   <link rel="stylesheet" href="social.css">
   <link rel="stylesheet" href="cd.css">
@@ -26,6 +26,8 @@
   <link rel="stylesheet" href="kan-wallet.css">
   <link rel="stylesheet" href="finance.css">
   <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="chart.css">
+  <link rel="stylesheet" href="dashboard.css">
   <style>
   </style>
 </head>
@@ -201,12 +203,83 @@
           </div>
         </div>
         <div class="deposit-btn-div">
-          <button class="deposit-btn" onclick="trade('buy')">Deposit</button>
+          <button class="deposit-btn" onclick="openDepositPopup()">Deposit</button>
         </div>
-        <div class="chart-section">
-          <div class="chart-header">📊 KDA/USD Live Chart</div>
-          <div class="chart-container">
-            <canvas id="mainChart"></canvas>
+        <div class="kda-chart-section">
+          <div class="kda-chart-header">
+            📊 KDA/USD Live Chart
+          </div>
+
+          <div class="kda-price-info">
+            <div class="kda-price-item">
+              <div class="kda-price-label">Current Price</div>
+              <div class="kda-price-value" id="kdaCurrentPrice">$0.00</div>
+            </div>
+            <div class="kda-price-item">
+              <div class="kda-price-label">24h Change</div>
+              <div class="kda-price-change" id="kdaPriceChange">+0.00%</div>
+            </div>
+            <div class="kda-price-item">
+              <div class="kda-price-label">24h High</div>
+              <div class="kda-price-value" id="kdaHigh24h">$0.00</div>
+            </div>
+            <div class="kda-price-item">
+              <div class="kda-price-label">24h Low</div>
+              <div class="kda-price-value" id="kdaLow24h">$0.00</div>
+            </div>
+            <div class="kda-price-item">
+              <div class="kda-price-label">Volume</div>
+              <div class="kda-price-value" id="kdaVolume24h">$0</div>
+            </div>
+          </div>
+
+          <div class="kda-controls">
+            <div class="kda-btn-group" id="kdaVisibleTimeframes">
+              <button class="kda-btn" onclick="kdaChangeTimeframe('1D', this)"><span>1D</span></button>
+              <button class="kda-btn" onclick="kdaChangeTimeframe('1W', this)"><span>1W</span></button>
+            </div>
+
+            <div class="kda-dropdown">
+              <button class="kda-btn" id="kdaDropdownBtn" onclick="kdaToggleDropdown()"><span
+                  id="kdaDropdownLabel">More</span></button>
+              <div class="kda-dropdown-menu" id="kdaDropdownMenu">
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('1m', this)">1 Minute</div>
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('5m', this)">5 Minutes</div>
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('15m', this)">15 Minutes</div>
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('30m', this)">30 Minutes</div>
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('1H', this)">1 Hour</div>
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('4H', this)">4 Hours</div>
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('1M', this)">1 Month</div>
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('3M', this)">3 Months</div>
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('6M', this)">6 Months</div>
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('1Y', this)">1 Year</div>
+                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('ALL', this)">All Time</div>
+              </div>
+            </div>
+
+            <div class="kda-divider"></div>
+
+            <div class="kda-btn-group">
+              <button class="kda-btn" onclick="kdaToggleMA(this)"><span>MA</span></button>
+              <button class="kda-btn" onclick="kdaToggleEMA(this)"><span>EMA</span></button>
+              <button class="kda-btn" onclick="kdaToggleBollinger(this)"><span>BB</span></button>
+              <button class="kda-btn" onclick="kdaToggleRSI(this)"><span>RSI</span></button>
+            </div>
+
+            <div class="kda-divider"></div>
+
+            <div class="kda-btn-group">
+              <button class="kda-btn" onclick="kdaToggleVolume(this)"><span>Volume</span></button>
+              <button class="kda-btn" onclick="kdaToggleFullscreen(this)"><span>⛶</span></button>
+            </div>
+          </div>
+
+          <div class="kda-chart-container" id="kdaChartContainer">
+            <div class="kda-loading" id="kdaLoading">
+              <div class="kda-spinner"></div>
+              Loading chart data...
+            </div>
+            <canvas id="kdaMainChart"></canvas>
           </div>
         </div>
         <div class="action-buttons">
@@ -304,14 +377,210 @@
         </div>
       </div>
     </section>
+    <!-- Deposit Overlay & Popup -->
+    <div id="depositOverlay" class="deposit-overlay">
+      <div class="deposit-popup" onclick="event.stopPropagation()">
+        <button class="close-popup" onclick="closeDepositPopup()">&times;</button>
+
+        <!-- Deposit Options View -->
+        <div id="depositOptionsView" class="deposit-options-view">
+          <div class="popup-header">
+            <h2>Deposit Funds</h2>
+            <p>Choose your preferred deposit method</p>
+          </div>
+
+          <div class="deposit-options">
+            <!-- Transfer to Novarex Wallet -->
+            <div class="deposit-option-card" onclick="selectDepositMethod('transfer')">
+              <div class="option-content">
+                <span class="option-icon">💼</span>
+                <div class="option-text">
+                  <div class="option-title">Transfer to Novarex</div>
+                  <div class="option-description">Use email, wallet address, or user ID</div>
+                </div>
+                <span class="option-badge">Instant</span>
+              </div>
+            </div>
+
+            <!-- External Wallet -->
+            <div class="deposit-option-card" onclick="selectDepositMethod('p2p')">
+              <div class="option-content">
+                <span class="option-icon">🔗</span>
+                <div class="option-text">
+                  <div class="option-title">External Wallet</div>
+                  <div class="option-description">Deposit from your crypto wallet</div>
+                </div>
+                <span class="option-badge">Secure</span>
+              </div>
+            </div>
+
+            <!-- P2P Deposit -->
+            <div class="deposit-option-card" onclick="selectDepositMethod('p2p')">
+              <div class="option-content">
+                <span class="option-icon">👥</span>
+                <div class="option-text">
+                  <div class="option-title">P2P Deposit</div>
+                  <div class="option-description">Trade directly with other users</div>
+                </div>
+                <span class="option-badge">Popular</span>
+              </div>
+            </div>
+
+            <!-- Card Payment -->
+            <div class="deposit-option-card" onclick="selectDepositMethod('card')">
+              <div class="option-content">
+                <span class="option-icon">💳</span>
+                <div class="option-text">
+                  <div class="option-title">Debit/Credit Card</div>
+                  <div class="option-description">Add funds using your bank card</div>
+                </div>
+                <span class="option-badge">Fast</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Payment View -->
+        <div id="cardPaymentView" class="card-payment-view">
+          <button class="back-to-options" onclick="backToDepositOptions()">⬅ Back</button>
+
+          <!-- Saved Cards & History View -->
+          <div id="savedCardsView">
+            <div class="popup-header">
+              <h2>Card Payment</h2>
+              <p>Manage your payment methods and billing history</p>
+            </div>
+
+            <!-- Saved Cards Section -->
+            <div class="saved-cards-section">
+              <h3 class="section-title">Payment Methods</h3>
+              <div id="savedCardsList" class="saved-cards-list">
+                <!-- Saved cards will be dynamically added here -->
+              </div>
+              <button class="add-card-btn" onclick="showAddCardForm()">+ Add New Card</button>
+            </div>
+
+            <!-- Billing History Section -->
+            <div class="billing-history-section">
+              <h3 class="section-title">Recent Transactions</h3>
+              <div id="billingHistory" class="billing-history-list">
+                <!-- Billing history will be shown here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Add New Card View -->
+          <div id="addCardView" style="display: none;">
+            <div class="popup-header">
+              <h2>Add New Card</h2>
+              <p>Enter your card details securely</p>
+            </div>
+
+            <form class="card-form" onsubmit="saveNewCard(event)">
+              <div class="form-group">
+                <label>Card Number</label>
+                <input type="text" id="newCardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+              </div>
+
+              <div class="form-group">
+                <label>Cardholder Name</label>
+                <input type="text" id="newCardName" placeholder="John Doe" required>
+              </div>
+
+              <div class="card-row">
+                <div class="form-group">
+                  <label>Expiry Date</label>
+                  <input type="text" id="newCardExpiry" placeholder="MM/YY" maxlength="5" required>
+                </div>
+
+                <div class="form-group">
+                  <label>CVV</label>
+                  <input type="text" id="newCardCVV" placeholder="123" maxlength="3" required>
+                </div>
+              </div>
+
+              <button type="submit" class="submit-card-btn">Save Card</button>
+              <button type="button" class="cancel-btn" onclick="cancelAddCard()">Cancel</button>
+            </form>
+          </div>
+
+          <!-- Deposit Amount View -->
+          <div id="depositAmountView" style="display: none;">
+            <div class="popup-header">
+              <h2>Enter Amount</h2>
+              <p>How much would you like to deposit?</p>
+            </div>
+
+            <form class="deposit-form" onsubmit="processCardDeposit(event)">
+              <div class="selected-card-display" id="selectedCardDisplay">
+                <!-- Selected card info will be shown here -->
+              </div>
+
+              <div class="form-group">
+                <label>Amount (USD)</label>
+                <input type="number" id="depositAmount" placeholder="100.00" min="1" step="0.01" required>
+              </div>
+
+              <div class="amount-presets">
+                <button type="button" class="preset-btn" onclick="setAmount(50)">$50</button>
+                <button type="button" class="preset-btn" onclick="setAmount(100)">$100</button>
+                <button type="button" class="preset-btn" onclick="setAmount(500)">$500</button>
+                <button type="button" class="preset-btn" onclick="setAmount(1000)">$1000</button>
+              </div>
+
+              <div class="deposit-summary">
+                <div class="summary-row">
+                  <span>Amount:</span>
+                  <span id="summaryAmount">$0.00</span>
+                </div>
+                <div class="summary-row">
+                  <span>Processing Fee (2%):</span>
+                  <span id="summaryFee">$0.00</span>
+                </div>
+                <div class="summary-row total">
+                  <span>Total:</span>
+                  <span id="summaryTotal">$0.00</span>
+                </div>
+              </div>
+
+              <button type="submit" class="submit-card-btn">Complete Deposit</button>
+              <button type="button" class="cancel-btn" onclick="backToSavedCards()">Back</button>
+            </form>
+          </div>
+
+          <!-- Processing View -->
+          <div id="processingView" style="display: none;">
+            <div class="processing-content">
+              <div class="loader"></div>
+              <h2>Processing Payment...</h2>
+              <p>Please wait while we process your deposit</p>
+            </div>
+          </div>
+
+          <!-- Success View -->
+          <div id="successView" style="display: none;">
+            <div class="success-content">
+              <div class="success-icon">✓</div>
+              <h2>Deposit Successful!</h2>
+              <p>Your funds will be available shortly</p>
+              <div class="success-details" id="successDetails">
+                <!-- Success details will be shown here -->
+              </div>
+              <button class="submit-card-btn" onclick="closeDepositPopup()">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- Social Section -->
     <section class="section" id="social">
       <div class="blockchain-bg"></div>
       <div class="section-header">
-          <button id="meBtn" class="section-header-btn" onclick="openCreatorDashboard()">👤 Me</button>
-          <h1 class="section-title">Social Hub</h1>
-          <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+        <button id="meBtn" class="section-header-btn" onclick="openCreatorDashboard()">👤 Me</button>
+        <h1 class="section-title" style="width: 50%;">Social Hub</h1>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
       </div>
       <div class="content-section active" id="socialSection">
         <div class="social-platform">
@@ -1290,179 +1559,182 @@
         </div>
 
         <div class="cd-container">
-              <header class="cd-header">
-                <button class="dc-back-btn" onclick="backToSocial()">⬅ Back</button>
-                <div class="cd-nav-tabs">
-                  <button class="cd-tab-btn cd-active" onclick="cdSwitchTab('lab')">🔬 Lab</button>
-                  <button class="cd-tab-btn" onclick="cdSwitchTab('manager')">📊 Manager</button>
-                  <button class="cd-tab-btn" onclick="cdSwitchTab('profile')">👤 Profile</button>
-                  <button class="cd-tab-btn" onclick="cdSwitchTab('earnings')">💰 Earnings</button>
-                </div>
-              </header>
-
-            <!-- CREATORS LAB TAB -->
-            <div id="cd-lab-tab" class="cd-tab-content cd-active">
-                <div class="cd-creators-lab">
-                    <div class="cd-creation-card" onclick="cdOpenCreationModal('video')">
-                        <div class="cd-creation-icon">🎥</div>
-                        <h3>Create Video</h3>
-                        <p>Upload with blockchain verification</p>
-                    </div>
-
-                    <div class="cd-creation-card" onclick="cdOpenCreationModal('audio')">
-                        <div class="cd-creation-icon">🎵</div>
-                        <h3>Create Audio</h3>
-                        <p>Set royalty and earn automatically</p>
-                    </div>
-
-                    <div class="cd-creation-card" onclick="cdOpenCreationModal('story')">
-                        <div class="cd-creation-icon">📖</div>
-                        <h3>Write Story</h3>
-                        <p>Serialized story monetization</p>
-                    </div>
-
-                    <div class="cd-creation-card" onclick="cdOpenCreationModal('book')">
-                        <div class="cd-creation-icon">📚</div>
-                        <h3>Write Book</h3>
-                        <p>Full-length blockchain verified</p>
-                    </div>
-
-                    <div class="cd-creation-card" onclick="cdOpenCreationModal('status')">
-                        <div class="cd-creation-icon">💬</div>
-                        <h3>Status Post</h3>
-                        <p>Mintable collectible updates</p>
-                    </div>
-                </div>
+          <header class="cd-header">
+            <button class="dc-back-btn" onclick="backToSocial()">⬅ Back</button>
+            <div class="cd-nav-tabs">
+              <button class="cd-tab-btn cd-active" onclick="cdSwitchTab('lab')">🔬 Lab</button>
+              <button class="cd-tab-btn" onclick="cdSwitchTab('manager')">📊 Manager</button>
+              <button class="cd-tab-btn" onclick="cdSwitchTab('profile')">👤 Profile</button>
+              <button class="cd-tab-btn" onclick="cdSwitchTab('earnings')">💰 Earnings</button>
             </div>
+          </header>
 
-            <!-- CONTENT MANAGER TAB -->
-            <div id="cd-manager-tab" class="cd-tab-content">
-                <div class="cd-content-grid" id="cd-content-library"></div>
+          <!-- CREATORS LAB TAB -->
+          <div id="cd-lab-tab" class="cd-tab-content cd-active">
+            <div class="cd-creators-lab">
+              <div class="cd-creation-card" onclick="cdOpenCreationModal('video')">
+                <div class="cd-creation-icon">🎥</div>
+                <h3>Create Video</h3>
+                <p>Upload with blockchain verification</p>
+              </div>
+
+              <div class="cd-creation-card" onclick="cdOpenCreationModal('audio')">
+                <div class="cd-creation-icon">🎵</div>
+                <h3>Create Audio</h3>
+                <p>Set royalty and earn automatically</p>
+              </div>
+
+              <div class="cd-creation-card" onclick="cdOpenCreationModal('story')">
+                <div class="cd-creation-icon">📖</div>
+                <h3>Write Story</h3>
+                <p>Serialized story monetization</p>
+              </div>
+
+              <div class="cd-creation-card" onclick="cdOpenCreationModal('book')">
+                <div class="cd-creation-icon">📚</div>
+                <h3>Write Book</h3>
+                <p>Full-length blockchain verified</p>
+              </div>
+
+              <div class="cd-creation-card" onclick="cdOpenCreationModal('status')">
+                <div class="cd-creation-icon">💬</div>
+                <h3>Status Post</h3>
+                <p>Mintable collectible updates</p>
+              </div>
             </div>
+          </div>
 
-            <!-- PROFILE TAB -->
-            <div id="cd-profile-tab" class="cd-tab-content">
-                <div class="cd-profile-section">
-                    <div class="cd-profile-header">
-                        <div class="cd-profile-avatar">👤</div>
-                        <div>
-                            <h2>Creator Profile <span class="cd-premium-badge">✓</span></h2>
-                            <p style="color: var(--cd-text-secondary);">Manage your presence</p>
-                        </div>
-                    </div>
+          <!-- CONTENT MANAGER TAB -->
+          <div id="cd-manager-tab" class="cd-tab-content">
+            <div class="cd-content-grid" id="cd-content-library"></div>
+          </div>
 
-                    <div class="cd-profile-stats">
-                        <div class="cd-stat-card">
-                            <div class="cd-stat-value" id="cd-stat-followers">5K</div>
-                            <div class="cd-stat-label">Followers</div>
-                        </div>
-                        <div class="cd-stat-card">
-                            <div class="cd-stat-value" id="cd-stat-views">800</div>
-                            <div class="cd-stat-label">Daily Views</div>
-                        </div>
-                        <div class="cd-stat-card">
-                            <div class="cd-stat-value" id="cd-stat-premium">50</div>
-                            <div class="cd-stat-label">Premium Subs</div>
-                        </div>
-                        <div class="cd-stat-card">
-                            <div class="cd-stat-value" id="cd-stat-premium-plus">10</div>
-                            <div class="cd-stat-label">Premium Plus</div>
-                        </div>
-                    </div>
-
-                    <div class="cd-token-creation-card">
-                        <h3>🪙 Create Your Own Token</h3>
-                        <p>Launch your personal creator token</p>
-                        <button class="cd-btn-primary" onclick="cdCheckTokenEligibility()" style="max-width: 300px; margin: 0 auto;">Check Eligibility</button>
-                        <div class="cd-token-requirement">
-                            Requirements: 10K+ followers, 1K+ daily views, 100+ premium subs
-                        </div>
-                    </div>
-
-                    <div style="margin-top: 20px;">
-                        <h3 style="margin-bottom: 12px; font-size: 16px;">Account Settings</h3>
-                        <div class="cd-form-group">
-                            <label>Display Name</label>
-                            <input type="text" value="Creator Name" />
-                        </div>
-                        <div class="cd-form-group">
-                            <label>Bio</label>
-                            <textarea placeholder="Tell your audience about yourself..."></textarea>
-                        </div>
-                        <div class="cd-form-group">
-                            <label>Content Categories</label>
-                            <select>
-                                <option>Entertainment</option>
-                                <option>Education</option>
-                                <option>Technology</option>
-                                <option>Arts & Culture</option>
-                                <option>Business</option>
-                            </select>
-                        </div>
-                        <button class="cd-btn-primary">Save Changes</button>
-                    </div>
+          <!-- PROFILE TAB -->
+          <div id="cd-profile-tab" class="cd-tab-content">
+            <div class="cd-profile-section">
+              <div class="cd-profile-header">
+                <div class="cd-profile-avatar">👤</div>
+                <div>
+                  <h2>Creator Profile <span class="cd-premium-badge">✓</span></h2>
+                  <p style="color: var(--cd-text-secondary);">Manage your presence</p>
                 </div>
-            </div>
+              </div>
 
-            <!-- EARNINGS TAB -->
-            <div id="cd-earnings-tab" class="cd-tab-content">
-                <div class="cd-profile-section">
-                    <h2 style="margin-bottom: 16px; font-size: 18px;">💰 Earnings Dashboard</h2>
-                    <div class="cd-profile-stats">
-                        <div class="cd-stat-card">
-                            <div class="cd-stat-value">$0.00</div>
-                            <div class="cd-stat-label">Total Earnings</div>
-                        </div>
-                        <div class="cd-stat-card">
-                            <div class="cd-stat-value">$0.00</div>
-                            <div class="cd-stat-label">Royalty Income</div>
-                        </div>
-                        <div class="cd-stat-card">
-                            <div class="cd-stat-value">$0.00</div>
-                            <div class="cd-stat-label">Content Sales</div>
-                        </div>
-                        <div class="cd-stat-card">
-                            <div class="cd-stat-value">$0.00</div>
-                            <div class="cd-stat-label">Token Value</div>
-                        </div>
-                    </div>
-                    <p style="color: var(--cd-text-secondary); font-size: 12px;">Create and publish content to start earning! All transactions are transparent and tracked on the blockchain.</p>
+              <div class="cd-profile-stats">
+                <div class="cd-stat-card">
+                  <div class="cd-stat-value" id="cd-stat-followers">5K</div>
+                  <div class="cd-stat-label">Followers</div>
                 </div>
+                <div class="cd-stat-card">
+                  <div class="cd-stat-value" id="cd-stat-views">800</div>
+                  <div class="cd-stat-label">Daily Views</div>
+                </div>
+                <div class="cd-stat-card">
+                  <div class="cd-stat-value" id="cd-stat-premium">50</div>
+                  <div class="cd-stat-label">Premium Subs</div>
+                </div>
+                <div class="cd-stat-card">
+                  <div class="cd-stat-value" id="cd-stat-premium-plus">10</div>
+                  <div class="cd-stat-label">Premium Plus</div>
+                </div>
+              </div>
+
+              <div class="cd-token-creation-card">
+                <h3>🪙 Create Your Own Token</h3>
+                <p>Launch your personal creator token</p>
+                <button class="cd-btn-primary" onclick="cdCheckTokenEligibility()"
+                  style="max-width: 300px; margin: 0 auto;">Check Eligibility</button>
+                <div class="cd-token-requirement">
+                  Requirements: 10K+ followers, 1K+ daily views, 100+ premium subs
+                </div>
+              </div>
+
+              <div style="margin-top: 20px;">
+                <h3 style="margin-bottom: 12px; font-size: 16px;">Account Settings</h3>
+                <div class="cd-form-group">
+                  <label>Display Name</label>
+                  <input type="text" value="Creator Name" />
+                </div>
+                <div class="cd-form-group">
+                  <label>Bio</label>
+                  <textarea placeholder="Tell your audience about yourself..."></textarea>
+                </div>
+                <div class="cd-form-group">
+                  <label>Content Categories</label>
+                  <select>
+                    <option>Entertainment</option>
+                    <option>Education</option>
+                    <option>Technology</option>
+                    <option>Arts & Culture</option>
+                    <option>Business</option>
+                  </select>
+                </div>
+                <button class="cd-btn-primary">Save Changes</button>
+              </div>
             </div>
+          </div>
+
+          <!-- EARNINGS TAB -->
+          <div id="cd-earnings-tab" class="cd-tab-content">
+            <div class="cd-profile-section">
+              <h2 style="margin-bottom: 16px; font-size: 18px;">💰 Earnings Dashboard</h2>
+              <div class="cd-profile-stats">
+                <div class="cd-stat-card">
+                  <div class="cd-stat-value">$0.00</div>
+                  <div class="cd-stat-label">Total Earnings</div>
+                </div>
+                <div class="cd-stat-card">
+                  <div class="cd-stat-value">$0.00</div>
+                  <div class="cd-stat-label">Royalty Income</div>
+                </div>
+                <div class="cd-stat-card">
+                  <div class="cd-stat-value">$0.00</div>
+                  <div class="cd-stat-label">Content Sales</div>
+                </div>
+                <div class="cd-stat-card">
+                  <div class="cd-stat-value">$0.00</div>
+                  <div class="cd-stat-label">Token Value</div>
+                </div>
+              </div>
+              <p style="color: var(--cd-text-secondary); font-size: 12px;">Create and publish content to start earning!
+                All transactions are transparent and tracked on the blockchain.</p>
+            </div>
+          </div>
         </div>
 
         <!-- MODALS -->
         <div id="cd-creation-modal" class="cd-modal">
-            <div class="cd-modal-content">
-                <button class="cd-close-modal" onclick="cdCloseModal('cd-creation-modal')">&times;</button>
-                <div id="cd-modal-body"></div>
-            </div>
+          <div class="cd-modal-content">
+            <button class="cd-close-modal" onclick="cdCloseModal('cd-creation-modal')">&times;</button>
+            <div id="cd-modal-body"></div>
+          </div>
         </div>
 
         <div id="cd-payment-modal" class="cd-modal">
-            <div class="cd-modal-content cd-payment-modal">
-                <button class="cd-close-modal" onclick="cdCloseModal('cd-payment-modal')">&times;</button>
-                <h2>🔐 Content Locked</h2>
-                <div class="cd-token-icon">🪙</div>
-                <p>This content requires payment to access</p>
-                <div class="cd-payment-amount" id="cd-payment-amount">$0.00</div>
-                <p style="color: var(--cd-text-secondary); margin-bottom: 20px;">Transaction will be processed via blockchain smart contract</p>
-                <button class="cd-btn-primary" onclick="cdProcessPayment()">Pay & Unlock Content</button>
-            </div>
+          <div class="cd-modal-content cd-payment-modal">
+            <button class="cd-close-modal" onclick="cdCloseModal('cd-payment-modal')">&times;</button>
+            <h2>🔐 Content Locked</h2>
+            <div class="cd-token-icon">🪙</div>
+            <p>This content requires payment to access</p>
+            <div class="cd-payment-amount" id="cd-payment-amount">$0.00</div>
+            <p style="color: var(--cd-text-secondary); margin-bottom: 20px;">Transaction will be processed via
+              blockchain smart contract</p>
+            <button class="cd-btn-primary" onclick="cdProcessPayment()">Pay & Unlock Content</button>
+          </div>
         </div>
 
         <!-- STORY READER -->
         <div id="cd-story-reader" class="cd-story-reader">
-            <div class="cd-story-header">
-                <h3 id="cd-story-title">Story Title</h3>
-                <button class="cd-story-close" onclick="cdCloseStoryReader()">✕</button>
-            </div>
-            <div class="cd-story-content">
-                <button class="cd-story-nav cd-prev" onclick="cdPreviousPage()">‹</button>
-                <div id="cd-story-pages-container"></div>
-                <button class="cd-story-nav cd-next" onclick="cdNextPage()">›</button>
-            </div>
-            <div class="cd-story-pagination" id="cd-story-pagination"></div>
+          <div class="cd-story-header">
+            <h3 id="cd-story-title">Story Title</h3>
+            <button class="cd-story-close" onclick="cdCloseStoryReader()">✕</button>
+          </div>
+          <div class="cd-story-content">
+            <button class="cd-story-nav cd-prev" onclick="cdPreviousPage()">‹</button>
+            <div id="cd-story-pages-container"></div>
+            <button class="cd-story-nav cd-next" onclick="cdNextPage()">›</button>
+          </div>
+          <div class="cd-story-pagination" id="cd-story-pagination"></div>
         </div>
       </div>
     </section>
@@ -5307,7 +5579,9 @@
     <script src="account.js"></script>
     <script src="market.js"></script>
     <script src="kan-finance.js"></script>
+    <script src="chart.js"></script>
+    <script src="dashboard-chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   </body>
 
 </html>
-
