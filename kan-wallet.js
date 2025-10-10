@@ -1,552 +1,868 @@
-// P2P Marketplace Class
-class WalletP2PMarketplace {
+// ============================================
+// WALLET MANAGER - Complete Implementation
+// ============================================
+
+class WalletManager {
     constructor() {
-        this.currentTab = 'buy';
-        this.offers = this.generateMockOffers();
-        this.myOrders = this.generateMockOrders();
+        this.currentTab = 'send';
+        this.currentP2PTab = 'buy';
         this.balances = {
             kda: 125.48,
-            ngn: 45230.00,
-            escrow: 15000.00
+            ngn: 45230,
+            usd: 1483.64,
+            escrow: 15000
         };
-    }
-
-    generateMockOffers() {
-        const offers = [];
-        const currencies = ['KDA', 'BTC', 'ETH', 'USDT'];
-        const paymentMethods = ['Bank Transfer', 'Mobile Money', 'Cash'];
-        const traderNames = ['CryptoKing', 'TraderPro', 'BitMaster', 'CoinGuru', 'BlockChamp'];
-
-        for (let i = 0; i < 15; i++) {
-            const currency = currencies[Math.floor(Math.random() * currencies.length)];
-            const isBuy = Math.random() > 0.5;
-            const baseRate = currency === 'KDA' ? 195 : currency === 'BTC' ? 45000000 : currency === 'ETH' ? 2500000 : 1600;
-            const rate = baseRate + (Math.random() - 0.5) * baseRate * 0.05;
-
-            offers.push({
-                id: i + 1,
-                type: isBuy ? 'buy' : 'sell',
-                currency,
-                rate: rate,
-                minLimit: Math.floor(Math.random() * 50000) + 10000,
-                maxLimit: Math.floor(Math.random() * 500000) + 100000,
-                paymentMethod: paymentMethods[Math.floor(Math.random() * paymentMethods.length)],
-                trader: traderNames[Math.floor(Math.random() * traderNames.length)],
-                rating: (Math.random() * 2 + 3).toFixed(1),
-                completionRate: Math.floor(Math.random() * 20 + 80),
-                available: Math.floor(Math.random() * 1000) + 100
-            });
-        }
-        return offers;
-    }
-
-    generateMockOrders() {
-        return [
-            {
-                id: 'ORD001',
-                type: 'buy',
-                currency: 'KDA',
-                amount: 50,
-                rate: 195.50,
-                status: 'pending',
-                trader: 'CryptoKing',
-                progress: 25
-            },
-            {
-                id: 'ORD002',
-                type: 'sell',
-                currency: 'KDA',
-                amount: 25,
-                rate: 198.20,
-                status: 'escrow',
-                trader: 'TraderPro',
-                progress: 75
-            },
-            {
-                id: 'ORD003',
-                type: 'buy',
-                currency: 'BTC',
-                amount: 0.001,
-                rate: 45000000,
-                status: 'completed',
-                trader: 'BitMaster',
-                progress: 100
-            }
-        ];
+        this.exchangeRates = {
+            kda: 1.18,
+            btc: 45000,
+            eth: 2500
+        };
+        this.transactions = [];
+        this.p2pOffers = [];
+        this.p2pOrders = [];
+        this.isAnimating = false;
+        
+        this.init();
     }
 
     init() {
+        this.generateMockData();
         this.bindEvents();
-        this.renderOffers();
-        this.renderRecentOrders();
-        this.updateBalances();
+        this.startLiveUpdates();
+        this.showTab('send');
     }
 
+    // ============================================
+    // EVENT BINDINGS
+    // ============================================
     bindEvents() {
-        // P2P Tab switching
-        document.querySelectorAll('.p2p-tab').forEach(tab => {
+        // Wallet tab switching
+        document.querySelectorAll('.wallet-tab').forEach(tab => {
             tab.addEventListener('click', (e) => {
-                document.querySelectorAll('.p2p-tab').forEach(t => t.classList.remove('active'));
-                e.target.classList.add('active');
-                this.currentTab = e.target.dataset.p2pTab;
-                this.renderOffers();
+                const tabName = this.getTabName(e.currentTarget);
+                this.switchWalletTab(e.currentTarget, tabName);
             });
         });
 
-        // Filter events
-        document.getElementById('p2p-currency-filter').addEventListener('change', () => this.renderOffers());
-        document.getElementById('p2p-payment-filter').addEventListener('change', () => this.renderOffers());
-        document.getElementById('p2p-min-amount').addEventListener('input', () => this.renderOffers());
-    }
-
-    renderOffers() {
-        const container = document.getElementById('p2p-offers-container');
-        
-        if (this.currentTab === 'create') {
-            container.innerHTML = this.renderCreateOrderForm();
-            this.bindCreateOrderEvents();
-            return;
-        }
-
-        if (this.currentTab === 'my-orders') {
-            container.innerHTML = this.renderMyOrders();
-            return;
-        }
-
-        let filteredOffers = this.offers.filter(offer => {
-            const currencyFilter = document.getElementById('p2p-currency-filter').value;
-            const paymentFilter = document.getElementById('p2p-payment-filter').value;
-            const minAmount = parseFloat(document.getElementById('p2p-min-amount').value) || 0;
-
-            if (this.currentTab === 'buy' && offer.type !== 'sell') return false;
-            if (this.currentTab === 'sell' && offer.type !== 'buy') return false;
-            if (currencyFilter !== 'all' && offer.currency !== currencyFilter) return false;
-            if (paymentFilter !== 'all' && !offer.paymentMethod.toLowerCase().includes(paymentFilter)) return false;
-            if (offer.minLimit < minAmount) return false;
-
-            return true;
-        });
-
-        container.innerHTML = filteredOffers.map(offer => this.renderOfferCard(offer)).join('');
-        
-        // Bind click events to offer cards
-        container.querySelectorAll('.p2p-offer').forEach(card => {
-            card.addEventListener('click', () => {
-                const offerId = parseInt(card.dataset.offerId);
-                const offer = this.offers.find(o => o.id === offerId);
-                this.openTradingModal(offer);
+        // P2P navigation
+        document.querySelectorAll('.p2p-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.switchP2PTab(e.currentTarget.textContent.toLowerCase().trim());
             });
         });
-    }
 
-    renderOfferCard(offer) {
-    const actionType = this.currentTab === 'buy' ? 'Buy' : 'Sell';
-    const isBuy = this.currentTab === 'buy';
-    const traderInitial = offer.trader.charAt(0).toUpperCase();
-    const paymentIcons = {
-        'Bank Transfer': '🏦',
-        'Mobile Money': '📱',
-        'Cash': '💵'
-    };
-    const paymentIcon = paymentIcons[offer.paymentMethod] || '💳';
+        // Send form
+        const sendBtn = document.querySelector('#send .btn');
+        if (sendBtn) {
+            sendBtn.addEventListener('click', () => this.sendTransaction());
+        }
 
-    return `
-        <div class="p2p-offer card-animated" data-offer-id="${offer.id}" data-currency="${offer.currency}" title="Trader: ${offer.trader}\nRating: ${offer.rating} (${offer.completionRate}% completed)">
-            <div class="offer-header">
-                <div class="trader-avatar">
-                    <span class="avatar-circle">${traderInitial}</span>
-                    <div class="trader-info">
-                        <span class="trader-name">${offer.trader}</span>
-                        <div class="trader-rating">
-                            <span class="rating-stars">★${offer.rating}</span>
-                            <span class="completion-rate">(${offer.completionRate}%)</span>
-                        </div>
-                    </div>
-                    <div class='online-indicator' title='Online'>online</div>
-                </div>
-                <div class="offer-details-grid">
-                    <div class="detail-item">
-                        <span class="label">Available</span>
-                        <span class="value">${offer.available} ${offer.currency}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="label">Limit</span>
-                        <span class="value">₦${offer.minLimit.toLocaleString()} - ₦${offer.maxLimit.toLocaleString()}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="label">Payment</span>
-                        <span class="value payment-method">${paymentIcon} ${offer.paymentMethod}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="offer-footer">
-                <div class="offer-price">
-                    <span class="label">Price</span>
-                    <span class="value">₦${offer.rate.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-                </div>
-                <button class="btn btn-animated ${isBuy ? 'btn-buy' : 'btn-sell'}">${actionType} ${offer.currency}</button>
-            </div>
-        </div>
-    `;
-}
+        // Copy address button
+        const copyBtn = document.querySelector('#receive .btn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => this.copyAddress());
+        }
 
-    renderMyOrders() {
-        return `
-            <div style="display: grid; gap: 1rem;">
-                ${this.myOrders.map(order => `
-                    <div class="p2p-order-item">
-                        <div class="p2p-order-header">
-                            <h4>Order #${order.id}</h4>
-                            <span class="p2p-order-status status-${order.status}">${order.status.toUpperCase()}</span>
-                        </div>
-                        <p><strong>${order.type.toUpperCase()} ${order.amount} ${order.currency}</strong> @ ₦${order.rate.toLocaleString()}</p>
-                        <p>Trader: ${order.trader}</p>
-                        <div style="background: var(--bg-secondary); border-radius: 10px; height: 8px; margin: 1rem 0;">
-                            <div style="height: 100%; background: var(--accent-color); border-radius: 10px; width: ${order.progress}%; transition: width 0.5s ease;"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-size: 0.75rem;">
-                            <span style="color: ${order.progress >= 25 ? 'var(--success-color)' : order.progress > 0 ? 'var(--accent-color)' : 'var(--text-secondary)'};">Created</span>
-                            <span style="color: ${order.progress >= 50 ? 'var(--success-color)' : order.progress >= 25 ? 'var(--accent-color)' : 'var(--text-secondary)'};">Payment</span>
-                            <span style="color: ${order.progress >= 75 ? 'var(--success-color)' : order.progress >= 50 ? 'var(--accent-color)' : 'var(--text-secondary)'};">Escrow</span>
-                            <span style="color: ${order.progress >= 100 ? 'var(--success-color)' : order.progress >= 75 ? 'var(--accent-color)' : 'var(--text-secondary)'};">Complete</span>
-                        </div>
-                        ${order.status === 'pending' ? '<button class="btn" style="margin-top: 1rem;" onclick="walletP2P.confirmPayment(\'' + order.id + '\')">Confirm Payment</button>' : ''}
-                        ${order.status === 'escrow' ? '<button class="btn" style="margin-top: 1rem; background: var(--success-color);" onclick="walletP2P.releaseEscrow(\'' + order.id + '\')">Release Escrow</button>' : ''}
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
+        // Convert button
+        const convertBtn = document.querySelector('#convert .btn');
+        if (convertBtn) {
+            convertBtn.addEventListener('click', () => this.convertAssets());
+        }
 
-    renderCreateOrderForm() {
-        return `
-            <div class="wallet-card">
-                <h3>Create New Order</h3>
-                <form id="p2p-create-order-form" style="display: grid; gap: 1.5rem; margin-top: 2rem;">
-                    <div class="form-group">
-                        <label class="form-label">Order Type</label>
-                        <select id="p2p-order-type" class="form-input" required>
-                            <option value="buy">Buy (I want to buy crypto)</option>
-                            <option value="sell">Sell (I want to sell crypto)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Currency</label>
-                        <select id="p2p-order-currency" class="form-input" required>
-                            <option value="KDA">Kadena (KDA)</option>
-                            <option value="BTC">Bitcoin (BTC)</option>
-                            <option value="ETH">Ethereum (ETH)</option>
-                            <option value="USDT">Tether (USDT)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Price (NGN per unit)</label>
-                        <input type="number" id="p2p-order-price" class="form-input" step="0.01" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Amount</label>
-                        <input type="number" id="p2p-order-amount" class="form-input" step="0.001" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Min Limit (NGN)</label>
-                        <input type="number" id="p2p-order-min-limit" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Max Limit (NGN)</label>
-                        <input type="number" id="p2p-order-max-limit" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Payment Method</label>
-                        <select id="p2p-order-payment" class="form-input" required>
-                            <option value="Bank Transfer">Bank Transfer</option>
-                            <option value="Mobile Money">Mobile Money</option>
-                            <option value="Cash">Cash</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn">Create Order</button>
-                </form>
-            </div>
-        `;
-    }
+        // Modal close
+        const modalClose = document.querySelector('.modal-close');
+        if (modalClose) {
+            modalClose.addEventListener('click', () => this.closeTradeModal());
+        }
 
-    bindCreateOrderEvents() {
-        document.getElementById('p2p-create-order-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.createOrder();
+        // Click outside modal to close
+        const modal = document.getElementById('tradeModal');
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    this.closeTradeModal();
+                }
+            });
+        }
+
+        // ESC key to close modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.closeTradeModal();
+            }
         });
     }
 
-    createOrder() {
-        const formData = {
-            type: document.getElementById('p2p-order-type').value,
-            currency: document.getElementById('p2p-order-currency').value,
-            rate: parseFloat(document.getElementById('p2p-order-price').value),
-            amount: parseFloat(document.getElementById('p2p-order-amount').value),
-            minLimit: parseFloat(document.getElementById('p2p-order-min-limit').value),
-            maxLimit: parseFloat(document.getElementById('p2p-order-max-limit').value),
-            paymentMethod: document.getElementById('p2p-order-payment').value
-        };
-
-        const newOffer = {
-            id: this.offers.length + 1,
-            ...formData,
-            trader: 'You',
-            rating: '5.0',
-            completionRate: 100,
-            available: formData.amount
-        };
-
-        this.offers.unshift(newOffer);
-        this.showNotification(`${formData.type.toUpperCase()} order created successfully!`);
+    // ============================================
+    // TAB SWITCHING
+    // ============================================
+    getTabName(element) {
+        const icon = element.querySelector('i');
+        if (!icon) return 'send';
         
-        // Switch to appropriate tab
-        document.querySelector(`[data-p2p-tab="${formData.type}"]`).click();
+        if (icon.classList.contains('bx-send')) return 'send';
+        if (icon.classList.contains('bx-download')) return 'receive';
+        if (icon.classList.contains('bx-transfer')) return 'convert';
+        if (icon.classList.contains('bx-group')) return 'p2p';
+        if (icon.classList.contains('bx-time-five')) return 'history';
+        
+        return 'send';
     }
 
-    openTradingModal(offer) {
-        const modal = document.getElementById('p2p-trading-modal');
-        const title = document.getElementById('p2p-modal-title');
-        const body = document.getElementById('p2p-modal-body');
+    switchWalletTab(clickedTab, tabName) {
+        if (this.isAnimating) return;
+        this.isAnimating = true;
 
-        title.textContent = `${offer.type === 'buy' ? 'Sell' : 'Buy'} ${offer.currency}`;
-        
-        body.innerHTML = `
-            <div style="display: grid; gap: 1.5rem;">
-                <div class="offer-details">
-                    <div class="offer-detail">
-                        <div class="offer-detail-label">Trader</div>
-                        <div class="offer-detail-value">${offer.trader} ★${offer.rating}</div>
-                    </div>
-                    <div class="offer-detail">
-                        <div class="offer-detail-label">Rate</div>
-                        <div class="offer-detail-value offer-price">₦${offer.rate.toLocaleString()}</div>
-                    </div>
-                    <div class="offer-detail">
-                        <div class="offer-detail-label">Available</div>
-                        <div class="offer-detail-value">${offer.available} ${offer.currency}</div>
-                    </div>
-                    <div class="offer-detail">
-                        <div class="offer-detail-label">Payment Method</div>
-                        <div class="offer-detail-value">${offer.paymentMethod}</div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Amount (${offer.currency})</label>
-                    <input type="number" id="p2p-trade-amount" class="form-input" step="0.001" max="${offer.available}" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Total (NGN)</label>
-                    <input type="number" id="p2p-trade-total" class="form-input" readonly>
-                </div>
-                
-                <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px;">
-                    <h4>Trade Process:</h4>
-                    <ol style="margin: 0.5rem 0; padding-left: 1.5rem; color: var(--text-secondary); font-size: 0.875rem;">
-                        <li>Funds will be held in escrow</li>
-                        <li>Complete payment via ${offer.paymentMethod}</li>
-                        <li>Confirm payment completion</li>
-                        <li>Crypto released from escrow</li>
-                    </ol>
-                </div>
-                
-                <button class="btn" onclick="walletP2P.initiateTrade(${offer.id})">
-                    ${offer.type === 'buy' ? 'Sell' : 'Buy'} ${offer.currency}
-                </button>
-            </div>
-        `;
+        // Update active tab button
+        document.querySelectorAll('.wallet-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        clickedTab.classList.add('active');
 
-        // Bind amount calculation
-        const amountInput = document.getElementById('p2p-trade-amount');
-        const totalInput = document.getElementById('p2p-trade-total');
-        
-        amountInput.addEventListener('input', () => {
-            const amount = parseFloat(amountInput.value) || 0;
-            const total = amount * offer.rate;
-            totalInput.value = total.toLocaleString();
+        // Hide all content sections with fade out
+        document.querySelectorAll('.wallet .content').forEach(content => {
+            content.style.opacity = '0';
+            content.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                content.classList.remove('active');
+                // Don't set display:none, let CSS handle it
+            }, 300);
         });
 
-        modal.classList.add('show');
+        // Show selected content with fade in
+        setTimeout(() => {
+            const targetContent = document.getElementById(tabName);
+            if (targetContent) {
+                // Don't force display:grid, let CSS handle responsive display
+                setTimeout(() => {
+                    targetContent.classList.add('active');
+                    targetContent.style.opacity = '1';
+                    targetContent.style.transform = 'translateY(0)';
+                }, 50);
+            }
+            
+            this.currentTab = tabName;
+            
+            // Initialize P2P if needed
+            if (tabName === 'p2p') {
+                this.initP2P();
+            }
+            
+            this.isAnimating = false;
+        }, 350);
+
+        // Add ripple effect
+        this.createRipple(clickedTab, event);
     }
 
-    initiateTrade(offerId) {
-        const offer = this.offers.find(o => o.id === offerId);
-        const amount = parseFloat(document.getElementById('p2p-trade-amount').value);
-        const total = amount * offer.rate;
+    showTab(tabName) {
+        document.querySelectorAll('.wallet .content').forEach(content => {
+            content.classList.remove('active');
+            content.style.display = 'none';
+            // Remove inline display style to let CSS handle it
+            content.style.removeProperty('display');
+        });
+
+        const targetContent = document.getElementById(tabName);
+        if (targetContent) {
+            // Let CSS grid handle the display, just toggle active class
+            targetContent.style.removeProperty('display');
+            setTimeout(() => {
+                targetContent.classList.add('active');
+            }, 50);
+        }
+    }
+
+    // ============================================
+    // SEND TRANSACTION
+    // ============================================
+    sendTransaction() {
+        const addressInput = document.querySelector('#send input[placeholder="k:recipient-address"]');
+        const amountInput = document.querySelector('#send input[placeholder="0.00"]');
+        const speedSelect = document.querySelector('#send select');
+
+        const address = addressInput.value.trim();
+        const amount = parseFloat(amountInput.value);
+        const speed = speedSelect.value;
+
+        // Validation
+        if (!address || address.length < 10) {
+            this.showNotification('Please enter a valid recipient address', 'error');
+            this.shakeElement(addressInput);
+            return;
+        }
+
+        if (!amount || amount <= 0) {
+            this.showNotification('Please enter a valid amount', 'error');
+            this.shakeElement(amountInput);
+            return;
+        }
+
+        if (amount > this.balances.kda) {
+            this.showNotification('Insufficient balance', 'error');
+            this.shakeElement(amountInput);
+            return;
+        }
+
+        // Process transaction
+        this.balances.kda -= amount;
+        
+        const transaction = {
+            id: `TX${Date.now()}`,
+            type: 'send',
+            amount: amount,
+            address: address,
+            speed: speed,
+            timestamp: new Date(),
+            status: 'pending'
+        };
+
+        this.transactions.unshift(transaction);
+
+        // Update UI
+        this.updateBalances();
+        this.updateRecentTransactions();
+
+        // Clear form
+        addressInput.value = '';
+        amountInput.value = '';
+
+        // Show success with animation
+        this.showNotification(`Successfully sent ${amount} KDA!`, 'success');
+        this.pulseElement(document.querySelector('#send .btn'));
+
+        // Simulate transaction confirmation
+        setTimeout(() => {
+            transaction.status = 'confirmed';
+            this.showNotification('Transaction confirmed!', 'success');
+        }, 3000);
+    }
+
+    // ============================================
+    // COPY ADDRESS
+    // ============================================
+    copyAddress() {
+        const addressInput = document.querySelector('#receive input[readonly]');
+        const address = addressInput.value;
+
+        navigator.clipboard.writeText(address).then(() => {
+            this.showNotification('Address copied to clipboard!', 'success');
+            this.pulseElement(addressInput);
+            
+            // Visual feedback
+            const originalBg = addressInput.style.background;
+            addressInput.style.background = 'rgba(16, 185, 129, 0.1)';
+            setTimeout(() => {
+                addressInput.style.background = originalBg;
+            }, 500);
+        }).catch(() => {
+            this.showNotification('Failed to copy address', 'error');
+        });
+    }
+
+    // ============================================
+    // CONVERT ASSETS
+    // ============================================
+    convertAssets() {
+        const fromInput = document.querySelector('#convert input[placeholder="0.00"]:not([readonly])');
+        const fromSelect = document.querySelectorAll('#convert select')[0];
+        const toInput = document.querySelector('#convert input[readonly]');
+        const toSelect = document.querySelectorAll('#convert select')[1];
+
+        const fromAmount = parseFloat(fromInput.value);
+        const fromCurrency = fromSelect.value;
+        const toCurrency = toSelect.value;
+
+        if (!fromAmount || fromAmount <= 0) {
+            this.showNotification('Please enter an amount to convert', 'error');
+            this.shakeElement(fromInput);
+            return;
+        }
+
+        // Calculate conversion
+        const fromRate = this.exchangeRates[fromCurrency.toLowerCase()] || 1;
+        const toRate = this.exchangeRates[toCurrency.toLowerCase()] || 1;
+        const convertedAmount = (fromAmount * fromRate) / toRate;
+
+        // Update balances
+        if (fromCurrency === 'KDA') this.balances.kda -= fromAmount;
+        if (toCurrency === 'KDA') this.balances.kda += convertedAmount;
+
+        this.updateBalances();
+
+        // Show result
+        toInput.value = convertedAmount.toFixed(6);
+        this.showNotification(`Converted ${fromAmount} ${fromCurrency} to ${convertedAmount.toFixed(6)} ${toCurrency}!`, 'success');
+        this.pulseElement(toInput);
+
+        // Add to transaction history
+        this.transactions.unshift({
+            id: `CV${Date.now()}`,
+            type: 'convert',
+            from: fromCurrency,
+            to: toCurrency,
+            amount: fromAmount,
+            result: convertedAmount,
+            timestamp: new Date(),
+            status: 'confirmed'
+        });
+
+        this.updateRecentTransactions();
+    }
+
+    // ============================================
+    // P2P MARKETPLACE
+    // ============================================
+    initP2P() {
+        if (this.p2pOffers.length === 0) {
+            this.generateP2POffers();
+        }
+        this.renderP2POffers();
+    }
+
+    switchP2PTab(tabName) {
+        // Update active button
+        document.querySelectorAll('.p2p-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.textContent.toLowerCase().trim() === tabName) {
+                btn.classList.add('active');
+            }
+        });
+
+        // Hide all P2P sections
+        document.querySelectorAll('.p2p-section').forEach(section => {
+            section.classList.remove('active');
+            section.style.display = 'none';
+        });
+
+        // Map tab names to section IDs
+        const tabMap = {
+            'buy': 'p2p-buy',
+            'sell': 'p2p-sell',
+            'my orders': 'p2p-orders',
+            'create ad': 'p2p-create',
+            'profile': 'p2p-profile'
+        };
+
+        const sectionId = tabMap[tabName];
+        const section = document.getElementById(sectionId);
+        
+        if (section) {
+            section.style.display = 'block';
+            setTimeout(() => {
+                section.classList.add('active');
+            }, 50);
+        }
+
+        this.currentP2PTab = tabName;
+        
+        if (tabName === 'buy' || tabName === 'sell') {
+            this.renderP2POffers();
+        }
+    }
+
+    generateP2POffers() {
+        const traders = ['CryptoKing', 'BlockchainPro', 'KDATrader', 'BitMaster', 'CoinGuru'];
+        
+        for (let i = 0; i < 20; i++) {
+            this.p2pOffers.push({
+                id: i + 1,
+                trader: traders[Math.floor(Math.random() * traders.length)],
+                trades: Math.floor(Math.random() * 2000) + 100,
+                rate: 1150 + Math.random() * 100,
+                available: Math.floor(Math.random() * 1000) + 100,
+                minLimit: 25000 + Math.floor(Math.random() * 25000),
+                maxLimit: 200000 + Math.floor(Math.random() * 300000),
+                payment: ['Bank Transfer', 'Mobile Money', 'Bank, PayPal'][Math.floor(Math.random() * 3)],
+                timeLimit: [15, 20, 30][Math.floor(Math.random() * 3)],
+                type: Math.random() > 0.5 ? 'buy' : 'sell'
+            });
+        }
+    }
+
+    renderP2POffers() {
+        const buyContainer = document.querySelector('#p2p-buy .offer-container');
+        const sellContainer = document.querySelector('#p2p-sell .offer-container');
+
+        if (!buyContainer || !sellContainer) return;
+
+        const buyOffers = this.p2pOffers.filter(o => o.type === 'buy').slice(0, 6);
+        const sellOffers = this.p2pOffers.filter(o => o.type === 'sell').slice(0, 6);
+
+        // Clear existing offers (keep first 4 as templates)
+        while (buyContainer.children.length > 4) {
+            buyContainer.removeChild(buyContainer.lastChild);
+        }
+        while (sellContainer.children.length > 6) {
+            sellContainer.removeChild(sellContainer.lastChild);
+        }
+
+        // Update existing offers with live data
+        this.updateOfferCards(buyContainer, buyOffers.slice(0, 4));
+        this.updateOfferCards(sellContainer, sellOffers.slice(0, 6));
+    }
+
+    updateOfferCards(container, offers) {
+        const cards = container.querySelectorAll('.offer');
+        offers.forEach((offer, index) => {
+            if (cards[index]) {
+                const rateValue = cards[index].querySelector('.rate-value');
+                const availableValue = cards[index].querySelectorAll('.detail-value')[0];
+                
+                if (rateValue) {
+                    rateValue.textContent = `₦${Math.floor(offer.rate).toLocaleString()}`;
+                }
+                if (availableValue) {
+                    availableValue.textContent = `${offer.available} KDA`;
+                }
+            }
+        });
+    }
+
+    // ============================================
+    // TRADE MODAL
+    // ============================================
+    openTradeModal(type, trader) {
+        const modal = document.getElementById('tradeModal');
+        const title = document.getElementById('modalTitle');
+        
+        if (!modal || !title) return;
+
+        title.textContent = `${type.toUpperCase()} KDA from ${trader}`;
+        modal.style.display = 'flex';
+        
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+
+        // Bind confirm button
+        const confirmBtn = modal.querySelector('.btn');
+        if (confirmBtn) {
+            confirmBtn.onclick = () => this.confirmTrade(type, trader);
+        }
+    }
+
+    confirmTrade(type, trader) {
+        const amountInput = document.querySelector('#tradeModal input[type="number"]');
+        const amount = parseFloat(amountInput.value);
 
         if (!amount || amount <= 0) {
             this.showNotification('Please enter a valid amount', 'error');
             return;
         }
 
-        if (amount > offer.available) {
-            this.showNotification('Amount exceeds available quantity', 'error');
-            return;
-        }
-
-        const newOrder = {
-            id: 'ORD' + String(this.myOrders.length + 1).padStart(3, '0'),
-            type: offer.type === 'buy' ? 'sell' : 'buy',
-            currency: offer.currency,
+        // Create order
+        const order = {
+            id: `ORD${Date.now()}`,
+            type: type,
+            trader: trader,
             amount: amount,
-            rate: offer.rate,
             status: 'pending',
-            trader: offer.trader,
-            progress: 25,
-            total: total
+            timestamp: new Date()
         };
 
-        this.myOrders.unshift(newOrder);
-        
-        this.balances.escrow += total;
-        this.balances.ngn -= total;
-        this.updateBalances();
-
-        this.closeModal();
-        this.showNotification(`Trade initiated! Order #${newOrder.id} created`);
-        
-        document.querySelector('[data-p2p-tab="my-orders"]').click();
+        this.p2pOrders.unshift(order);
+        this.closeTradeModal();
+        this.showNotification(`${type.toUpperCase()} order created successfully!`, 'success');
     }
 
-    confirmPayment(orderId) {
-        const order = this.myOrders.find(o => o.id === orderId);
-        if (order) {
-            order.status = 'escrow';
-            order.progress = 75;
-            this.renderOffers();
-            this.showNotification('Payment confirmed. Crypto is now in escrow.');
+    closeTradeModal() {
+        const modal = document.getElementById('tradeModal');
+        if (modal) {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
         }
     }
 
-    releaseEscrow(orderId) {
-        const order = this.myOrders.find(o => o.id === orderId);
-        if (order) {
-            order.status = 'completed';
-            order.progress = 100;
-            
-            this.balances.escrow -= order.total;
-            if (order.type === 'buy') {
-                this.balances.kda += order.amount;
-            } else {
-                this.balances.ngn += order.total;
-            }
-            
-            this.updateBalances();
-            this.renderOffers();
-            this.renderRecentOrders();
-            this.showNotification('Trade completed successfully!');
-        }
-    }
-
-    renderRecentOrders() {
-        const container = document.getElementById('p2p-recent-orders');
-        const recentOrders = this.myOrders.slice(0, 3);
-        
-        container.innerHTML = recentOrders.map(order => `
-            <div class="p2p-order-item">
-                <div class="p2p-order-header">
-                    <small>#${order.id}</small>
-                    <span class="p2p-order-status status-${order.status}">${order.status}</span>
-                </div>
-                <p><strong>${order.type.toUpperCase()} ${order.amount} ${order.currency}</strong></p>
-                <p style="font-size: 0.75rem; color: var(--text-secondary);">@ ₦${order.rate.toLocaleString()}</p>
-            </div>
-        `).join('');
-    }
-
+    // ============================================
+    // UI UPDATES
+    // ============================================
     updateBalances() {
-        document.getElementById('p2p-kda-balance').textContent = `${this.balances.kda.toFixed(2)} KDA`;
-        document.getElementById('p2p-ngn-balance').textContent = `₦${this.balances.ngn.toLocaleString()}`;
-        document.getElementById('p2p-escrow-balance').textContent = `₦${this.balances.escrow.toLocaleString()}`;
-        document.getElementById('p2p-available-balance').textContent = `₦${(this.balances.ngn - this.balances.escrow).toLocaleString()}`;
+        // Update all balance displays
+        document.querySelectorAll('.balance-value').forEach(el => {
+            const label = el.previousElementSibling.textContent;
+            
+            if (label === 'KDA') {
+                el.textContent = this.balances.kda.toFixed(2);
+                this.animateNumber(el, this.balances.kda);
+            } else if (label === 'NGN') {
+                el.textContent = `₦${this.balances.ngn.toLocaleString()}`;
+                this.animateNumber(el, this.balances.ngn, '₦');
+            } else if (label === 'Escrow') {
+                el.textContent = `₦${this.balances.escrow.toLocaleString()}`;
+            } else if (label === 'Available') {
+                const available = this.balances.ngn - this.balances.escrow;
+                el.textContent = `₦${available.toLocaleString()}`;
+            }
+        });
     }
 
-    showNotification(message, type = 'success') {
-        const notification = document.getElementById('p2p-notification');
-        notification.textContent = message;
-        notification.className = `notification ${type} show`;
+    updateRecentTransactions() {
+        const recent = this.transactions.slice(0, 2);
+        const containers = document.querySelectorAll('#send .card:last-child, #history .card:first-child');
         
+        containers.forEach(container => {
+            const txElements = container.querySelectorAll('.transaction');
+            recent.forEach((tx, index) => {
+                if (txElements[index]) {
+                    const icon = txElements[index].querySelector('.tx-icon');
+                    const title = txElements[index].querySelector('.tx-title');
+                    const amount = txElements[index].querySelector('.tx-amount');
+                    
+                    if (icon) {
+                        icon.textContent = tx.type === 'send' ? '↑' : '↓';
+                        icon.className = `tx-icon ${tx.type}`;
+                    }
+                    if (title) {
+                        title.textContent = tx.type === 'send' ? 'Sent' : 'Received';
+                    }
+                    if (amount) {
+                        const sign = tx.type === 'send' ? '-' : '+';
+                        amount.textContent = `${sign}${tx.amount}`;
+                        amount.style.color = tx.type === 'send' ? 'var(--danger)' : 'var(--success)';
+                    }
+                }
+            });
+        });
+    }
+
+    // ============================================
+    // ANIMATIONS
+    // ============================================
+    createRipple(element, event) {
+        const ripple = document.createElement('span');
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+
+        ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            left: ${x}px;
+            top: ${y}px;
+            pointer-events: none;
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+        `;
+
+        element.style.position = 'relative';
+        element.style.overflow = 'hidden';
+        element.appendChild(ripple);
+
+        setTimeout(() => ripple.remove(), 600);
+    }
+
+    shakeElement(element) {
+        element.style.animation = 'shake 0.5s';
         setTimeout(() => {
-            notification.classList.remove('show');
+            element.style.animation = '';
+        }, 500);
+    }
+
+    pulseElement(element) {
+        element.style.animation = 'pulse 0.5s';
+        setTimeout(() => {
+            element.style.animation = '';
+        }, 500);
+    }
+
+    animateNumber(element, target, prefix = '') {
+        const current = parseFloat(element.textContent.replace(/[^0-9.]/g, '')) || 0;
+        const duration = 500;
+        const steps = 20;
+        const increment = (target - current) / steps;
+        let step = 0;
+
+        const interval = setInterval(() => {
+            step++;
+            const value = current + (increment * step);
+            
+            if (prefix) {
+                element.textContent = `${prefix}${Math.floor(value).toLocaleString()}`;
+            } else {
+                element.textContent = value.toFixed(2);
+            }
+
+            if (step >= steps) {
+                clearInterval(interval);
+                if (prefix) {
+                    element.textContent = `${prefix}${Math.floor(target).toLocaleString()}`;
+                } else {
+                    element.textContent = target.toFixed(2);
+                }
+            }
+        }, duration / steps);
+    }
+
+    // ============================================
+    // NOTIFICATIONS
+    // ============================================
+    showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `wallet-notification ${type}`;
+        notification.textContent = message;
+        
+        const icon = type === 'success' ? '✓' : '✕';
+        notification.innerHTML = `<span>${icon}</span> ${message}`;
+        
+        notification.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #ef4444, #dc2626)'};
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.3s ease-out';
+            setTimeout(() => notification.remove(), 300);
         }, 3000);
     }
 
-    closeModal() {
-        document.getElementById('p2p-trading-modal').classList.remove('show');
-    }
-
-    startPriceUpdates() {
+    // ============================================
+    // LIVE UPDATES
+    // ============================================
+    startLiveUpdates() {
+        // Update exchange rates
         setInterval(() => {
-            this.offers.forEach(offer => {
-                const change = (Math.random() - 0.5) * offer.rate * 0.001;
-                offer.rate += change;
-                offer.rate = Math.max(0, offer.rate);
+            Object.keys(this.exchangeRates).forEach(currency => {
+                const change = (Math.random() - 0.5) * 0.02;
+                this.exchangeRates[currency] *= (1 + change);
             });
-            
-            if (this.currentTab === 'buy' || this.currentTab === 'sell') {
-                this.renderOffers();
+
+            // Update exchange rate display in convert tab
+            const rateDisplay = document.querySelector('#convert .card:last-child div[style*="font-size: 2rem"]');
+            if (rateDisplay) {
+                rateDisplay.textContent = `$${this.exchangeRates.kda.toFixed(2)}`;
+            }
+        }, 5000);
+
+        // Update P2P offers
+        setInterval(() => {
+            if (this.currentTab === 'p2p') {
+                this.p2pOffers.forEach(offer => {
+                    offer.rate += (Math.random() - 0.5) * 5;
+                    offer.rate = Math.max(1100, Math.min(1250, offer.rate));
+                });
+                this.renderP2POffers();
             }
         }, 10000);
-    }
-}
 
-// Global P2P instance
-let walletP2P;
-
-// Function to initialize P2P when wallet tab is switched to P2P
-function initializeWalletP2P() {
-    if (!walletP2P) {
-        walletP2P = new WalletP2PMarketplace();
-        walletP2P.init();
-        walletP2P.startPriceUpdates();
-    }
-}
-
-// Function to close P2P modal (called from HTML)
-function closep2pModal() {
-    if (walletP2P) {
-        walletP2P.closeModal();
-    }
-}
-
-// Auto-initialize when P2P tab becomes visible
-document.addEventListener('DOMContentLoaded', function() {
-    // Watch for when the P2P tab becomes active
-    const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.target.id === 'wallet-p2p' && 
-                mutation.target.style.display !== 'none' && 
-                !walletP2P) {
-                initializeWalletP2P();
+        // Random notification
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const messages = [
+                    'New P2P offer available!',
+                    'Price alert: KDA price changed',
+                    'Transaction confirmed'
+                ];
+                this.showNotification(messages[Math.floor(Math.random() * messages.length)], 'info');
             }
-        });
-    });
-    
-    const p2pElement = document.getElementById('wallet-p2p');
-    if (p2pElement) {
-        observer.observe(p2pElement, { attributes: true, attributeFilter: ['style'] });
+        }, 30000);
     }
-    
-    // Also initialize if P2P tab is already visible
-    setTimeout(() => {
-        const p2pTab = document.getElementById('wallet-p2p');
-        if (p2pTab && p2pTab.style.display !== 'none') {
-            initializeWalletP2P();
+
+    // ============================================
+    // MOCK DATA GENERATION
+    // ============================================
+    generateMockData() {
+        // Generate initial transactions
+        for (let i = 0; i < 10; i++) {
+            this.transactions.push({
+                id: `TX${1000 + i}`,
+                type: Math.random() > 0.5 ? 'send' : 'receive',
+                amount: Math.random() * 100 + 10,
+                timestamp: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000),
+                status: 'confirmed'
+            });
         }
-    }, 1000);
+    }
+}
+
+// ============================================
+// GLOBAL FUNCTIONS (for HTML onclick handlers)
+// ============================================
+function switchTab(element, tabName) {
+    if (window.walletManager) {
+        window.walletManager.switchWalletTab(element, tabName);
+    }
+}
+
+function switchP2P(tabName) {
+    if (window.walletManager) {
+        window.walletManager.switchP2PTab(tabName);
+    }
+}
+
+function openTrade(type, trader) {
+    if (window.walletManager) {
+        window.walletManager.openTradeModal(type, trader);
+    }
+}
+
+function closeModal() {
+    if (window.walletManager) {
+        window.walletManager.closeTradeModal();
+    }
+}
+
+// ============================================
+// INITIALIZE ON DOM LOAD
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Initializing Wallet Manager...');
+    window.walletManager = new WalletManager();
+    console.log('✅ Wallet Manager Ready!');
+
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .wallet .content {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .wallet .content:not(.active) {
+            display: none !important;
+        }
+
+        .wallet-tab {
+            transition: all 0.3s ease;
+        }
+
+        .wallet-tab:hover {
+            transform: translateY(-2px);
+        }
+
+        .wallet-tab.active {
+            transform: translateY(0);
+        }
+
+        .btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+        }
+
+        .modal-content {
+            animation: slideInUp 0.3s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .offer {
+            transition: all 0.3s ease;
+        }
+
+        .offer:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .p2p-btn {
+            transition: all 0.3s ease;
+        }
+
+        .p2p-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .transaction {
+            transition: all 0.3s ease;
+        }
+
+        .transaction:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateX(5px);
+        }
+
+        .input:focus, .select:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+    `;
+    document.head.appendChild(style);
 });
 
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && walletP2P) {
-        walletP2P.closeModal();
-    }
-});
-
-// Demo notifications (only when P2P is active)
-setInterval(() => {
-    if (walletP2P && Math.random() > 0.85) {
-        walletP2P.showNotification('New trade request received!', 'warning');
-    }
-}, 25000);
+console.log('💎 Wallet Script Loaded Successfully!');
