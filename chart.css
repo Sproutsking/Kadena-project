@@ -1,0 +1,379 @@
+/* ============================================
+   CRYPTO CHART STYLES
+   ============================================ */
+
+/* Chart Container */
+.crypto-chart-container {
+  background: rgba(20, 20, 35, 0.4);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.crypto-chart-header {
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.crypto-chart-pair {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.crypto-chart-price {
+  color: var(--success);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* Timeframe Tabs */
+.crypto-timeframe-tabs {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.25rem;
+  border-radius: 8px;
+}
+
+.crypto-timeframe-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.crypto-timeframe-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.crypto-timeframe-btn.active {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+/* Chart Tools */
+.crypto-chart-tools {
+  padding: 1rem 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.crypto-chart-tools::-webkit-scrollbar {
+  display: none;
+}
+
+.crypto-chart-tool-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.crypto-chart-tool-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.crypto-chart-tool-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+/* Chart Body */
+.crypto-chart-body {
+  flex: 1;
+  padding: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.crypto-chart-display {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.crypto-chart-placeholder {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.crypto-chart-placeholder canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Chart Loading State */
+.crypto-chart-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.crypto-chart-loading h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.crypto-chart-loading p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Chart Trade Buttons */
+.crypto-chart-trade-btns {
+  padding: 1rem 1.5rem;
+  display: flex;
+  gap: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.crypto-chart-trade-btn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.crypto-chart-trade-btn.long {
+  background: linear-gradient(135deg, var(--success), #059669);
+  color: white;
+}
+
+.crypto-chart-trade-btn.long:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+.crypto-chart-trade-btn.short {
+  background: linear-gradient(135deg, var(--danger), #dc2626);
+  color: white;
+}
+
+.crypto-chart-trade-btn.short:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* Chart Info Overlay */
+.crypto-chart-info {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.crypto-chart-info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.crypto-chart-info-label {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.crypto-chart-info-value {
+  color: white;
+  font-weight: 600;
+}
+
+.crypto-chart-info-value.positive {
+  color: var(--success);
+}
+
+.crypto-chart-info-value.negative {
+  color: var(--danger);
+}
+
+/* Chart Crosshair */
+.crypto-chart-crosshair {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.crypto-chart-crosshair-line {
+  position: absolute;
+  background: rgba(139, 92, 246, 0.5);
+}
+
+.crypto-chart-crosshair-horizontal {
+  height: 1px;
+  width: 100%;
+}
+
+.crypto-chart-crosshair-vertical {
+  width: 1px;
+  height: 100%;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .crypto-chart-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .crypto-chart-pair {
+    font-size: 1rem;
+  }
+
+  .crypto-chart-price {
+    font-size: 1rem;
+  }
+
+  .crypto-timeframe-tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+    width: 100%;
+  }
+
+  .crypto-timeframe-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .crypto-timeframe-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .crypto-chart-tools {
+    padding: 0.75rem 1rem;
+  }
+
+  .crypto-chart-tool-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .crypto-chart-body {
+    padding: 0.5rem;
+  }
+
+  .crypto-chart-trade-btns {
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .crypto-chart-trade-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Chart Volume Bars (if shown below chart) */
+.crypto-chart-volume-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20%;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 0 40px;
+  pointer-events: none;
+}
+
+.crypto-chart-volume-bar {
+  flex: 1;
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 2px 2px 0 0;
+  transition: background 0.2s ease;
+}
+
+.crypto-chart-volume-bar.buy {
+  background: rgba(16, 185, 129, 0.3);
+}
+
+.crypto-chart-volume-bar.sell {
+  background: rgba(239, 68, 68, 0.3);
+}
