@@ -786,3 +786,356 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('All components initialized');
 });
 
+
+// Storage for saved cards and billing history
+    let savedCards = [];
+    let billingHistory = [];
+    let selectedCard = null;
+
+    // Initialize with demo data
+    function initializeDemoData() {
+      savedCards = [
+        { id: 1, type: 'Visa', number: '**** 4532', expiry: '12/25', name: 'John Doe' },
+        { id: 2, type: 'Mastercard', number: '**** 8765', expiry: '08/26', name: 'John Doe' }
+      ];
+
+      billingHistory = [
+        { id: 1, date: '2024-10-08', description: 'Deposit via Visa', amount: 500, status: 'Completed' },
+        { id: 2, date: '2024-10-05', description: 'Deposit via Mastercard', amount: 250, status: 'Completed' },
+        { id: 3, date: '2024-10-01', description: 'Deposit via Visa', amount: 1000, status: 'Completed' }
+      ];
+    }
+
+    // Render saved cards
+    function renderSavedCards() {
+      const cardsList = document.getElementById('savedCardsList');
+      if (savedCards.length === 0) {
+        cardsList.innerHTML = '<div class="empty-state">No saved cards yet. Add one to get started!</div>';
+        return;
+      }
+
+      cardsList.innerHTML = savedCards.map(card => `
+        <div class="saved-card-item">
+          <div class="card-info">
+            <span class="card-icon">💳</span>
+            <div class="card-details">
+              <div class="card-number">${card.type} ${card.number}</div>
+              <div class="card-expiry">Expires ${card.expiry}</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="use-card-btn" onclick="selectCardForDeposit(${card.id})">Use</button>
+            <button class="delete-card-btn" onclick="deleteCard(${card.id})">×</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render billing history
+    function renderBillingHistory() {
+      const historyList = document.getElementById('billingHistory');
+      if (billingHistory.length === 0) {
+        historyList.innerHTML = '<div class="empty-state">No transactions yet</div>';
+        return;
+      }
+
+      historyList.innerHTML = billingHistory.map(item => `
+        <div class="billing-item">
+          <div class="billing-info">
+            <div class="billing-date">${item.date}</div>
+            <div class="billing-description">${item.description}</div>
+          </div>
+          <div style="text-align: right;">
+            <div class="billing-amount">+${item.amount}</div>
+            <div class="billing-status">${item.status}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Open Deposit Popup
+    function openDepositPopup() {
+      initializeDemoData();
+      const overlay = document.getElementById('depositOverlay');
+      overlay.classList.add('active');
+      showDepositOptions();
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close Deposit Popup
+    function closeDepositPopup() {
+      const overlay = document.getElementById('depositOverlay');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        showDepositOptions();
+      }, 300);
+    }
+
+    // Show deposit options view
+    function showDepositOptions() {
+      document.getElementById('depositOptionsView').style.display = 'block';
+      document.getElementById('cardPaymentView').style.display = 'none';
+    }
+
+    // Show card payment view
+    function showCardPayment() {
+      document.getElementById('depositOptionsView').style.display = 'none';
+      document.getElementById('cardPaymentView').style.display = 'block';
+      showSavedCards();
+    }
+
+    // Show saved cards view
+    function showSavedCards() {
+      document.getElementById('savedCardsView').style.display = 'block';
+      document.getElementById('addCardView').style.display = 'none';
+      document.getElementById('depositAmountView').style.display = 'none';
+      document.getElementById('processingView').style.display = 'none';
+      document.getElementById('successView').style.display = 'none';
+      renderSavedCards();
+      renderBillingHistory();
+    }
+
+    // Show add card form
+    function showAddCardForm() {
+      document.getElementById('savedCardsView').style.display = 'none';
+      document.getElementById('addCardView').style.display = 'block';
+      document.getElementById('depositAmountView').style.display = 'none';
+      document.getElementById('processingView').style.display = 'none';
+      document.getElementById('successView').style.display = 'none';
+    }
+
+    // Cancel add card
+    function cancelAddCard() {
+      // Clear form fields
+      document.getElementById('newCardNumber').value = '';
+      document.getElementById('newCardName').value = '';
+      document.getElementById('newCardExpiry').value = '';
+      document.getElementById('newCardCVV').value = '';
+      showSavedCards();
+    }
+
+    // Format card number input
+    document.addEventListener('DOMContentLoaded', function() {
+      const cardNumberInput = document.getElementById('newCardNumber');
+      const expiryInput = document.getElementById('newCardExpiry');
+      
+      if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', function(e) {
+          let value = e.target.value.replace(/\s/g, '');
+          let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+          e.target.value = formattedValue;
+        });
+      }
+
+      if (expiryInput) {
+        expiryInput.addEventListener('input', function(e) {
+          let value = e.target.value.replace(/\D/g, '');
+          if (value.length >= 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2, 4);
+          }
+          e.target.value = value;
+        });
+      }
+    });
+
+    // Save new card
+    function saveNewCard(event) {
+      event.preventDefault();
+      const cardNumber = document.getElementById('newCardNumber').value.replace(/\s/g, '');
+      const cardName = document.getElementById('newCardName').value;
+      const cardExpiry = document.getElementById('newCardExpiry').value;
+
+      // Determine card type
+      const firstDigit = cardNumber.charAt(0);
+      let cardType = 'Card';
+      if (firstDigit === '4') cardType = 'Visa';
+      else if (firstDigit === '5') cardType = 'Mastercard';
+      else if (firstDigit === '3') cardType = 'Amex';
+
+      // Mask card number
+      const maskedNumber = '**** ' + cardNumber.slice(-4);
+
+      // Add to saved cards
+      const newCard = {
+        id: Date.now(),
+        type: cardType,
+        number: maskedNumber,
+        expiry: cardExpiry,
+        name: cardName
+      };
+
+      savedCards.push(newCard);
+      
+      // Clear form
+      document.getElementById('newCardNumber').value = '';
+      document.getElementById('newCardName').value = '';
+      document.getElementById('newCardExpiry').value = '';
+      document.getElementById('newCardCVV').value = '';
+
+      showSavedCards();
+    }
+
+    // Delete card
+    function deleteCard(cardId) {
+      if (confirm('Are you sure you want to delete this card?')) {
+        savedCards = savedCards.filter(card => card.id !== cardId);
+        renderSavedCards();
+      }
+    }
+
+    // Select card for deposit
+    function selectCardForDeposit(cardId) {
+      selectedCard = savedCards.find(card => card.id === cardId);
+      showDepositAmountView();
+    }
+
+    // Show deposit amount view
+    function showDepositAmountView() {
+      document.getElementById('savedCardsView').style.display = 'none';
+      document.getElementById('addCardView').style.display = 'none';
+      document.getElementById('depositAmountView').style.display = 'block';
+      document.getElementById('processingView').style.display = 'none';
+      document.getElementById('successView').style.display = 'none';
+
+      // Display selected card
+      const cardDisplay = document.getElementById('selectedCardDisplay');
+      cardDisplay.innerHTML = `
+        <span class="card-icon">💳</span>
+        <div class="card-details">
+          <div class="card-number">${selectedCard.type} ${selectedCard.number}</div>
+          <div class="card-expiry">Expires ${selectedCard.expiry}</div>
+        </div>
+      `;
+
+      // Reset amount
+      document.getElementById('depositAmount').value = '';
+      updateSummary();
+    }
+
+    // Back to saved cards
+    function backToSavedCards() {
+      showSavedCards();
+    }
+
+    // Back to deposit options
+    function backToDepositOptions() {
+      showDepositOptions();
+    }
+
+    // Set preset amount
+    function setAmount(amount) {
+      document.getElementById('depositAmount').value = amount;
+      updateSummary();
+    }
+
+    // Update deposit summary
+    function updateSummary() {
+      const amountInput = document.getElementById('depositAmount');
+      const amount = parseFloat(amountInput.value) || 0;
+      const fee = amount * 0.02;
+      const total = amount + fee;
+
+      document.getElementById('summaryAmount').innerText = `$${amount.toFixed(2)}`;
+      document.getElementById('summaryFee').innerText = `$${fee.toFixed(2)}`;
+      document.getElementById('summaryTotal').innerText = `$${total.toFixed(2)}`;
+    }
+
+    // Process card deposit
+    function processCardDeposit(event) {
+      event.preventDefault();
+      
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      const fee = amount * 0.02;
+      const total = amount + fee;
+
+      // Show processing view
+      document.getElementById('depositAmountView').style.display = 'none';
+      document.getElementById('processingView').style.display = 'block';
+
+      // Simulate processing time
+      setTimeout(() => {
+        // Add to billing history
+        const newTransaction = {
+          id: Date.now(),
+          date: new Date().toISOString().split('T')[0],
+          description: `Deposit via ${selectedCard.type}`,
+          amount: amount,
+          status: 'Completed'
+        };
+        billingHistory.unshift(newTransaction);
+
+        // Show success view
+        document.getElementById('processingView').style.display = 'none';
+        document.getElementById('successView').style.display = 'block';
+
+        // Display success details
+        const successDetails = document.getElementById('successDetails');
+        successDetails.innerHTML = `
+          <div class="detail-row">
+            <span class="detail-label">Amount Deposited:</span>
+            <span class="detail-value">${amount.toFixed(2)}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Processing Fee:</span>
+            <span class="detail-value">${fee.toFixed(2)}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Total Charged:</span>
+            <span class="detail-value">${total.toFixed(2)}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Payment Method:</span>
+            <span class="detail-value">${selectedCard.type} ${selectedCard.number}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Transaction ID:</span>
+            <span class="detail-value">#${newTransaction.id}</span>
+          </div>
+        `;
+      }, 2000);
+    }
+
+    // Select deposit method
+    function selectDepositMethod(method) {
+      switch (method) {
+        case 'transfer':
+          closeDepositPopup();
+          console.log('Opening transfer form...');
+          alert('Transfer feature coming soon!');
+          break;
+
+        case 'external':
+          closeDepositPopup();
+          console.log('Opening external wallet deposit...');
+          alert('External wallet deposit feature coming soon!');
+          break;
+
+        case 'p2p':
+          closeDepositPopup();
+          console.log('Opening P2P deposit...');
+          alert('P2P deposit feature coming soon!');
+          break;
+
+        case 'card':
+          // Stay in popup and show card payment view
+          showCardPayment();
+          break;
+      }
+    }
+
+    // Close popup on ESC key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const overlay = document.getElementById('depositOverlay');
+        if (overlay.classList.contains('active')) {
+          const cardView = document.getElementById('cardPaymentView');
+          // If on card payment view, go back to options
+          if (cardView.style.display === 'block') {
+            backToDepositOptions();
+          } else {
+            closeDepositPopup();
+          }
+        }
+      }
+    });
