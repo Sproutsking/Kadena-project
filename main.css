@@ -61,7 +61,7 @@ body {
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
-  background: var(--bg);
+  background: black;
   position: relative;
   -webkit-tap-highlight-color: transparent;
   height: 100vh;
@@ -1854,6 +1854,8 @@ body .section-header {
   .main-content {
     transition: none;
     transform: none;
+    border: none;
+    margin: 0;
   }
 
   .back-btn {
