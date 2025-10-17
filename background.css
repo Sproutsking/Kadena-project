@@ -32,48 +32,6 @@
     z-index: 1;
 }
 
-/* Floating Data Blocks */
-/* .data-block {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            background: rgba(10, 0, 21, 0.5);
-            backdrop-filter: blur(10px);
-            animation: floatBlock 20s infinite ease-in-out;
-            z-index: 1;
-        }
-
-        .data-block::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            background: linear-gradient(45deg, transparent, rgba(169, 4, 175, 0.5), transparent);
-            animation: borderRotate 3s linear infinite;
-            z-index: -1;
-        }
-
-        .data-block::after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 5px;
-            bottom: 5px;
-            border: 1px solid rgba(175, 4, 147, 0.5);
-        } */
-
-/* @keyframes floatBlock {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            33% { transform: translateY(-30px) rotate(120deg); }
-            66% { transform: translateY(-15px) rotate(240deg); }
-        }
-
-        @keyframes borderRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        } */
-
 /* Hexagon Network */
 .hex-network {
     position: absolute;
@@ -115,7 +73,7 @@
     z-index: 1;
 }
 
-.orb-1 {
+/* .orb-1 {
     width: 300px;
     height: 300px;
     background: radial-gradient(circle, rgba(168, 85, 247, 0.4), transparent);
@@ -131,16 +89,16 @@
     bottom: 20%;
     right: 15%;
     animation-delay: 3s;
-}
+} */
 
-.orb-3 {
+/* .orb-3 {
     width: 200px;
     height: 200px;
     background: radial-gradient(circle, rgba(168, 85, 247, 0.35), transparent);
     top: 50%;
     left: 50%;
     animation-delay: 6s;
-}
+} */
 
 @keyframes orbFloat {
 
@@ -190,7 +148,7 @@
 }
 
 .circuit-path {
-    stroke: rgba(168, 85, 247, 0.3);
+    stroke: rgba(169, 85, 247, 0.24);
     stroke-width: 1;
     fill: none;
     stroke-dasharray: 5 5;
@@ -209,8 +167,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     z-index: 1;
 }
 
