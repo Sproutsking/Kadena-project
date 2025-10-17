@@ -165,6 +165,9 @@
           <div class="stat-value" id="balance">12,450.73 KDA</div>
           <div class="stat-label">💰 Balance</div>
         </div>
+        <div class="deposit-btn-div">
+          <button class="deposit-btn" onclick="openDepositPopup()">Deposit</button>
+        </div>
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-change positive" id="priceChange">+24.7%</div>
@@ -202,86 +205,7 @@
             <div class="stat-label">🚀 Max TPS</div>
           </div>
         </div>
-        <div class="deposit-btn-div">
-          <button class="deposit-btn" onclick="openDepositPopup()">Deposit</button>
-        </div>
-        <div class="kda-chart-section">
-          <div class="kda-chart-header">
-            📊 KDA/USD Live Chart
-          </div>
-
-          <div class="kda-price-info">
-            <div class="kda-price-item">
-              <div class="kda-price-label">Current Price</div>
-              <div class="kda-price-value" id="kdaCurrentPrice">$0.00</div>
-            </div>
-            <div class="kda-price-item">
-              <div class="kda-price-label">24h Change</div>
-              <div class="kda-price-change" id="kdaPriceChange">+0.00%</div>
-            </div>
-            <div class="kda-price-item">
-              <div class="kda-price-label">24h High</div>
-              <div class="kda-price-value" id="kdaHigh24h">$0.00</div>
-            </div>
-            <div class="kda-price-item">
-              <div class="kda-price-label">24h Low</div>
-              <div class="kda-price-value" id="kdaLow24h">$0.00</div>
-            </div>
-            <div class="kda-price-item">
-              <div class="kda-price-label">Volume</div>
-              <div class="kda-price-value" id="kdaVolume24h">$0</div>
-            </div>
-          </div>
-
-          <div class="kda-controls">
-            <div class="kda-btn-group" id="kdaVisibleTimeframes">
-              <button class="kda-btn" onclick="kdaChangeTimeframe('1D', this)"><span>1D</span></button>
-              <button class="kda-btn" onclick="kdaChangeTimeframe('1W', this)"><span>1W</span></button>
-            </div>
-
-            <div class="kda-dropdown">
-              <button class="kda-btn" id="kdaDropdownBtn" onclick="kdaToggleDropdown()"><span
-                  id="kdaDropdownLabel">More</span></button>
-              <div class="kda-dropdown-menu" id="kdaDropdownMenu">
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('1m', this)">1 Minute</div>
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('5m', this)">5 Minutes</div>
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('15m', this)">15 Minutes</div>
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('30m', this)">30 Minutes</div>
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('1H', this)">1 Hour</div>
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('4H', this)">4 Hours</div>
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('1M', this)">1 Month</div>
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('3M', this)">3 Months</div>
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('6M', this)">6 Months</div>
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('1Y', this)">1 Year</div>
-                <div class="kda-dropdown-item" onclick="kdaSelectTimeframe('ALL', this)">All Time</div>
-              </div>
-            </div>
-
-            <div class="kda-divider"></div>
-
-            <div class="kda-btn-group">
-              <button class="kda-btn" onclick="kdaToggleMA(this)"><span>MA</span></button>
-              <button class="kda-btn" onclick="kdaToggleEMA(this)"><span>EMA</span></button>
-              <button class="kda-btn" onclick="kdaToggleBollinger(this)"><span>BB</span></button>
-              <button class="kda-btn" onclick="kdaToggleRSI(this)"><span>RSI</span></button>
-            </div>
-
-            <div class="kda-divider"></div>
-
-            <div class="kda-btn-group">
-              <button class="kda-btn" onclick="kdaToggleVolume(this)"><span>Volume</span></button>
-              <button class="kda-btn" onclick="kdaToggleFullscreen(this)"><span>⛶</span></button>
-            </div>
-          </div>
-
-          <div class="kda-chart-container" id="kdaChartContainer">
-            <div class="kda-loading" id="kdaLoading">
-              <div class="kda-spinner"></div>
-              Loading chart data...
-            </div>
-            <canvas id="kdaMainChart"></canvas>
-          </div>
-        </div>
+        
         <div class="action-buttons">
           <button class="action-btn" onclick="trade('buy')">Trade</button>
           <button class="action-btn" onclick="trade('sell')">P2P</button>
@@ -2827,8 +2751,8 @@
       <div class="crypto-market-bg"></div>
 
       <div class="section-header">
-        <h1 class="section-title">market</h1>
-        <button class="mobile-menu-btn">☰</button>
+        <h1 class="section-title">Market</h1>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
       </div>
 
       <nav class="crypto-main-nav">
@@ -3379,12 +3303,9 @@
 
         <!-- Header -->
         <div class="section-header">
-          <div class="builderthon-buttons">
-            <h1 class="section-title">BUILDERTHON</h1>
-            <div class="bth-user-avatar" onclick="bthOpenProfile()">YU</div>
-          </div>
+          <div class="bth-user-avatar" onclick="bthOpenProfile()">YU</div>
+          <h1 class="section-title">Builderthon</h1>
           <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
-
         </div>
 
         <!-- Top Navigation - Desktop -->
@@ -5581,7 +5502,6 @@
     <script src="kan-finance.js"></script>
     <script src="chart.js"></script>
     <script src="dashboard-chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   </body>
 
 </html>
