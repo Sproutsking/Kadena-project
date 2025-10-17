@@ -63,6 +63,9 @@
      transition: all 0.2s;
      white-space: nowrap;
  }
+ .wallet-tab {
+    background: black;
+ }
 
  .tab:hover {
      color: var(--text);
@@ -109,7 +112,7 @@
  }
 
  .card {
-     background: var(--bg-card);
+     background: rgb(14, 13, 13);
      border-radius: 12px;
      padding: 1.25rem;
      border: 1px solid var(--border);
@@ -505,8 +508,6 @@
      border-radius: 12px 12px 0 0;
  }
 
- .active-offer-header {}
-
  .active-offer-details {
      display: flex;
      gap: 10px;
@@ -697,7 +698,6 @@
      display: flex;
      justify-content: space-around;
      align-items: center;
-     background: var(--card-bg, #fff);
      border-bottom: 1px solid #ddd;
      position: sticky;
      top: 0;
@@ -712,8 +712,8 @@
      gap: 5px;
      flex: 1;
      font-size: 14px;
-     color: #666;
-     background: none;
+     color: #ffffff;
+     background: rgb(14, 13, 13);
      border: none;
      outline: none;
      cursor: pointer;
@@ -745,21 +745,24 @@
          border-top: 1px solid #444444;
          border-bottom: none;
          width: 100%;
+         border-radius: 12px 12px 0 0;
          background: black;
          z-index: 999;
-         padding: 8px 0;
+         padding: 8px 2%;
      }
 
      .wallet-tab {
          bottom: 0;
          left: 0;
          right: 0;
+         width: fit-content;
          height: 65px;
          display: flex;
+         flex: 1;
          border-radius: 12px;
          justify-content: space-around;
          align-items: center;
-         background: var(--bg-card);
+         background: rgb(3, 3, 3);
          border: 1px solid #4444;
          box-shadow: 0 0 4px #4444;
          z-index: 1000;
