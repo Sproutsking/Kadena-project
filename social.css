@@ -1,47 +1,47 @@
 .social-section {
-            --social-primary: #ff0080;
-            --social-secondary: #7928ca;
-            --social-accent: #00ff88;
-            --social-bg: #000000;
-            --social-surface: rgba(255, 255, 255, 0.04);
-            --social-border: rgba(255, 255, 255, 0.08);
-            --social-text: #ffffff;
-            --social-text-dim: #888888;
-            --social-success: #00ff88;
-            --social-error: #ff4444;
-            --social-primary-gradient: linear-gradient(135deg, #ff0080, #7928ca, #ff0080);
-            --social-secondary-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f0f23);
-            --social-bg-primary: #0a0a0a;
-            --social-bg-secondary: rgba(255, 255, 255, 0.03);
-            --social-bg-card: rgba(255, 255, 255, 0.05);
-            --social-border-color: rgba(255, 255, 255, 0.1);
-            --social-glass-bg: rgba(255, 255, 255, 0.1);
-            --social-glass-border: rgba(255, 255, 255, 0.2);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: var(--social-text);
-        }
+    --social-primary: #ff0080;
+    --social-secondary: #7928ca;
+    --social-accent: #00ff88;
+    --social-bg: #000000;
+    --social-surface:#000000;
+    --social-border: #000000;
+    --social-text: #ffffff;
+    --social-text-dim: #888888;
+    --social-success: #00ff88;
+    --social-error: #ff4444;
+    --social-primary-gradient: linear-gradient(135deg, #ff0080, #7928ca, #ff0080);
+    --social-secondary-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f0f23);
+    --social-bg-primary: #0a0a0a;
+    --social-bg-secondary:#000000;
+    --social-bg-card: #000000;
+    --social-border-color: rgba(255, 255, 255, 0.1);
+    --social-glass-bg:#000000;
+    --social-glass-border:#000000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--social-text);
+}
 
-        .social-section * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+.social-section * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 
-        .social-section *::-webkit-scrollbar {
-            display: none;
-        }
+.social-section *::-webkit-scrollbar {
+    display: none;
+}
 
-         .social-platform * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+.social-platform * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 
-    .social-platform * {
+.social-platform * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -117,7 +117,7 @@
     max-width: 1200px;
     margin: 0 auto;
     gap: 12px;
-    height: 100vh
+    height: 100vh;
     flex: 1;
     padding-left: 2%;
     padding-right: 2%;
@@ -135,7 +135,8 @@
 .social-trending-panel {
     width: 340px;
     height: fit-content;
-    margin-top: 10px; /* Offset for sticky header */
+    margin-top: 10px;
+    /* Offset for sticky header */
     background: black;
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -156,7 +157,7 @@
 }
 
 .social-post-composer {
-  background: rgba(3, 0, 1, 0.74);
+    background: rgba(3, 0, 1, 0.74);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
@@ -185,7 +186,6 @@
 .social-composer-header {
     display: flex;
     gap: 8px;
-    margin-bottom: 8px;
 }
 
 .social-composer-avatar {
@@ -208,7 +208,7 @@
     font-size: 16px;
     line-height: 1.4;
     resize: none;
-    min-height: 80px;
+    min-height: 40px;
     outline: none;
     font-family: inherit;
 }
@@ -282,7 +282,7 @@
 }
 
 .social-post {
-  background: rgba(3, 0, 1, 0.74);
+    background: rgba(3, 0, 1, 0.74);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
@@ -588,7 +588,7 @@
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    background:rgb(128, 0, 100);
+    background: rgb(128, 0, 100);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -713,7 +713,11 @@
 }
 
 .social-livestream-container.active {
-    display: grid;
+    display: flex;
+    height: 90vh;
+    overflow: hidden;
+    overflow-y: auto;
+    padding-bottom: 60px;
 }
 
 @media (min-width: 768px) {
@@ -837,9 +841,17 @@
 }
 
 @keyframes social-pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .social-stream-title {
@@ -952,9 +964,20 @@
 }
 
 @keyframes social-giftPop {
-    0% { transform: scale(0); opacity: 0; }
-    50% { transform: scale(1.5); opacity: 1; }
-    100% { transform: scale(1); opacity: 0; }
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
 }
 
 .social-gift-popup {
@@ -1462,9 +1485,11 @@
     grid-template-columns: 1fr;
     gap: 12px;
 }
+
 .trending-footer-container {
     display: flex;
 }
+
 .trending-footer {
     flex: 1;
     padding: 5px;
@@ -1549,6 +1574,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1558,20 +1584,22 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .social-platform {
-        margin-left: 0; /* Remove margin for mobile */
+        margin-left: 0;
+        /* Remove margin for mobile */
     }
+
     .main-content {
         margin: 0;
     }
+
     .social-feeds-section {
         padding: 0;
     }
+
     .social-posts-feed {
         padding: 0;
     }
-    .section-header {
-        padding: 0 12px;
-    }
+
     .social-trending-grid {
         padding: 0;
     }
@@ -1590,7 +1618,6 @@
         width: 100%;
         margin-top: 12px;
     }
-
     .social-nav {
         flex-direction: row;
         gap: 8px;
