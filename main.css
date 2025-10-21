@@ -1828,148 +1828,6 @@ body .section-header {
 }
 
 /* ==========================================
-   MOBILE RESPONSIVE DESIGN
-   ========================================== */
-@media (max-width: 767px) {
-  body {
-    padding: 0;
-  }
-
-  .sidebar {
-    left: 0;
-    width: 75vw;
-    /* padding-top: 6px; */
-    padding-bottom: 12px;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-  }
-
-  .nav-menu {
-    gap: 5px;
-  }
-
-  .nav-link {
-    padding: 8px 12px;
-  }
-
-  .main-content {
-    transition: none;
-    transform: none;
-    border: none;
-    margin: 0;
-  }
-
-  .back-btn {
-    display: block;
-  }
-
-  .container {
-    padding: 4px;
-  }
-
-  .section {
-    height: 100vh;
-  }
-
-  .social-layout {
-    height: calc(100vh - 88px);
-    padding: 4px;
-  }
-
-  .wallet-layout {
-    height: calc(100vh - 88px);
-  }
-
-  .subsection {
-    height: calc(100vh - 88px);
-    padding: 8px;
-  }
-
-  .notificationFeeds {
-    padding: 4px;
-  }
-
-  .community-grid {
-    padding: 4px;
-  }
-
-  .stats-grid {
-    gap: 4px;
-    margin-bottom: 6px;
-  }
-
-  .chart-section,
-  .features,
-  .network-card,
-  .wallet-card,
-  .post,
-  .community-card,
-  .notification {
-    margin-bottom: 4px;
-  }
-
-  body {
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .main-content {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .section-header {
-    justify-content: space-between;
-  }
-  #social .section-title {
-    text-align: center;
-  }
-
-  #message {
-    display: flex;
-  }
-
-  .wallet-card {
-    margin: 15px;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-
-  .balance-grid {
-    border-radius: 15px 15px 0 0;
-    padding: 10px;
-    border: 1px solid #df02af;
-    background: linear-gradient(135deg, #050208 17%, #df02af 63%, purple 20%);
-  }
-
-  .stat-card {
-    padding: 0px;
-    display: flex;
-    padding-left: 12px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
-  }
-
-  .stat-value {
-    font-size: 10px;
-  }
-
-  .stat-label {
-    font-size: 8px;
-  }
-
-
-  .btn {
-    padding: 7cqmax;
-    font-size: 8px;
-  }
-}
-
-/* ==========================================
    TABLET RESPONSIVE DESIGN
    ========================================== */
 @media (min-width: 480px) {
@@ -2109,5 +1967,146 @@ body .section-header {
 
   .community-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* ==========================================
+   MOBILE RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 767px) {
+  body {
+    padding: 0;
+  }
+
+  .sidebar {
+    left: 0;
+    width: 75vw;
+    /* padding-top: 6px; */
+    padding-bottom: 12px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-menu {
+    gap: 5px;
+  }
+
+  .nav-link {
+    padding: 8px 12px;
+  }
+
+  .main-content {
+    transition: none;
+    transform: none;
+    border: none;
+    margin: 0;
+  }
+
+  .back-btn {
+    display: block;
+  }
+
+  .container {
+    padding: 4px;
+  }
+
+  .section {
+    height: 100vh;
+  }
+
+  .social-layout {
+    height: calc(100vh - 88px);
+    padding: 4px;
+  }
+
+  .wallet-layout {
+    height: calc(100vh - 88px);
+  }
+
+  .subsection {
+    height: calc(100vh - 88px);
+    padding: 8px;
+  }
+
+  .notificationFeeds {
+    padding: 4px;
+  }
+
+  .community-grid {
+    padding: 4px;
+  }
+
+  .stats-grid {
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+
+  .chart-section,
+  .features,
+  .network-card,
+  .wallet-card,
+  .post,
+  .community-card,
+  .notification {
+    margin-bottom: 4px;
+  }
+
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .main-content {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .section-header {
+    justify-content: space-between;
+  }
+  #social .section-title {
+    text-align: center;
+  }
+
+  #message {
+    display: flex;
+  }
+
+  .wallet-card {
+    margin: 15px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .balance-grid {
+    border-radius: 15px 15px 0 0;
+    padding: 10px;
+    border: 1px solid #df02af;
+    background: linear-gradient(135deg, #050208 17%, #df02af 63%, purple 20%);
+  }
+
+  .stat-card {
+    padding: 0px;
+    display: flex;
+    padding-left: 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+  }
+
+  .stat-value {
+    font-size: 10px;
+  }
+
+  .stat-label {
+    font-size: 8px;
+  }
+
+
+  .btn {
+    padding: 7cqmax;
+    font-size: 8px;
   }
 }
