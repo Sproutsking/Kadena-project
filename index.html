@@ -3138,160 +3138,253 @@
     <div class="floating-particles" id="particles"></div>
 
     <!-- Community Section -->
-    <section class="section" id="community">
-      <div class="blockchain-bg"></div>
-      <div class="section-header">
-        <h1 class="section-title">Global Communities</h1>
-        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
-      </div>
-
-      <div class="community-grid" id="communityGrid">
-        <div class="community-card" data-community="africa" onclick="joinCommunity('africa')">
-          <div class="activity-pulse"></div>
-          <div class="community-header">
-            <div class="community-flag">🌍</div>
-            <div class="community-info">
-              <div class="community-name">Africa KDA Hub</div>
-              <div class="community-members">
-                <span class="online-indicator"></span> 3,245 Members • 1,127 Online
-              </div>
+    
+   <section class="section" id="community">
+      <div class="main-container">
+        <!-- COMMUNITIES LIST VIEW -->
+        <div class="communities-view" id="communitiesView">
+            <div class="communities-header">
+                <h1>🌐 Global Communities</h1>
             </div>
-          </div>
-          <div class="community-preview">Discussing DeFi growth across Africa with passionate blockchain enthusiasts and
-            developers.</div>
-          <button class="community-btn" onclick="event.stopPropagation(); joinCommunity('africa')">Join
-            Community</button>
+            <div class="communities-grid" id="communitiesGrid">
+                <!-- Communities will be populated here -->
+            </div>
         </div>
 
-        <div class="community-card" data-community="developers" onclick="joinCommunity('developers')">
-          <div class="activity-pulse"></div>
-          <div class="community-header">
-            <div class="community-flag">💻</div>
-            <div class="community-info">
-              <div class="community-name">Kadena Developers</div>
-              <div class="community-members">
-                <span class="online-indicator"></span> 1,892 Members • 567 Online
-              </div>
+        <!-- CHAT VIEW -->
+        <div class="chat-view hidden" id="chatView">
+            <!-- Members Sidebar (Desktop) -->
+            <div class="members-sidebar" id="membersSidebar">
+                <div class="sidebar-header">👥 Online Members</div>
+                <div id="membersList"></div>
             </div>
-          </div>
-          <div class="community-preview">Building the future with Pact smart contracts and sharing cutting-edge
-            development techniques.</div>
-          <button class="community-btn" onclick="event.stopPropagation(); joinCommunity('developers')">Join
-            Community</button>
-        </div>
 
-        <div class="community-card" data-community="traders" onclick="joinCommunity('traders')">
-          <div class="activity-pulse"></div>
-          <div class="community-header">
-            <div class="community-flag">📈</div>
-            <div class="community-info">
-              <div class="community-name">KDA Traders</div>
-              <div class="community-members">
-                <span class="online-indicator"></span> 2,134 Members • 789 Online
-              </div>
-            </div>
-          </div>
-          <div class="community-preview">Advanced market analysis, trading strategies, and real-time insights from
-            professional traders.</div>
-          <button class="community-btn" onclick="event.stopPropagation(); joinCommunity('traders')">Join
-            Community</button>
-        </div>
-      </div>
-
-      <div class="community-chat-container" id="communityChatContainer" style="display: none;">
-        <div class="community-chat-header">
-          <div>
-            <h3 id="communityChatTitle">Africa KDA Hub</h3>
-            <div class="community-status">
-              <span class="online-indicator"></span> <span id="communityOnlineCount">1,127 Online</span>
-              <span class="encryption-info">🔒 End-to-end encrypted</span>
-            </div>
-          </div>
-          <div class="community-actions">
-            <button class="community-action-btn" onclick="leaveCommunity()">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-              </svg>
-              Leave
-            </button>
-            <button class="community-action-btn" onclick="openCommunitySettings()">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.06-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.49.49 0 0 0-.49-.41h-3.84a.49.49 0 0 0-.49.41l-.36 2.54c-.59.24-1.12.56-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22l-1.92 3.32a.49.49 0 0 0 .12.61l2.03 1.58c-.04.3-.06.61-.06.94s.02.64.06.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32a.49.49 0 0 0 .59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54a.49.49 0 0 0 .49.41h3.84a.49.49 0 0 0 .49-.41l.36-2.54c.59-.24 1.12-.56 1.62-.94l2.39.96a.49.49 0 0 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.03-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
-              </svg>
-              Settings
-            </button>
-          </div>
-        </div>
-
-        <div class="community-chat-messages" id="communityChatMessages">
-          <div class="community-message">
-            <div class="avatar">A</div>
-            <div class="community-message-content">
-              <div class="community-message-header">
-                <span class="community-message-author">Alice Okafor</span>
-                <span class="community-message-time">10:15 AM</span>
-              </div>
-              <div class="community-message-text">Excited about the new DeFi protocol launch in Nigeria! Who's joining
-                the beta testing program? 🚀</div>
-            </div>
-          </div>
-
-          <div class="community-message">
-            <div class="avatar">B</div>
-            <div class="community-message-content">
-              <div class="community-message-header">
-                <span class="community-message-author">Bob Wilson</span>
-                <span class="community-message-time">10:20 AM</span>
-              </div>
-              <div class="community-message-text">I'm definitely in! Let's discuss potential use cases for local
-                businesses. The integration possibilities are endless.</div>
-            </div>
-          </div>
-
-          <div class="community-message sent">
-            <div class="community-message-content">
-              <div class="community-message-header">
-                <span class="community-message-author">You</span>
-                <span class="community-message-time">10:22 AM</span>
-              </div>
-              <div class="community-message-text">Count me in! I think microfinance could be a game-changer here. The
-                scalability of Kadena makes it perfect for this use case.</div>
-            </div>
-          </div>
-
-          <div class="community-message">
-            <div class="avatar">C</div>
-            <div class="community-message-content">
-              <div class="community-message-header">
-                <span class="community-message-author">Carol Adebayo</span>
-                <span class="community-message-time">10:25 AM</span>
-              </div>
-              <div class="community-message-text">
-                <div class="typing-indicator" id="typingIndicator" style="display: none;">
-                  <div class="typing-dot"></div>
-                  <div class="typing-dot"></div>
-                  <div class="typing-dot"></div>
+            <!-- Chat Container -->
+            <div class="chat-container">
+                <!-- Header -->
+                <div class="chat-header">
+                    <div class="header-left">
+                        <button class="back-btn" onclick="goBackToCommunities()" aria-label="Back to communities">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <div class="community-emoji" id="headerEmoji">🌍</div>
+                        <div class="community-title-wrapper">
+                            <div class="community-title" id="communityTitle">Africa KDA Hub</div>
+                            <div class="online-count" id="onlineCount">1,127 Online</div>
+                        </div>
+                    </div>
+                    <div class="header-right">
+                        <button class="icon-btn" onclick="toggleSearch()" aria-label="Search messages">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </button>
+                        <button class="icon-btn" onclick="openNotifications()" aria-label="View notifications">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                        </button>
+                        <button class="icon-btn" onclick="openActionMenu()" aria-label="Open community menu">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <circle cx="12" cy="5" r="2"></circle>
+                                <circle cx="12" cy="12" r="2"></circle>
+                                <circle cx="12" cy="19" r="2"></circle>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-                Amazing initiative! I've been working on similar solutions in Kenya. Would love to collaborate and share
-                insights.
-              </div>
+
+                <!-- Search Bar -->
+                <div class="search-bar" id="searchBar">
+                    <div class="search-input-wrapper">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search messages..." onkeyup="searchMessages(this.value)" aria-label="Search messages">
+                        <button class="close-search" onclick="toggleSearch()" aria-label="Close search">✕</button>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div class="messages-wrapper" id="messagesWrapper">
+                    <div class="messages-content" id="messagesContent">
+                        <!-- Messages populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="input-area">
+                    <div class="input-wrapper">
+                        <input type="text" class="message-input" id="messageInput" placeholder="Share your thoughts..." onkeypress="handleKeyPress(event)" oninput="handleTyping()" aria-label="Type a message">
+                        <button class="input-action-btn" onclick="toggleEmojiPanel()" aria-label="Open emoji panel">😊</button>
+                        <button class="input-action-btn" onclick="uploadFile()" aria-label="Attach file">+</button>
+                    </div>
+                    <button class="send-btn" onclick="sendMessage()" aria-label="Send message">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Emoji Panel -->
+                <div class="emoji-panel" id="emojiPanel">
+                    <div class="emoji-tabs">
+                        <button class="emoji-tab active" onclick="switchEmojiTab('emoji')" aria-label="Emoji tab">Emoji</button>
+                    </div>
+                    <div id="emojiTabContent">
+                        <div class="emoji-grid" id="emojiGrid"></div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
 
-        <div class="community-chat-input-container">
-          <input type="text" class="community-chat-input" placeholder="Share your thoughts with the community..."
-            id="communityMessageInput" onkeypress="handleKeyPress(event)">
-          <button class="community-send-btn" onclick="sendCommunityMessage()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-            </svg>
-          </button>
+        <!-- Members Page (Mobile) -->
+        <div class="members-page" id="membersPage">
+            <div class="members-page-header">
+                <h2>Members</h2>
+                <button class="modal-close-btn" onclick="closeMembersPage()" aria-label="Close members page">✕</button>
+            </div>
+            <div class="members-page-content" id="mobileMembers"></div>
         </div>
-      </div>
-    </section>
+    </div>
+
+    <!-- Action Menu Modal -->
+    <div class="modal-overlay" id="actionModal" onclick="closeActionMenu(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header-bar">
+                <div class="modal-title">Community Menu</div>
+                <button class="modal-close-btn" onclick="closeActionMenu()" aria-label="Close community menu">✕</button>
+            </div>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalMembers">3,245</div>
+                    <div class="stat-label">Total Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="onlineMembers">1,127</div>
+                    <div class="stat-label">Online Now</div>
+                </div>
+            </div>
+
+            <div class="action-menu">
+                <div class="action-card" onclick="openCommunityProfile()">
+                    <div class="action-icon">👥</div>
+                    <div class="action-info">
+                        <div class="action-title">Community Profile</div>
+                        <div class="action-desc">Customize community info</div>
+                    </div>
+                </div>
+
+                <div class="action-card" onclick="openSettings()">
+                    <div class="action-icon">⚙️</div>
+                    <div class="action-info">
+                        <div class="action-title">Settings</div>
+                        <div class="action-desc">Notification & privacy</div>
+                    </div>
+                </div>
+
+                <div class="action-card" onclick="openMembersView()">
+                    <div class="action-icon">👤</div>
+                    <div class="action-info">
+                        <div class="action-title">Members List</div>
+                        <div class="action-desc">Browse all members</div>
+                    </div>
+                </div>
+
+                <div class="action-card danger" onclick="leaveCommunity()">
+                    <div class="action-icon">🚪</div>
+                    <div class="action-info">
+                        <div class="action-title">Leave Community</div>
+                        <div class="action-desc">You'll lose access</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Modal -->
+    <div class="modal-overlay" id="notificationsModal" onclick="closeNotifications(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header-bar">
+                <div class="modal-title">📢 Announcements</div>
+                <button class="modal-close-btn" onclick="closeNotifications()" aria-label="Close announcements">✕</button>
+            </div>
+            <div id="announcementsList">
+                <div class="announcement-item">
+                    <div class="announcement-header">
+                        <span class="announcement-author">Admin</span>
+                        <span class="announcement-time">2h ago</span>
+                    </div>
+                    <div class="announcement-text">Welcome! Feel free to introduce yourself and share your ideas.</div>
+                    <div class="message-reactions">
+                        <div class="reaction-item" onclick="toggleReaction(this, '👋')">👋 <span>8</span></div>
+                        <div class="reaction-item" onclick="toggleReaction(this, '🎉')">🎉 <span>5</span></div>
+                        <div class="reaction-item" onclick="toggleReaction(this, '❤️')">❤️ <span>12</span></div>
+                        <div class="add-reaction-btn" onclick="showReactionPanel(event)">+</div>
+                    </div>
+                </div>
+                <div class="announcement-item">
+                    <div class="announcement-header">
+                        <span class="announcement-author">Admin</span>
+                        <span class="announcement-time">2h ago</span>
+                    </div>
+                    <div class="announcement-text">Welcome! Feel free to introduce yourself and share your ideas.</div>
+                    <div class="message-reactions">
+                        <div class="reaction-item" onclick="toggleReaction(this, '👋')">👋 <span>8</span></div>
+                        <div class="reaction-item" onclick="toggleReaction(this, '🎉')">🎉 <span>5</span></div>
+                        <div class="reaction-item" onclick="toggleReaction(this, '❤️')">❤️ <span>12</span></div>
+                        <div class="add-reaction-btn" onclick="showReactionPanel(event)">+</div>
+                    </div>
+                </div>
+                <div class="announcement-item">
+                    <div class="announcement-header">
+                        <span class="announcement-author">Admin</span>
+                        <span class="announcement-time">2h ago</span>
+                    </div>
+                    <div class="announcement-text">Welcome! Feel free to introduce yourself and share your ideas.</div>
+                    <div class="message-reactions">
+                        <div class="reaction-item" onclick="toggleReaction(this, '👋')">👋 <span>8</span></div>
+                        <div class="reaction-item" onclick="toggleReaction(this, '🎉')">🎉 <span>5</span></div>
+                        <div class="reaction-item" onclick="toggleReaction(this, '❤️')">❤️ <span>12</span></div>
+                        <div class="add-reaction-btn" onclick="showReactionPanel(event)">+</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Input Area -->
+                <div class="input-area">
+                    <div class="input-wrapper">
+                        <input type="text" class="message-input" placeholder="Only admins can post announcements..." onkeypress="handleKeyPress(event)" oninput="handleTyping()" aria-label="Type a message">
+                        <button class="input-action-btn" onclick="toggleEmojiPanel()" aria-label="Open emoji panel">😊</button>
+                        <button class="input-action-btn" onclick="uploadFile()" aria-label="Attach file">+</button>
+                    </div>
+                    <button class="send-btn" onclick="sendMessage()" aria-label="Send message">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+        </div>
+    </div>
+
+    <!-- Message Action Menu -->
+    <div class="message-action-menu" id="messageActionMenu">
+        <button class="message-action-item" onclick="replyToMessage()" aria-label="Reply to message">↩️ Reply</button>
+        <button class="message-action-item" onclick="pinMessage()" aria-label="Pin message">📌 Pin</button>
+        <button class="message-action-item" onclick="shareMessage()" aria-label="Share message">↗️ Share</button>
+        <button class="message-action-item" id="editBtn" style="display:none" onclick="editMessage()" aria-label="Edit message">✏️ Edit</button>
+        <button class="message-action-item danger" id="deleteBtn" style="display:none" onclick="deleteMessage()" aria-label="Delete message">🗑️ Delete</button>
+    </div>
+
+    <!-- Reaction Panel -->
+    <div class="reaction-panel" id="reactionPanel"></div>
+    </section> 
+    
+    <!-- Builderthon Section -->
     <section class="section" id="builderthon-section">
       <div class="bth-main-wrapper">
         <!-- Animated Background -->
