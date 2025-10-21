@@ -1985,11 +1985,11 @@ body .section-header {
   }
 
   .nav-menu {
-    gap: 5px;
+    gap: 6px;
   }
 
   .nav-link {
-    padding: 12px 12px;
+    padding: 14px 15px;
   }
 
   .main-content {
