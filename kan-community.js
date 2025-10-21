@@ -1,293 +1,559 @@
-// Community data
-const communities = {
-    africa: {
+// COMMUNITY CHAT - COMPLETE VERSION
+
+// Communities data
+const communities = [
+    {
+        id: 'africa',
         name: 'Africa KDA Hub',
-        flag: '🌍',
+        emoji: '🌍',
         members: 3245,
         online: 1127,
         preview: 'Discussing DeFi growth across Africa with passionate blockchain enthusiasts and developers.'
     },
-    developers: {
+    {
+        id: 'developers',
         name: 'Kadena Developers',
-        flag: '💻',
+        emoji: '💻',
         members: 1892,
         online: 567,
         preview: 'Building the future with Pact smart contracts and sharing cutting-edge development techniques.'
     },
-    traders: {
+    {
+        id: 'traders',
         name: 'KDA Traders',
-        flag: '📈',
+        emoji: '📈',
         members: 2134,
         online: 789,
         preview: 'Advanced market analysis, trading strategies, and real-time insights from professional traders.'
     }
+];
+
+// Members list
+const members = [
+    { id: 'alice', name: 'Alice Okafor', role: 'Admin', avatar: 'A', status: 'online' },
+    { id: 'bob', name: 'Bob Wilson', role: 'Moderator', avatar: 'B', status: 'online' },
+    { id: 'carol', name: 'Carol Adebayo', role: 'Member', avatar: 'C', status: 'offline' },
+    { id: 'david', name: 'David Chen', role: 'Member', avatar: 'D', status: 'online' },
+    { id: 'emma', name: 'Emma Davis', role: 'Member', avatar: 'E', status: 'offline' },
+    { id: 'frank', name: 'Frank Okeke', role: 'Member', avatar: 'F', status: 'online' },
+    { id: 'grace', name: 'Grace Nwosu', role: 'Member', avatar: 'G', status: 'online' },
+    { id: 'henry', name: 'Henry Lee', role: 'Member', avatar: 'H', status: 'offline' },
+    { id: 'irene', name: 'Irene Obi', role: 'Member', avatar: 'I', status: 'online' },
+    { id: 'jack', name: 'Jack Brown', role: 'Member', avatar: 'J', status: 'offline' },
+    { id: 'kate', name: 'Kate Mensah', role: 'Member', avatar: 'K', status: 'online' },
+    { id: 'liam', name: 'Liam Patel', role: 'Member', avatar: 'L', status: 'online' },
+    { id: 'mia', name: 'Mia Johnson', role: 'Member', avatar: 'M', status: 'offline' },
+    { id: 'noah', name: 'Noah Ade', role: 'Member', avatar: 'N', status: 'online' },
+    { id: 'olivia', name: 'Olivia Smith', role: 'Member', avatar: 'O', status: 'offline' },
+    { id: 'peter', name: 'Peter Kim', role: 'Member', avatar: 'P', status: 'online' },
+    { id: 'quinn', name: 'Quinn Eze', role: 'Member', avatar: 'Q', status: 'online' },
+    { id: 'rachel', name: 'Rachel Wong', role: 'Member', avatar: 'R', status: 'offline' },
+    { id: 'sam', name: 'Sam Ojo', role: 'Member', avatar: 'S', status: 'online' },
+    { id: 'tina', name: 'Tina Gupta', role: 'Member', avatar: 'T', status: 'offline' }
+];
+
+// Emoji data
+const emojiData = {
+    emoji: [
+        '😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇',
+        '🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚',
+        '😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🤩',
+        '🥳','😏','😒','😞','😔','😟','🙁','☹️','😣','😖',
+        '😫','😩','🥺','😢','😭','😤','😠','😡','🤬','🤯',
+        '😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔',
+        '🤭','🤫','🤥','😶','🫥','😑','😐','😬'
+    ],
+    memes: [
+        '😏 Smirk', '🤔 Think', '😎 Cool', '🤡 Clown', '💀 Dead',
+        '🔥 Fire', '💯 100', '👀 Eyes', '🧠 Brain', '💪 Strong',
+        '🚀 Rocket', '💎 Diamond', '🌊 Wave', '⚡ Thunder', '✨ Sparkle',
+        '🎯 Target', '🎪 Circus', '🎭 Drama', '🎨 Art', '🎬 Action',
+        '📈 Stonks', '📉 Not Stonks', '🤝 Deal', '🙏 Prayer', '👑 King',
+        '🐐 GOAT', '🦁 Lion', '🐻 Bear', '🐂 Bull', '🌙 Moon',
+        '☀️ Sun', '⭐ Star', '🌟 Glow', '💫 Dizzy', '🌈 Rainbow',
+        '🍕 Pizza', '🍔 Burger', '🌮 Taco', '🍿 Popcorn', '☕ Coffee',
+        '🎮 Game', '🎲 Dice', '🎰 Slot', '🎪 Party', '🎉 Celebrate',
+        '👻 Ghost', '🤖 Robot', '👽 Alien', '🦄 Unicorn', '🐉 Dragon',
+        '🔮 Crystal', '💊 Pill', '💉 Shot', '🧪 Lab', '🔬 Science',
+        '📱 Phone', '💻 Computer', '⌨️ Keyboard', '🖱️ Mouse', '🖥️ Desktop'
+    ],
+    gifs: [
+        '🎬 Dancing', '🕺 Dance Man', '💃 Dance Woman', '🎉 Party', '🎊 Confetti',
+        '👏 Clapping', '🙌 Praise', '🤝 Handshake', '👋 Wave', '✋ High Five',
+        '💪 Flex', '🤸 Flip', '🏃 Running', '🚶 Walking', '🧘 Meditation',
+        '😂 Laughing', '🤣 ROFL', '😭 Crying', '😱 Shocked', '🤯 Mind Blown',
+        '🔥 On Fire', '⚡ Lightning', '💥 Explosion', '✨ Sparkles', '🌟 Shining',
+        '🎯 Bullseye', '🎪 Show', '🎭 Performance', '🎬 Movie', '📹 Recording',
+        '🚀 Launch', '🛸 UFO', '✈️ Flying', '🏎️ Racing', '⚽ Soccer',
+        '🎮 Gaming', '🎲 Rolling', '🎰 Winning', '🎪 Carnival', '🎢 Rollercoaster',
+        '👻 Spooky', '🦖 Dino', '🐉 Dragon', '🦄 Magic', '🌈 Rainbow',
+        '💎 Bling', '👑 Crown', '🏆 Trophy', '🥇 Gold', '🎖️ Medal',
+        '🔊 Loud', '🎵 Music', '🎸 Guitar', '🥁 Drums', '🎤 Singing',
+        '📱 Texting', '💬 Chatting', '💌 Love Letter', '💝 Gift', '🎁 Present'
+    ]
 };
 
 let currentCommunity = null;
-let messageCount = 0;
+let currentMessage = null;
 
-// Initialize floating particles
-function createParticles() {
-    const particlesContainer = document.getElementById('particles');
-    const particleCount = 50;
+function renderCommunities() {
+    const grid = document.getElementById('communitiesGrid');
+    grid.innerHTML = communities.map(community => `
+        <div class="community-card" onclick="joinCommunity('${community.id}')">
+            <div class="activity-pulse"></div>
+            <button class="community-btn mobile" onclick="event.stopPropagation(); joinCommunity('${community.id}')" aria-label="Join ${community.name} community">Join</button>
+            <div class="community-header">
+                <div class="community-emoji">${community.emoji}</div>
+                <div class="community-info">
+                    <div class="community-name">${community.name}</div>
+                    <div class="community-members">
+                        <span class="online-indicator"></span> ${community.members.toLocaleString()} Members • ${community.online.toLocaleString()} Online
+                    </div>
+                </div>
+            </div>
+            <div class="community-preview">${community.preview}</div>
+            <button class="community-btn desktop" onclick="event.stopPropagation(); joinCommunity('${community.id}')" aria-label="Join ${community.name} community">Join Community</button>
+        </div>
+    `).join('');
+}
 
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 6 + 's';
-        particle.style.animationDuration = (Math.random() * 4 + 3) + 's';
-        particlesContainer.appendChild(particle);
+function joinCommunity(communityId) {
+    try {
+        console.log(`Joining community: ${communityId}`);
+        const community = communities.find(c => c.id === communityId);
+        if (!community) {
+            console.error(`Community with ID ${communityId} not found`);
+            alert('Error: Community not found!');
+            return;
+        }
+
+        currentCommunity = community;
+
+        // Update header
+        document.getElementById('headerEmoji').textContent = community.emoji;
+        document.getElementById('communityTitle').textContent = community.name;
+        document.getElementById('onlineCount').textContent = `${community.online.toLocaleString()} Online`;
+        document.getElementById('totalMembers').textContent = community.members.toLocaleString();
+        document.getElementById('onlineMembers').textContent = community.online.toLocaleString();
+
+        // Update members list
+        renderMembers();
+        loadMessages();
+
+        // Switch view with smooth transition
+        const communitiesView = document.getElementById('communitiesView');
+        const chatView = document.getElementById('chatView');
+        communitiesView.style.opacity = '0';
+        setTimeout(() => {
+            communitiesView.classList.add('hidden');
+            chatView.classList.remove('hidden');
+            chatView.style.opacity = '1';
+        }, 300);
+    } catch (error) {
+        console.error('Error joining community:', error);
+        alert('An error occurred while joining the community. Please try again.');
     }
 }
 
-// Join community function
-function joinCommunity(communityKey) {
-    const community = communities[communityKey];
-    if (!community) return;
+function renderMembers() {
+    const sidebar = document.getElementById('membersList');
+    const mobile = document.getElementById('mobileMembers');
 
-    currentCommunity = communityKey;
+    const memberHtml = members.map(member => `
+        <div class="member-item">
+            <div class="member-avatar">${member.avatar}</div>
+            <div class="member-info">
+                <div class="member-name">${member.name}</div>
+                <div class="member-role">${member.role}</div>
+            </div>
+            <div class="member-status ${member.status}"></div>
+        </div>
+    `).join('');
 
-    // Update chat header
-    document.getElementById('communityChatTitle').textContent = community.name;
-    document.getElementById('communityOnlineCount').textContent = `${community.online.toLocaleString()} Online`;
+    const mobileHtml = members.map(member => `
+        <div class="member-list-item">
+            <div class="member-list-avatar">${member.avatar}</div>
+            <div class="member-list-info">
+                <div class="member-list-name">${member.name}</div>
+                <div class="member-list-role">${member.role}</div>
+            </div>
+            <div class="member-list-status ${member.status}"></div>
+        </div>
+    `).join('');
 
-    // Show chat container with animation
-    const chatContainer = document.getElementById('communityChatContainer');
-    const communityGrid = document.getElementById('communityGrid');
-
-    // Hide community grid
-    communityGrid.style.opacity = '0';
-    communityGrid.style.transform = 'translateY(-20px)';
-
-    setTimeout(() => {
-        communityGrid.style.display = 'none';
-        chatContainer.style.display = 'block';
-        chatContainer.scrollIntoView({ behavior: 'smooth' });
-
-        // Focus on input
-        setTimeout(() => {
-            document.getElementById('communityMessageInput').focus();
-        }, 500);
-    }, 300);
-
-    // Simulate typing indicator
-    showTypingIndicator();
+    sidebar.innerHTML = memberHtml;
+    mobile.innerHTML = mobileHtml;
 }
 
-// Leave community function
-function leaveCommunity() {
-    const chatContainer = document.getElementById('communityChatContainer');
-    const communityGrid = document.getElementById('communityGrid');
+function loadMessages() {
+    const messages = [
+        { author: 'Alice Okafor', avatar: 'A', text: 'Excited about the new DeFi protocol launch! 🚀', time: '10:15 AM', isSent: false },
+        { author: 'Bob Wilson', avatar: 'B', text: 'Count me in! Let\'s discuss use cases.', time: '10:20 AM', isSent: false },
+        { author: 'You', avatar: 'Y', text: 'Microfinance could be a game-changer!', time: '10:22 AM', isSent: true }
+    ];
+    document.getElementById('messagesContent').innerHTML = messages.map((m, i) => createMessageHTML(m, i)).join('');
+    scrollToBottom();
+}
 
-    // Animate out chat container
-    chatContainer.style.opacity = '0';
-    chatContainer.style.transform = 'translateY(20px)';
+function createMessageHTML(m, idx) {
+    const sentClass = m.isSent ? 'sent' : '';
+    return `
+        <div class="message ${sentClass}" data-idx="${idx}">
+            <div class="avatar">${m.avatar}</div>
+            <div class="message-bubble">
+                <div class="message-header">
+                    <span class="message-author">${m.author}</span>
+                    <span class="message-time">${m.time}</span>
+                </div>
+                <div class="message-content">
+                    <div class="message-text-wrapper">
+                        <div class="msg-actn-div">
+                            <div class="message-text">${m.text}</div>
+                            <button class="message-actions-btn" onclick="openMessageMenu(event, ${m.isSent})" aria-label="Message actions">⋯</button>
+                        </div>
+                        <div class="message-reactions">
+                            <div class="reaction-item" onclick="toggleReaction(this, '🔥')">🔥 <span>2</span></div>
+                            <div class="reaction-item" onclick="toggleReaction(this, '👍')">👍 <span>3</span></div>
+                            <div class="reaction-item" onclick="toggleReaction(this, '🚀')">🚀 <span>3</span></div>
+                            <div class="add-reaction-btn" onclick="showReactionPanel(event)">+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
 
+function goBackToCommunities() {
+    const communitiesView = document.getElementById('communitiesView');
+    const chatView = document.getElementById('chatView');
+    chatView.style.opacity = '0';
     setTimeout(() => {
-        chatContainer.style.display = 'none';
-        chatContainer.style.opacity = '1';
-        chatContainer.style.transform = 'translateY(0)';
-
-        // Show community grid
-        communityGrid.style.display = 'grid';
-        setTimeout(() => {
-            communityGrid.style.opacity = '1';
-            communityGrid.style.transform = 'translateY(0)';
-        }, 50);
+        chatView.classList.add('hidden');
+        communitiesView.classList.remove('hidden');
+        communitiesView.style.opacity = '1';
+        document.getElementById('emojiPanel').classList.remove('active');
+        document.getElementById('searchBar').classList.remove('active');
     }, 300);
-
     currentCommunity = null;
 }
 
-// Send message function
-function sendCommunityMessage() {
-    const input = document.getElementById('communityMessageInput');
-    const message = input.value.trim();
-
-    if (!message) return;
-
-    const messagesContainer = document.getElementById('communityChatMessages');
-    const messageElement = createMessageElement(message, true);
-
-    messagesContainer.appendChild(messageElement);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-    input.value = '';
-    messageCount++;
-
-    // Simulate response after a delay
-    setTimeout(() => {
-        simulateResponse();
-    }, Math.random() * 3000 + 1000);
+function toggleSearch() {
+    const searchBar = document.getElementById('searchBar');
+    searchBar.classList.toggle('active');
+    if (searchBar.classList.contains('active')) {
+        document.getElementById('searchInput').focus();
+    } else {
+        document.getElementById('searchInput').value = '';
+        searchMessages('');
+    }
 }
 
-// Create message element
-function createMessageElement(text, isSent = false) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `community-message ${isSent ? 'sent' : ''}`;
+function searchMessages(query) {
+    const messages = document.querySelectorAll('.message');
+    messages.forEach(msg => {
+        const text = msg.textContent.toLowerCase();
+        msg.style.display = text.includes(query.toLowerCase()) || !query ? '' : 'none';
+    });
+}
 
+function toggleEmojiPanel() {
+    const panel = document.getElementById('emojiPanel');
+    panel.classList.toggle('active');
+    if (panel.classList.contains('active')) {
+        switchEmojiTab('emoji');
+    }
+}
+
+function switchEmojiTab(tab) {
+    const tabs = document.querySelectorAll('.emoji-tab');
+    const grid = document.getElementById('emojiGrid');
+    
+    tabs.forEach(t => t.classList.remove('active'));
+    if (event && event.target) event.target.classList.add('active');
+
+    if (tab === 'emoji') {
+        grid.innerHTML = emojiData.emoji.map(e => `
+            <div class="emoji-item" onclick="insertEmoji('${e}')">${e}</div>
+        `).join('');
+    } else if (tab === 'memes') {
+        grid.innerHTML = emojiData.memes.map(m => `
+            <div class="meme-item" onclick="insertEmoji('${m}')">${m}</div>
+        `).join('');
+    } else if (tab === 'gifs') {
+        grid.innerHTML = emojiData.gifs.map(g => `
+            <div class="gif-item" onclick="insertEmoji('${g}')">${g}</div>
+        `).join('');
+    }
+}
+
+function insertEmoji(emoji) {
+    const input = document.getElementById('messageInput');
+    input.value += emoji;
+    input.focus();
+}
+
+function uploadFile() {
+    alert('📎 File upload feature coming soon!');
+}
+
+function handleTyping() {
+    // Placeholder for typing indicator logic
+}
+
+function handleKeyPress(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+    }
+}
+
+function sendMessage() {
+    const input = document.getElementById('messageInput');
+    const message = input.value.trim();
+    if (!message) return;
+
+    const messagesContent = document.getElementById('messagesContent');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message sent';
     const now = new Date();
     const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    if (!isSent) {
-        const avatar = document.createElement('div');
-        avatar.className = 'avatar';
-        avatar.textContent = getRandomAvatar();
-        messageDiv.appendChild(avatar);
-    }
+    messageDiv.innerHTML = `
+        <div class="avatar">Y</div>
+        <div class="message-bubble">
+            <div class="message-header">
+                <span class="message-author">You</span>
+                <span class="message-time">${timeString}</span>
+            </div>
+            <div class="message-content">
+                <div class="message-text-wrapper">
+                    <div class="msg-actn-div">
+                        <div class="message-text">${message}</div>
+                        <button class="message-actions-btn" onclick="openMessageMenu(event, true)" aria-label="Message actions">⋯</button>
+                    </div>
+                    <div class="message-reactions">
+                        <div class="add-reaction-btn" onclick="showReactionPanel(event)">+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
 
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'community-message-content';
+    messagesContent.appendChild(messageDiv);
+    input.value = '';
+    scrollToBottom();
 
-    const headerDiv = document.createElement('div');
-    headerDiv.className = 'community-message-header';
-
-    const authorSpan = document.createElement('span');
-    authorSpan.className = 'community-message-author';
-    authorSpan.textContent = isSent ? 'You' : getRandomName();
-
-    const timeSpan = document.createElement('span');
-    timeSpan.className = 'community-message-time';
-    timeSpan.textContent = timeString;
-
-    headerDiv.appendChild(authorSpan);
-    headerDiv.appendChild(timeSpan);
-
-    const textDiv = document.createElement('div');
-    textDiv.className = 'community-message-text';
-    textDiv.textContent = text;
-
-    contentDiv.appendChild(headerDiv);
-    contentDiv.appendChild(textDiv);
-    messageDiv.appendChild(contentDiv);
-
-    return messageDiv;
+    setTimeout(() => simulateReply(), 1500);
 }
 
-// Simulate response
-function simulateResponse() {
+function simulateReply() {
     const responses = [
-        "Great point! I totally agree with your perspective on this.",
-        "Thanks for sharing! This gives me a lot to think about.",
-        "Interesting approach. Have you considered the scalability implications?",
-        "This is exactly what we need in the ecosystem right now! 🔥",
-        "I've been working on something similar. Would love to collaborate!",
-        "Solid analysis! The technical implementation looks promising.",
-        "This could be a game-changer for the African market specifically.",
-        "Love the innovation! When do you think this will be ready for mainnet?"
+        'Great point!', 
+        'Totally agree!', 
+        'Bitcoin looking bullish so far🚀', 
+        'Kadena has caught my attention 💪', 
+        'Bullish on kadena, infinite sprouts, novarex, navatan and axe capital', 
+        'This is excellent! 🔥', 
+        'Love this idea!'
     ];
+    const idx = Math.floor(Math.random() * responses.length);
+    const member = members[Math.floor(Math.random() * members.length)];
 
-    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-    const messagesContainer = document.getElementById('communityChatMessages');
-    const messageElement = createMessageElement(randomResponse, false);
+    const messagesContent = document.getElementById('messagesContent');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message';
+    const now = new Date();
+    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    messagesContainer.appendChild(messageElement);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    messageDiv.innerHTML = `
+        <div class="avatar">${member.avatar}</div>
+        <div class="message-bubble">
+            <div class="message-header">
+                <span class="message-author">${member.name}</span>
+                <span class="message-time">${timeString}</span>
+            </div>
+            <div class="message-content">
+                <div class="message-text-wrapper">
+                    <div class="msg-actn-div">
+                      <div class="message-text">${responses[idx]}</div>
+                      <button class="message-actions-btn" onclick="openMessageMenu(event, false)" aria-label="Message actions">⋯</button>
+                    </div>
+                    <div class="message-reactions">
+                      <div class="add-reaction-btn" onclick="showReactionPanel(event)">+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    messagesContent.appendChild(messageDiv);
+    scrollToBottom();
 }
 
-// Show typing indicator
-function showTypingIndicator() {
-    setTimeout(() => {
-        const messagesContainer = document.getElementById('communityChatMessages');
-        const typingDiv = document.createElement('div');
-        typingDiv.className = 'community-message';
-        typingDiv.id = 'tempTypingMessage';
+function openMessageMenu(event, isSent) {
+    event.stopPropagation();
+    currentMessage = event.target.closest('.message');
+    const menu = document.getElementById('messageActionMenu');
+    
+    document.getElementById('editBtn').style.display = isSent ? 'block' : 'none';
+    document.getElementById('deleteBtn').style.display = isSent ? 'block' : 'none';
 
-        const avatar = document.createElement('div');
-        avatar.className = 'avatar';
-        avatar.textContent = getRandomAvatar();
+    const rect = event.target.getBoundingClientRect();
+    const isMobile = window.innerWidth < 768;
+    
+    if (isMobile) {
+        // Center on mobile
+        menu.style.top = (rect.top - 100) + 'px';
+        menu.style.left = '50%';
+        menu.style.transform = 'translateX(-50%)';
+    } else {
+        const isSentMessage = currentMessage.classList.contains('sent');
+        menu.style.top = (rect.top - 100) + 'px';
+        menu.style.left = isSentMessage ? (rect.left - 140) + 'px' : (rect.right + 10) + 'px';
+        menu.style.transform = 'none';
+    }
+    
+    menu.classList.add('active');
 
-        const contentDiv = document.createElement('div');
-        contentDiv.className = 'community-message-content';
-
-        const typingIndicator = document.createElement('div');
-        typingIndicator.className = 'typing-indicator';
-        typingIndicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-
-        contentDiv.appendChild(typingIndicator);
-        typingDiv.appendChild(avatar);
-        typingDiv.appendChild(contentDiv);
-
-        messagesContainer.appendChild(typingDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-        // Remove typing indicator after a few seconds
-        setTimeout(() => {
-            const tempMessage = document.getElementById('tempTypingMessage');
-            if (tempMessage) {
-                tempMessage.remove();
-            }
-        }, 3000);
-    }, 2000);
+    document.addEventListener('click', closeMessageMenu, { once: true });
 }
 
-// Handle enter key press
-function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-        sendCommunityMessage();
+function closeMessageMenu() {
+    document.getElementById('messageActionMenu').classList.remove('active');
+    document.removeEventListener('click', closeMessageMenu);
+}
+
+function replyToMessage() {
+    alert('Reply feature coming soon!');
+    closeMessageMenu();
+}
+
+function pinMessage() {
+    alert('Message pinned');
+    closeMessageMenu();
+}
+
+function shareMessage() {
+    alert('Share feature coming soon!');
+    closeMessageMenu();
+}
+
+function editMessage() {
+    alert('Edit feature coming soon!');
+    closeMessageMenu();
+}
+
+function deleteMessage() {
+    currentMessage?.remove();
+    closeMessageMenu();
+}
+
+function toggleReaction(el, emoji) {
+    const count = el.querySelector('span');
+    const num = parseInt(count.textContent);
+    if (el.classList.contains('reacted')) {
+        if (num > 1) {
+            count.textContent = num - 1;
+            el.classList.remove('reacted');
+        } else {
+            el.remove();
+        }
+    } else {
+        count.textContent = num + 1;
+        el.classList.add('reacted');
     }
 }
 
-// Get random avatar
-function getRandomAvatar() {
-    const avatars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-    return avatars[Math.floor(Math.random() * avatars.length)];
+function showReactionPanel(e) {
+    e.stopPropagation();
+    const panel = document.getElementById('reactionPanel');
+    currentMessage = e.target.closest('.message') || e.target.closest('.announcement-item');
+    
+    panel.innerHTML = emojiData.emoji.map(em => `
+        <div class="reaction-item-panel" onclick="addReaction('${em}')">${em}</div>
+    `).join('');
+    
+    const rect = e.target.getBoundingClientRect();
+    panel.style.top = (rect.top - 120) + 'px';
+    panel.style.left = (rect.left - 50) + 'px';
+    panel.classList.add('active');
+    
+    setTimeout(() => document.addEventListener('click', () => panel.classList.remove('active'), { once: true }), 100);
 }
 
-// Get random name
-function getRandomName() {
-    const names = [
-        'Alex Chen', 'Sarah Johnson', 'Michael Brown', 'Emma Davis',
-        'David Wilson', 'Lisa Garcia', 'James Miller', 'Anna Martinez',
-        'Chris Taylor', 'Maria Rodriguez', 'Kevin Lee', 'Jennifer White',
-        'Daniel Harris', 'Amanda Clark', 'Ryan Lewis', 'Jessica Walker'
-    ];
-    return names[Math.floor(Math.random() * names.length)];
+function addReaction(emoji) {
+    const target = currentMessage;
+    if (!target) return;
+    
+    const reactions = target.querySelector('.message-reactions');
+    const existing = Array.from(reactions.querySelectorAll('.reaction-item')).find(r => r.textContent.includes(emoji));
+    
+    if (existing) {
+        const count = existing.querySelector('span');
+        count.textContent = parseInt(count.textContent) + 1;
+        existing.classList.add('reacted');
+    } else {
+        const newReaction = document.createElement('div');
+        newReaction.className = 'reaction-item reacted';
+        newReaction.innerHTML = `${emoji} <span>1</span>`;
+        newReaction.onclick = function() { toggleReaction(this, emoji); };
+        reactions.insertBefore(newReaction, reactions.querySelector('.add-reaction-btn'));
+    }
+    document.getElementById('reactionPanel').classList.remove('active');
 }
 
-// Open community settings
-function openCommunitySettings() {
-    alert('Community settings panel would open here in a real application!');
+function openActionMenu() {
+    document.getElementById('actionModal').classList.add('active');
 }
 
-// Simulate live member count updates
-function updateMemberCounts() {
-    Object.keys(communities).forEach(key => {
-        const community = communities[key];
-        // Randomly adjust online count by ±5
-        const change = Math.floor(Math.random() * 11) - 5;
-        community.online = Math.max(0, community.online + change);
-
-        // Update display if it's the current community
-        if (currentCommunity === key) {
-            document.getElementById('communityOnlineCount').textContent = `${community.online.toLocaleString()} Online`;
-        }
-    });
-
-    // Update community cards
-    document.querySelectorAll('.community-card').forEach(card => {
-        const communityKey = card.getAttribute('data-community');
-        const community = communities[communityKey];
-        const membersElement = card.querySelector('.community-members');
-        if (membersElement && community) {
-            membersElement.innerHTML = `<span class="online-indicator"></span> ${community.members.toLocaleString()} Members • ${community.online.toLocaleString()} Online`;
-        }
-    });
+function closeActionMenu(event) {
+    if (event && event.target.id !== 'actionModal') return;
+    document.getElementById('actionModal').classList.remove('active');
 }
 
-// Initialize everything when page loads
-document.addEventListener('DOMContentLoaded', function () {
-    createParticles();
-    addEnhancedInteractions();
+function openNotifications() {
+    document.getElementById('notificationsModal').classList.add('active');
+}
 
-    // Update member counts every 30 seconds
-    setInterval(updateMemberCounts, 30000);
+function closeNotifications(event) {
+    if (event && event.target.id !== 'notificationsModal') return;
+    document.getElementById('notificationsModal').classList.remove('active');
+}
 
-    // Add some initial variance to make it feel more alive
-    setTimeout(updateMemberCounts, 5000);
-});
+function openCommunityProfile() {
+    alert('Community Profile customization coming soon!');
+    closeActionMenu();
+}
 
-// Add smooth scroll behavior
-document.documentElement.style.scrollBehavior = 'smooth';
+function openSettings() {
+    alert('Settings panel coming soon!');
+    closeActionMenu();
+}
+
+function openMembersView() {
+    const width = window.innerWidth;
+    if (width < 1024) {
+        document.getElementById('membersPage').classList.add('active');
+    }
+    closeActionMenu();
+}
+
+function closeMembersPage() {
+    document.getElementById('membersPage').classList.remove('active');
+}
+
+function leaveCommunity() {
+    if (confirm(`Leave ${currentCommunity.name}?`)) {
+        goBackToCommunities();
+        closeActionMenu();
+    }
+}
+
+function scrollToBottom() {
+    const wrapper = document.getElementById('messagesWrapper');
+    wrapper.scrollTop = wrapper.scrollHeight;
+}
+
+// Initialize
+renderCommunities();
