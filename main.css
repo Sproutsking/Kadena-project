@@ -774,7 +774,7 @@ body .section-header {
 .stat-value {
   font-size: 14px;
   font-weight: 800;
-  background: var(--primary-gradient);
+  background: black;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1.1;
@@ -947,7 +947,7 @@ body .section-header {
 
 .feature-item {
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(223, 2, 175, 0.3);
   border-radius: 6px;
   padding: 6px;
   text-align: center;
@@ -982,7 +982,7 @@ body .section-header {
 
 .network-card {
   background: rgba(3, 0, 1, 0.877);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(223, 2, 175, 0.3);
   border-radius: 8px;
   padding: 8px;
 }
@@ -999,7 +999,7 @@ body .section-header {
   justify-content: space-between;
   align-items: center;
   padding: 3px 0;
-  border-bottom: 1px solid var(--border);
+  border: 1px solid rgba(223, 2, 175, 0.3);
 }
 
 .metric-row:last-child {
