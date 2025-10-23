@@ -911,7 +911,7 @@ body .section-header {
    ========================================== */
 .features {
   background: rgba(3, 0, 1, 0.877);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(223, 2, 175, 0.3);
   border-radius: 8px;
   padding: 8px;
   margin: 10px;
@@ -946,7 +946,7 @@ body .section-header {
 }
 
 .feature-item {
-  background: rgba(255, 255, 255, 0.02);
+  background: black;
   border: 1px solid rgba(223, 2, 175, 0.3);
   border-radius: 6px;
   padding: 6px;
@@ -981,7 +981,7 @@ body .section-header {
 }
 
 .network-card {
-  background: rgba(3, 0, 1, 0.877);
+  background: black;
   border: 1px solid rgba(223, 2, 175, 0.3);
   border-radius: 8px;
   padding: 8px;
@@ -999,6 +999,7 @@ body .section-header {
   justify-content: space-between;
   align-items: center;
   padding: 3px 0;
+  margin-bottom: 4px;
   border: 1px solid rgba(223, 2, 175, 0.3);
 }
 
