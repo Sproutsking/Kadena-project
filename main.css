@@ -772,9 +772,9 @@ body .section-header {
 }
 
 .stat-value {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
-  background: rgba(223, 2, 175, 0.3);
+  background: white;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1.1;
