@@ -740,8 +740,8 @@ body .section-header {
 }
 
 .stat-card {
-  background: black;
-  border: 1px solid rgba(223, 2, 175, 0.3);
+  background: rgba(3, 0, 1, 0.877);
+  border: 1px solid var(--border);
   border-radius: 15px;
   padding: 8px;
   position: relative;
@@ -772,9 +772,9 @@ body .section-header {
 }
 
 .stat-value {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
-  background: white;
+  background: var(--primary-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1.1;
@@ -911,7 +911,7 @@ body .section-header {
    ========================================== */
 .features {
   background: rgba(3, 0, 1, 0.877);
-  border: 1px solid rgba(223, 2, 175, 0.3);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 8px;
   margin: 10px;
@@ -946,8 +946,8 @@ body .section-header {
 }
 
 .feature-item {
-  background: black;
-  border: 1px solid rgba(223, 2, 175, 0.3);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 6px;
   text-align: center;
@@ -981,8 +981,8 @@ body .section-header {
 }
 
 .network-card {
-  background: black;
-  border: 1px solid rgba(223, 2, 175, 0.3);
+  background: rgba(3, 0, 1, 0.877);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 8px;
 }
@@ -998,10 +998,8 @@ body .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 6px;
-  margin-bottom: 4px;
-   border-radius: 12px;
-  border: 1px solid rgba(223, 2, 175, 0.3);
+  padding: 3px 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .metric-row:last-child {
@@ -2306,7 +2304,7 @@ body .section-header {
        ========================================== */
     .user-profile {
       position: relative;
-      padding: 16px;
+      padding: 8px 16px;
       background: linear-gradient(135deg, #444444, #555555);
       border-radius: 6px;
       display: flex;
@@ -2314,7 +2312,7 @@ body .section-header {
       gap: 14px;
       clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
       box-shadow: 0 4px 16px rgba(223, 2, 175, 0.2);
-      margin-bottom: 24px;
+      margin-bottom: 8px;
     }
 
     .user-profile::after {
@@ -2377,7 +2375,7 @@ body .section-header {
       gap: 8px;
       flex: 0 1 auto;
       padding: 0;
-      margin: 0 0 20px 0;
+      margin: 0 0 15px 0;
     }
 
     .nav-item {
@@ -2388,7 +2386,7 @@ body .section-header {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 14px 16px;
+      padding: 5px 16px;
       color: var(--text-dim);
       text-decoration: none;
       border-radius: 12px;
@@ -2475,7 +2473,7 @@ body .section-header {
        SIDEBAR FOOTER - PLATFORM INFO
        ========================================== */
     .sidebar-footer {
-      padding: 16px;
+      padding: 10px 16px;
       background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 0, 15, 0.9));
       border: 1px solid rgba(223, 2, 175, 0.3);
       border-radius: 12px;
@@ -2515,10 +2513,10 @@ body .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 0;
+      padding: 6px 0;
       font-size: 11px;
       color: var(--text-dim);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(151, 53, 114, 0.226);
       transition: all 0.2s ease;
     }
 
