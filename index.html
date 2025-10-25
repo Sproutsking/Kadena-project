@@ -28,6 +28,11 @@
   <link rel="stylesheet" href="main.css">
   <link rel="stylesheet" href="chart.css">
   <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="notifications.css">
+  <link rel="stylesheet" href="creator-dashboard.css">
+  <link rel="stylesheet" href="deposit-popup.css">
+  <link rel="stylesheet" href="p2p.css">
+  <link rel="stylesheet" href="leaderboard.css">
   <style>
   </style>
 </head>
@@ -112,6 +117,12 @@
           <span>My Account</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link" onclick="showSection('leaderboard')">
+          <span class="nav-icon">🏆</span>
+          <span>Leaderboard</span>
+        </a>
+      </li>
     </ul>
 
     <div class="sidebar-footer">
@@ -180,147 +191,150 @@
         <h1 class="section-title">Novarex Dashboard</h1>
         <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
       </div>
-      <div class="container" id="dashboard-content">
-        <div class="balance-grid">
-          <div class="stat-change positive">+12.4%</div>
-          <div class="stat-value" id="balance">12,450.73 KDA</div>
-          <div class="stat-label">💰 Balance</div>
+  
+  <div class="container" id="dashboard-content">
+    <!-- Balance Grid -->
+    <div class="balance-grid">
+      <div class="balance-content-left">
+        <div class="stat-change positive">+12.4%</div>
+        <div class="stat-value" id="balance">12,450.73 KDA</div>
+        <div class="stat-label">💰 Balance</div>
+      </div>
+      <div class="deposit-btn-div">
+        <button class="deposit-btn" onclick="openDepositPopup()">Deposit</button>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-change positive">+24.7%</div>
+        <div class="stat-value" id="price">$0.4285</div>
+        <div class="stat-label">📈 KDA Price</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-change positive">+156.3%</div>
+        <div class="stat-value" id="volume">$14.2M</div>
+        <div class="stat-label">🔥 Volume</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-change positive">+8.1%</div>
+        <div class="stat-value" id="members">127,891</div>
+        <div class="stat-label">👥 Members</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-change positive">+0.2%</div>
+        <div class="stat-value">847.3 PH/s</div>
+        <div class="stat-label">⚡ Hashrate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-change positive">+45.8%</div>
+        <div class="stat-value" id="marketCap">$1.08B</div>
+        <div class="stat-label">💎 Market Cap</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-change positive">Live</div>
+        <div class="stat-value pulse">20 Chains</div>
+        <div class="stat-label">🔗 Active</div>
+      </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="action-btn" onclick="alert('Trade')">Trade</button>
+      <button class="action-btn" onclick="alert('P2P')">P2P</button>
+      <button class="action-btn" onclick="alert('Stake')">Stake</button>
+      <button class="action-btn" onclick="alert('Swap')">Swap</button>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+      <h3>🌟 Why Kadena Dominates</h3>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <h4>Infinite Scale</h4>
+          <p>Braided chains solve scalability</p>
         </div>
-        <div class="deposit-btn-div">
-          <button class="deposit-btn" onclick="openDepositPopup()">Deposit</button>
+        <div class="feature-item">
+          <div class="feature-icon">🛡️</div>
+          <h4>PoW Security</h4>
+          <p>Bitcoin-level protection</p>
         </div>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-change positive" id="priceChange">+24.7%</div>
-            <div class="stat-value" id="price">$0.4285</div>
-            <div class="stat-label">📈 KDA Price</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-change positive">+156.3%</div>
-            <div class="stat-value" id="volume">$14.2M</div>
-            <div class="stat-label">🔥 Volume</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-change positive">+8.1%</div>
-            <div class="stat-value" id="members">127,891</div>
-            <div class="stat-label">👥 Members</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-change positive">+0.2%</div>
-            <div class="stat-value">847.3 PH/s</div>
-            <div class="stat-label">⚡ Hashrate</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-change positive">+45.8%</div>
-            <div class="stat-value" id="marketCap">$1.08B</div>
-            <div class="stat-label">💎 Market Cap</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-change positive">Live</div>
-            <div class="stat-value pulse">20 Chains</div>
-            <div class="stat-label">🔗 Active</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-change positive">∞</div>
-            <div class="stat-value">480K TPS</div>
-            <div class="stat-label">🚀 Max TPS</div>
-          </div>
+        <div class="feature-item">
+          <div class="feature-icon">💡</div>
+          <h4>Pact Contracts</h4>
+          <p>Human-readable & safe</p>
         </div>
-        
-        <div class="action-buttons">
-          <button class="action-btn" onclick="trade('buy')">Trade</button>
-          <button class="action-btn" onclick="trade('sell')">P2P</button>
-          <button class="action-btn" onclick="stake()">Stake</button>
-          <button class="action-btn" onclick="swap()">Swap</button>
-        </div>
-        <div class="features">
-          <h3>🌟 Why Kadena Dominates</h3>
-          <div class="feature-grid">
-            <div class="feature-item">
-              <div class="feature-icon">⚡</div>
-              <h4>Infinite Scale</h4>
-              <p>Braided chains solve scalability</p>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon">🛡️</div>
-              <h4>PoW Security</h4>
-              <p>Bitcoin-level protection</p>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon">💡</div>
-              <h4>Pact Contracts</h4>
-              <p>Human-readable & safe</p>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon">🌍</div>
-              <h4>Global Impact</h4>
-              <p>Financial inclusion</p>
-            </div>
-          </div>
-        </div>
-        <div class="network-grid">
-          <div class="network-card">
-            <h4>🔗 Network Performance</h4>
-            <div class="metric-row">
-              <span class="metric-label">Block Time</span>
-              <span class="metric-value">30s</span>
-            </div>
-            <div class="metric-row">
-              <span class="metric-label">Finality</span>
-              <span class="metric-value">Instant</span>
-            </div>
-            <div class="metric-row">
-              <span class="metric-label">TX Cost</span>
-              <span class="metric-value">~$0.0001</span>
-            </div>
-            <div class="metric-row">
-              <span class="metric-label">Current TPS</span>
-              <span class="metric-value pulse">1,247</span>
-            </div>
-            <canvas id="networkChart" class="mini-chart"></canvas>
-          </div>
-          <div class="network-card">
-            <h4>🏦 DeFi Stats</h4>
-            <div class="metric-row">
-              <span class="metric-label">TVL</span>
-              <span class="metric-value">$45.7M</span>
-            </div>
-            <div class="metric-row">
-              <span class="metric-label">DEXs</span>
-              <span class="metric-value">8</span>
-            </div>
-            <div class="metric-row">
-              <span class="metric-label">Pools</span>
-              <span class="metric-value">124</span>
-            </div>
-            <div class="metric-row">
-              <span class="metric-label">Daily TXs</span>
-              <span class="metric-value pulse">89,421</span>
-            </div>
-            <canvas id="defiChart" class="mini-chart"></canvas>
-          </div>
-          <div class="network-card">
-            <h4>🌐 Adoption</h4>
-            <div class="metric-row">
-              <span class="metric-label">Countries</span>
-              <span class="metric-value">47</span>
-            </div>
-            <div class="metric-row">
-              <span class="metric-label">Partners</span>
-              <span class="metric-value">12</span>
-            </div>
-            <div class="metric-row">
-              <span class="metric-label">Dev Activity</span>
-              <span class="metric-value">High</span>
-            </div>
-            <div class="metric-row">
-              <span class="metric-label">Commits/mo</span>
-              <span class="metric-value pulse">2,847</span>
-            </div>
-            <canvas id="adoptionChart" class="mini-chart"></canvas>
-          </div>
+        <div class="feature-item">
+          <div class="feature-icon">🌍</div>
+          <h4>Global Impact</h4>
+          <p>Financial inclusion</p>
         </div>
       </div>
+    </div>
+
+    <!-- Network Grid -->
+    <div class="network-grid">
+      <div class="network-card">
+        <h4>🔗 Network Performance</h4>
+        <div class="metric-row">
+          <span class="metric-label">Block Time</span>
+          <span class="metric-value">30s</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Finality</span>
+          <span class="metric-value">Instant</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">TX Cost</span>
+          <span class="metric-value">~$0.0001</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Current TPS</span>
+          <span class="metric-value pulse">1,247</span>
+        </div>
+      </div>
+      <div class="network-card">
+        <h4>🏦 DeFi Stats</h4>
+        <div class="metric-row">
+          <span class="metric-label">TVL</span>
+          <span class="metric-value">$45.7M</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">DEXs</span>
+          <span class="metric-value">8</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Pools</span>
+          <span class="metric-value">124</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Daily TXs</span>
+          <span class="metric-value pulse">89,421</span>
+        </div>
+      </div>
+      <div class="network-card">
+        <h4>🌐 Adoption</h4>
+        <div class="metric-row">
+          <span class="metric-label">Countries</span>
+          <span class="metric-value">47</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Partners</span>
+          <span class="metric-value">12</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Dev Activity</span>
+          <span class="metric-value">High</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Commits/mo</span>
+          <span class="metric-value pulse">2,847</span>
+        </div>
+      </div>
+    </div>
+  </div>
     </section>
     <!-- Deposit Overlay & Popup -->
     <div id="depositOverlay" class="deposit-overlay">
@@ -5602,6 +5616,389 @@
       </div>
     </section>
 
+    <section class="section" id="leaderboard">
+    <div class="section-header">
+        <h1 class="section-title">🏆 Creator Leaderboard</h1>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      </div>
+
+    <!-- Category Buttons (Default View) -->
+    <div class="leaderboard-categories" id="categoryButtons">
+      <button class="category-btn" onclick="openLeaderboard('streams', '📺', 'Stream Records')">
+        <span class="category-icon">📺</span>
+        <div class="category-info">
+          <div class="category-name">Stream Records</div>
+          <div class="category-desc">Top live streamers</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('followers', '👥', 'Top Followers')">
+        <span class="category-icon">👥</span>
+        <div class="category-info">
+          <div class="category-name">Top Followers</div>
+          <div class="category-desc">Most followed creators</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('creators', '⭐', 'Top Creators')">
+        <span class="category-icon">⭐</span>
+        <div class="category-info">
+          <div class="category-name">Top Creators</div>
+          <div class="category-desc">Weekly ranking</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('sounds', '🎵', 'Top Sounds')">
+        <span class="category-icon">🎵</span>
+        <div class="category-info">
+          <div class="category-name">Top Sounds</div>
+          <div class="category-desc">Trending audio</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('videos', '🎬', 'Top Videos')">
+        <span class="category-icon">🎬</span>
+        <div class="category-info">
+          <div class="category-name">Top Videos</div>
+          <div class="category-desc">Most viewed content</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('books', '📚', 'Top Books')">
+        <span class="category-icon">📚</span>
+        <div class="category-info">
+          <div class="category-name">Top Books</div>
+          <div class="category-desc">Best reads</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('futures', '📊', 'Top Futures Traders')">
+        <span class="category-icon">📊</span>
+        <div class="category-info">
+          <div class="category-name">Top Futures</div>
+          <div class="category-desc">Best traders</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('forex', '💱', 'Top Forex Traders')">
+        <span class="category-icon">💱</span>
+        <div class="category-info">
+          <div class="category-name">Top Forex</div>
+          <div class="category-desc">Currency masters</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('p2p', '🤝', 'Top P2P Traders')">
+        <span class="category-icon">🤝</span>
+        <div class="category-info">
+          <div class="category-name">Top P2P</div>
+          <div class="category-desc">Peer traders</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('hashtags', '#️⃣', 'Top Hashtags')">
+        <span class="category-icon">#️⃣</span>
+        <div class="category-info">
+          <div class="category-name">Top Hashtags</div>
+          <div class="category-desc">Trending tags</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('plays', '▶️', 'Top Plays')">
+        <span class="category-icon">▶️</span>
+        <div class="category-info">
+          <div class="category-name">Top Plays</div>
+          <div class="category-desc">Most played</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+
+      <button class="category-btn" onclick="openLeaderboard('views', '👁️', 'Top Views')">
+        <span class="category-icon">👁️</span>
+        <div class="category-info">
+          <div class="category-name">Top Views</div>
+          <div class="category-desc">Most watched</div>
+        </div>
+        <div class="category-stats">
+          <div class="category-count">20</div>
+          <div class="category-label">Leaders</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Leaderboard View (Hidden by default) -->
+    <div class="leaderboard-view" id="leaderboardView">
+      <button class="back-button" onclick="backToCategories()">
+        <span class="back-icon">←</span>
+        <span>Back to Categories</span>
+      </button>
+
+      <!-- Time Filter -->
+      <div class="time-filter">
+        <button class="time-filter-btn active" onclick="switchTime(this, 'week')">This Week</button>
+        <button class="time-filter-btn" onclick="switchTime(this, 'month')">This Month</button>
+        <button class="time-filter-btn" onclick="switchTime(this, 'year')">This Year</button>
+        <button class="time-filter-btn" onclick="switchTime(this, 'all')">All Time</button>
+      </div>
+
+      <!-- Leaderboard Container -->
+      <div class="leaderboard-container">
+        <div class="leaderboard-header">
+          <div>
+            <div class="leaderboard-title" id="leaderboardTitle">
+              <span id="leaderboardIcon">📺</span>
+              <span id="leaderboardName">Stream Records</span>
+            </div>
+            <div class="leaderboard-subtitle" id="leaderboardSubtitle">This Week • Top 20</div>
+          </div>
+        </div>
+
+        <div class="leaderboard-list" id="leaderboardList">
+          <!-- Dynamic content will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fee Modal -->
+  <div class="fee-modal" id="feeModal">
+    <div class="fee-modal-content">
+      <div class="fee-modal-header">
+        <div class="fee-modal-icon" id="modalIcon">🎵</div>
+        <div class="fee-modal-title" id="modalTitle">Use This Sound</div>
+        <div class="fee-modal-subtitle" id="modalSubtitle">HitSound2024</div>
+      </div>
+
+      <div class="fee-info-card">
+        <div class="fee-row">
+          <span class="fee-label">Creator Royalty</span>
+          <span class="fee-value primary" id="feePercentage">15%</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label">Platform Fee</span>
+          <span class="fee-value">2.5%</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label">Your Earnings</span>
+          <span class="fee-value highlight">82.5%</span>
+        </div>
+      </div>
+
+      <div class="fee-notice" id="feeNotice">
+        By using this sound, 15% of your net earnings from content featuring this audio will be paid to the creator. Platform fee of 2.5% applies to all transactions.
+      </div>
+
+      <div class="fee-modal-actions">
+        <button class="fee-modal-btn back" onclick="closeFeeModal()">Cancel</button>
+        <button class="fee-modal-btn proceed" onclick="proceedWithAction()">Proceed</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rating Modal -->
+  <div class="rating-modal" id="ratingModal">
+    <div class="fee-modal-content">
+      <div class="fee-modal-header">
+        <div class="fee-modal-icon">⭐</div>
+        <div class="fee-modal-title">Rate This Book</div>
+        <div class="fee-modal-subtitle" id="ratingBookName">BestSeller2024</div>
+      </div>
+
+      <div class="rating-stars" id="ratingStars">
+        <span class="star" onclick="setRating(1)">⭐</span>
+        <span class="star" onclick="setRating(2)">⭐</span>
+        <span class="star" onclick="setRating(3)">⭐</span>
+        <span class="star" onclick="setRating(4)">⭐</span>
+        <span class="star" onclick="setRating(5)">⭐</span>
+      </div>
+
+      <div class="rating-text" id="ratingText">Tap a star to rate</div>
+
+      <div class="fee-modal-actions">
+        <button class="fee-modal-btn back" onclick="closeRatingModal()">Cancel</button>
+        <button class="fee-modal-btn proceed" onclick="submitRating()">Submit Rating</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Access Modal -->
+  <div class="book-access-modal" id="bookAccessModal">
+    <div class="fee-modal-content">
+      <div class="fee-modal-header">
+        <div class="fee-modal-icon">📚</div>
+        <div class="fee-modal-title" id="bookAccessTitle">Read Book</div>
+        <div class="fee-modal-subtitle" id="bookAccessName">BestSeller2024</div>
+      </div>
+
+      <div style="text-align: center;">
+        <div class="book-status-badge" id="bookStatusBadge">
+          <span>✓</span>
+          <span id="bookStatusText">Free Book</span>
+        </div>
+      </div>
+
+      <div class="book-price" id="bookPrice" style="display: none;">$9.99</div>
+
+      <div class="book-details">
+        <div class="book-detail-row">
+          <span class="fee-label">Author</span>
+          <span class="fee-value" id="bookAuthor">John Doe</span>
+        </div>
+        <div class="book-detail-row">
+          <span class="fee-label">Pages</span>
+          <span class="fee-value">352</span>
+        </div>
+        <div class="book-detail-row">
+          <span class="fee-label">Rating</span>
+          <span class="fee-value">4.9⭐</span>
+        </div>
+        <div class="book-detail-row">
+          <span class="fee-label">Genre</span>
+          <span class="fee-value">Fiction</span>
+        </div>
+      </div>
+
+      <div class="fee-notice" id="bookNotice">
+        This book is free to read. Enjoy unlimited access to all chapters.
+      </div>
+
+      <div class="fee-modal-actions" id="bookAccessActions">
+        <button class="fee-modal-btn back" onclick="closeBookAccessModal()">Cancel</button>
+        <button class="fee-modal-btn proceed" id="bookActionBtn" onclick="handleBookAction()">Start Reading</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Modal -->
+  <div class="payment-modal" id="paymentModal">
+    <div class="fee-modal-content">
+      <div class="fee-modal-header">
+        <div class="fee-modal-icon">💳</div>
+        <div class="fee-modal-title">Complete Payment</div>
+        <div class="fee-modal-subtitle" id="paymentBookName">BestSeller2024</div>
+      </div>
+
+      <div class="payment-methods">
+        <div class="payment-method" onclick="selectPaymentMethod('wallet')">
+          <div class="payment-icon">💰</div>
+          <div class="payment-info">
+            <h4>Wallet Balance</h4>
+            <p>Balance: $45.20</p>
+          </div>
+        </div>
+        <div class="payment-method" onclick="selectPaymentMethod('card')">
+          <div class="payment-icon">💳</div>
+          <div class="payment-info">
+            <h4>Credit/Debit Card</h4>
+            <p>Visa, Mastercard, etc.</p>
+          </div>
+        </div>
+        <div class="payment-method" onclick="selectPaymentMethod('crypto')">
+          <div class="payment-icon">₿</div>
+          <div class="payment-info">
+            <h4>Cryptocurrency</h4>
+            <p>BTC, ETH, KDA</p>
+          </div>
+        </div>
+        <div class="payment-method" onclick="selectPaymentMethod('paypal')">
+          <div class="payment-icon">🅿️</div>
+          <div class="payment-info">
+            <h4>PayPal</h4>
+            <p>Fast & secure</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-summary">
+        <div class="payment-summary-row">
+          <span>Book Price</span>
+          <span id="paymentBookPrice">$9.99</span>
+        </div>
+        <div class="payment-summary-row">
+          <span>Platform Fee</span>
+          <span>$0.50</span>
+        </div>
+        <div class="payment-summary-row total">
+          <span>Total</span>
+          <span id="paymentTotal">$10.49</span>
+        </div>
+      </div>
+
+      <div class="fee-modal-actions">
+        <button class="fee-modal-btn back" onclick="closePaymentModal()">Cancel</button>
+        <button class="fee-modal-btn proceed" id="payNowBtn" onclick="processPayment()" disabled>Pay Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Alert -->
+  <div class="alert-modal" id="successAlert">
+    <div class="alert-content">
+      <div class="alert-icon">🎉</div>
+      <div class="alert-title success">Payment Successful!</div>
+      <div class="alert-message" id="successMessage">
+        Congratulations! You now have full access to "BestSeller2024". Happy reading!
+      </div>
+      <button class="alert-btn" onclick="closeSuccessAlert()">Start Reading</button>
+    </div>
+  </div>
+
+  <!-- Error Alert -->
+  <div class="alert-modal" id="errorAlert">
+    <div class="alert-content">
+      <div class="alert-icon">❌</div>
+      <div class="alert-title error">Payment Failed</div>
+      <div class="alert-message" id="errorMessage">
+        We couldn't process your payment. Please check your payment method and try again.
+      </div>
+      <button class="alert-btn" onclick="closeErrorAlert()">Try Again</button>
+    </div>
+  </div>
+  </section>
+
     <script src="main.js"></script>
     <script src="kan-community.js"></script>
     <script src="kan-wallet.js"></script>
@@ -5616,6 +6013,7 @@
     <script src="kan-finance.js"></script>
     <script src="chart.js"></script>
     <script src="dashboard-chart.js"></script>
+    <script src="leaderboard.js"></script>
   </body>
 
 </html>
