@@ -128,8 +128,10 @@
     flex: 1;
     height: 100vh;
     padding: 12px;
+    /* margin-bottom: 0px; */
     max-width: 600px;
     overflow: hidden;
+    overflow-y: auto;
 }
 
 .social-trending-panel {
@@ -294,8 +296,8 @@
 
 .social-post:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 36px rgba(255, 0, 128, 0.2);
-    border-color: rgba(255, 0, 128, 0.4);
+    box-shadow: 0 0 3px #990166;
+    border-color: #990166;
 }
 
 .social-post-header {
@@ -506,38 +508,29 @@
 }
 
 .social-reaction-buttons {
+    width: 100%;
     display: flex;
-    gap: 12px;
+    gap: 6px;
 }
 
 .social-reaction-btn {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid transparent;
-    color: #888888;
+    background: rgba(0, 0, 0, 0.829);
+    border: 1px solid #990166;
+    box-shadow: 0 0 3px rgb(87, 4, 62);
+    color: #969494;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
+    gap: 5px;
+    padding: 6px 0;
+    flex: 1;
     border-radius: 16px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
+    /* position: relative; */
     font-size: 12px;
     font-weight: 600;
-}
-
-.social-reaction-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #ff0080, #7928ca);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.social-reaction-btn:hover::before {
-    opacity: 0.2;
+    align-items: center;
+    justify-content: center;
 }
 
 .social-reaction-btn.active {
